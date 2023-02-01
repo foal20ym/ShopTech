@@ -3,13 +3,12 @@
   import Home from '/Users/alexanderforsanker/AdvancedWeb/ShopTech/frontend/src/lib/Home.svelte'
 	import SellTech from '/Users/alexanderforsanker/AdvancedWeb/ShopTech/frontend/src/lib/SellTech.svelte'
 	import FAQ from '/Users/alexanderforsanker/AdvancedWeb/ShopTech/frontend/src/lib/FAQ.svelte'
-  import { products } from "./data";
 </script>
 
 <Router>
   <header>
     <nav
-      class="navbar bg-dark navbar-expand-lg bg-body-tertiary"
+      class="navbar fixed-top bg-dark navbar-expand-lg bg-body-tertiary"
       data-bs-theme="dark">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -44,6 +43,8 @@
   </header>
 
   <main>
+    <p>&nbsp; </p>
+    <p>&nbsp; </p>
     <Route path="/" component={Home}></Route>
     <Route path="/sellTech" component={SellTech}></Route>
 		<Route path="/faq" component={FAQ}></Route>
