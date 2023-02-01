@@ -32,8 +32,8 @@ a:hover {
   height: 3.5em;
 }
 
-header {
-  height: 200%;
+.bottom-footer {
+  margin-top: auto;
 }
 
 .logo {
@@ -44,7 +44,12 @@ header {
 
 body {
   margin: 0;
-  min-width: 320px;
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
@@ -57,9 +62,6 @@ h1 {
   padding: 2em;
 }
 
-#app {
-  margin: 0 auto;
-}
 
 button {
   border-radius: 8px;
