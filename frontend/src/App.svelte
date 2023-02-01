@@ -8,7 +8,7 @@
 <Router>
   <header>
     <nav
-      class="navbar fixed-top bg-dark navbar-expand-lg bg-body-tertiary"
+      class="navbar bg-dark navbar-expand-lg bg-body-tertiary fixed-top"
       data-bs-theme="dark">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">

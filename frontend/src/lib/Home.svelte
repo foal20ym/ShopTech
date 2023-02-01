@@ -52,13 +52,7 @@
           </div>
 
           <div class="d-flex justify-content-end filter-sort">
-            <div class="webshop-sort-by-label mr-1 form-select-title">
-              <img
-                width="13px"
-                height="11px"
-                src="https://mresell.se/wp-content/themes/mresell_v4/img/v4/icon-sort.svg"
-              />
-            </div>
+    
             <div
               class="btn-group bootstrap-select webshop-sort-by form-select light fit-width"
             >
@@ -86,6 +80,7 @@
                     <a
                       tabindex="0"
                       class=""
+                      href=""
                       data-tokens="null"
                       role="option"
                       aria-disabled="false"
@@ -99,6 +94,7 @@
                     <a
                       tabindex="0"
                       class=""
+                      href=""
                       data-tokens="null"
                       role="option"
                       aria-disabled="false"
@@ -112,6 +108,7 @@
                     <a
                       tabindex="0"
                       class=""
+                      href=""
                       data-tokens="null"
                       role="option"
                       aria-disabled="false"
@@ -143,123 +140,33 @@
         <div class="row">
           <div id="accordion" class="col-md-12 panel behclick-panel">
             <div id="collapseCategory" class="collapse show">
-              <div
-                class="panel-body mb-4 collapse show"
-                id="collapseFilters"
-                style=""
-              >
+              <div class="panel-body mb-4 collapse show" id="collapseFilters" style="">
                 <div id="price-filter" class="filter-container">
                   <div class="panel-heading border-none">
                     <h4 class="panel-title active">Pris</h4>
                   </div>
                 </div>
-
-              
-
-                
-
-                
-
-              
-
-                
               </div>
             </div>
           </div>
-
-          
         </div>
       </div>
 
       <div class="col-md-8 col-lg-9 category-item">
-        <div
-          class="col col-md-12 col-lg-12 col-xs-12 d-none d-sm-none d-md-block d-lg-block"
-        >
+        <div class="col col-md-12 col-lg-12 col-xs-12 d-none d-sm-none d-md-block d-lg-block">
           <div class="d-flex justify-content-end filter-sort">
-            <div class="webshop-sort-by-label mr-1 form-select-title">
-              <img
-                width="13px"
-                height="11px"
-                src="https://mresell.se/wp-content/themes/mresell_v4/img/v4/icon-sort.svg"
-              />
-            </div>
-
-            <div
-              class="btn-group bootstrap-select webshop-sort-by form-select light fit-width"
-            >
-              <button
-                type="button"
-                class="btn dropdown-toggle btn-default"
-                data-toggle="dropdown"
-                role="button"
-                title="Senaste produkterna"
-                ><span class="filter-option pull-left">Senaste produkterna</span
-                >&nbsp;<span class="bs-caret"><span class="caret" /></span
-                ></button
-              >
-              <div
-                class="dropdown-menu open dropdown-menu-right"
-                role="combobox"
-              >
-                <ul
-                  class="dropdown-menu inner"
-                  role="listbox"
-                  aria-expanded="false"
-                >
-                  <li data-original-index="0">
-                    <a
-                      tabindex="0"
-                      class=""
-                      data-tokens="null"
-                      role="option"
-                      aria-disabled="false"
-                      aria-selected="false"
-                      ><span class="text">Pris - lågt till högt</span><span
-                        class="glyphicon glyphicon-ok check-mark"
-                      /></a
-                    >
-                  </li>
-                  <li data-original-index="1">
-                    <a
-                      tabindex="0"
-                      class=""
-                      data-tokens="null"
-                      role="option"
-                      aria-disabled="false"
-                      aria-selected="false"
-                      ><span class="text">Pris - högt till lågt</span><span
-                        class="glyphicon glyphicon-ok check-mark"
-                      /></a
-                    >
-                  </li>
-                  <li data-original-index="2" class="selected">
-                    <a
-                      tabindex="0"
-                      class=""
-                      href=""
-                      data-tokens="null"
-                      role="option"
-                      aria-disabled="false"
-                      aria-selected="true"
-                      ><span class="text">Senaste produkterna</span><span
-                        class="glyphicon glyphicon-ok check-mark"
-                      /></a
-                    >
-                  </li>
-                </ul>
-              </div>
+            <div class="btn-group bootstrap-select webshop-sort-by form-select light fit-width">
 
               <select
                 name="sort_by"
                 class="webshop-sort-by form-select light"
-                tabindex="-98"
-              >
-                <option value="price_low">Pris - lågt till högt</option><option
-                  value="price_high">Pris - högt till lågt</option
-                ><option selected="selected" value="latest_product"
-                  >Senaste produkterna</option
-                >
+                tabindex="-98">
+                <option value="price_low">Pris - lågt till högt</option>
+                <option value="price_high">Pris - högt till lågt</option> 
+                <option value="latest_product">Senaste produkterna</option>
+                <!--option selected="selected" value="latest_product">Senaste produkterna</option-->
               </select>
+
             </div>
           </div>
         </div>
