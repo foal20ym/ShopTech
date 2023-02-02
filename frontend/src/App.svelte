@@ -3,6 +3,7 @@
   import Home from "./lib/Home.svelte";
   import SellTech from "./lib/SellTech.svelte";
   import FAQ from "./lib/FAQ.svelte";
+  import Pricing from "./lib/Pricing.svelte"
 </script>
 
 <Router>
@@ -20,12 +21,12 @@
               <Link to="/sellTech" class="nav-link active" aria-current="page">Sell Tech</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
+              <Link to="/pricing" class="nav-link active" aria-current="page">Pricing</Link>
             </li>
             <li class="nav-item">
               <Link to="/faq" class="nav-link active" aria-current="page">FAQ</Link>
             </li>
-            <Link to="#" class="navbar-brand logo">ShopTech</Link>
+            <Link to="/" class="navbar-brand logo">ShopTech</Link>
           </ul>
           <form class="d-flex" role="search">
             <input
@@ -46,6 +47,7 @@
     <Route path="/" component={Home} />
     <Route path="/sellTech" component={SellTech} />
     <Route path="/faq" component={FAQ} />
+    <Route path="/pricing" component={Pricing} />
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
