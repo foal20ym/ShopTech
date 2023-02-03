@@ -46,36 +46,29 @@
               data-toggle="collapse"
               data-target="#collapseCategory"
               aria-expanded="true"
-              aria-controls="collapseCategory"
-              ><i class="list-icon" />Filter</button
-            >
+              aria-controls="collapseCategory">
+              <i class="list-icon" />Filter
+            </button>
           </div>
 
           <div class="d-flex justify-content-end filter-sort">
-    
-            <div
-              class="btn-group bootstrap-select webshop-sort-by form-select light fit-width"
-            >
+            <div class="btn-group bootstrap-select webshop-sort-by form-select light fit-width">
               <button
                 type="button"
                 class="btn dropdown-toggle btn-default"
                 data-toggle="dropdown"
                 role="button"
-                title="Pris - lågt till högt"
-                ><span class="filter-option pull-left"
-                  >Pris - lågt till högt</span
+                title="Pris - lågt till högt">
+                <span class="filter-option pull-left">Pris - lågt till högt</span
                 >&nbsp;<span class="bs-caret"><span class="caret" /></span
-                ></button
-              >
+                ></button>
               <div
                 class="dropdown-menu open dropdown-menu-right"
-                role="combobox"
-              >
+                role="combobox">
                 <ul
                   class="dropdown-menu inner"
                   role="listbox"
-                  aria-expanded="false"
-                >
+                  aria-expanded="false">
                   <li data-original-index="0" class="selected">
                     <a
                       tabindex="0"
@@ -86,9 +79,8 @@
                       aria-disabled="false"
                       aria-selected="true"
                       ><span class="text">Pris - lågt till högt</span><span
-                        class="glyphicon glyphicon-ok check-mark"
-                      /></a
-                    >
+                        class="glyphicon glyphicon-ok check-mark"/>
+                        </a>
                   </li>
                   <li data-original-index="1">
                     <a
