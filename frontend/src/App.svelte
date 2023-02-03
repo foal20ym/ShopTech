@@ -99,28 +99,28 @@
           <h5 class="fw-bold mb-4 text-start">Menu</h5>
           <p class="text-start">
             <Link
-              to="#"
+              to="/"
               class="text-body-secondary"
               style="text-decoration: none;">Home</Link
             >
           </p>
           <p class="text-start">
             <Link
-              to="#"
+              to="/sellTech"
               class="text-body-secondary"
               style="text-decoration: none;">Sell Tech</Link
             >
           </p>
           <p class="text-start">
             <Link
-              to="#"
+              to="/pricing"
               class="text-body-secondary"
               style="text-decoration: none;">Pricing</Link
             >
           </p>
           <p class="text-start">
             <Link
-              to="#"
+              to="faq"
               class="text-body-secondary"
               style="text-decoration: none;">FAQ</Link
             >
@@ -147,7 +147,7 @@
         <div class="col-md-7 col-lg-8">
           <p>
             Copyright &#169 2023 All rights reserved by:
-            <Link to="#" style="text-decoration: none;">
+            <Link to="/" style="text-decoration: none;">
               <strong class="text-body-secondary">ShopTech</strong>
             </Link>
           </p>
