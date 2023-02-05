@@ -154,3 +154,13 @@ button:focus-visible {
   border: 1px solid rgb(98, 113, 116);
   border-radius: 8px;
 }
+
+
+@media only screen and (max-width: 600px) {
+  .media-col-left {
+    display: none;
+  }
+  .media-col-right h1 {
+    font-size: 1.6rem;
+  }
+}
