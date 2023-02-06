@@ -1,1 +1,35 @@
-<h1>Sell tech page</h1>
+
+<script lang="ts">
+    import { Router, Link, Route } from "svelte-routing";
+    import Home from "../lib/Home.svelte"; // ersätt med login/register sidan senare
+    
+    import { 
+        Container,
+        Image,
+        Col,
+        Row, 
+        Button,
+    } 
+    from 'sveltestrap';
+</script>
+
+<div id="sellTechContent">
+<Container>
+    <Row cols={2}>
+        <Row>
+        <Col id="sellTechText" sm={{offset:1}}>
+            <p>Sell your old tech to us and get a fair price. </p> 
+            <p> We guarantee that we can offer the highest price. </p>
+            <p>If you were to find a better price, we’ll match it. </p>
+            <Col sm={{offset:2}}>
+                <Button id="sellTechButton"> <Link to="/" class="nav-link active" aria-current="page">Sell your tech!</Link> </Button>
+                <!-- ersätt med login/register sidan senare -->
+            </Col>
+        </Col>
+        </Row>
+        <Col> <img src="./appleProductsStockPhoto.png" alt="./appleProductsStockPhoto.png" id="sellTechImg"> </Col>
+    </Row>
+</Container>
+</div>
+
+<Route path="/" component={Home}/> <!-- ersätt med login/register sidan senare -->
