@@ -212,6 +212,19 @@ button:focus-visible {
     width: 400px;
     text-align: center;
   }
+
+  .sidenav {
+    height: 100%;
+    width: 500px;
+    position: static;
+    z-index: 1;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(17, 17, 17, 0);
+    overflow-x: hidden;
+    padding-top: 2px;
+  }
 }
 
 @media only screen and (max-width: 800px){
@@ -234,6 +247,18 @@ button:focus-visible {
     margin-left: -10px;
     width: 400px;
     text-align: center;
+  }
+  .sidenav {
+    height: 100%;
+    width: 500px;
+    position: static;
+    z-index: 1;
+    margin-top: -40px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(17, 17, 17, 0);
+    overflow-x: hidden;
+    padding-top: 2px;
   }
 }
 
@@ -264,6 +289,17 @@ button:focus-visible {
     margin-left: -20px;
     width: 300px;
     text-align: center;
+  }
+  .sidenav {
+    height: 100%;
+    width: 500px;
+    position: static;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(17, 17, 17, 0);
+    overflow-x: hidden;
+    padding-top: 2px;
   }
 }
 
