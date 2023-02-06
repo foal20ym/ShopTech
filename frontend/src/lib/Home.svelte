@@ -212,7 +212,7 @@
                 <div class="col-md-6 text-center">
                   <div class="h-100 position-relative">
                     <h1>
-                      <a
+                      <a class="link-design"
                         href="https://mresell.se/webshop/p/macbook-pro-16-m1-2021/e858b8747da660cfcd3a5cb55d487a8a/"
                         >{prod.description}</a
                       >
