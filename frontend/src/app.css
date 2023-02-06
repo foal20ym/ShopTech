@@ -155,6 +155,117 @@ button:focus-visible {
   border-radius: 8px;
 }
 
+#sellTechContent {
+  margin-top: 75px;
+  margin-bottom: 75px;
+}
+
+#sellTechImg {
+  width: 700px;
+}
+
+#sellTechText {
+  margin-top: 100px;
+}
+
+@media only screen and (max-width: 1366px){
+
+  #sellTechContent {
+    margin-top: 75px;
+    margin-bottom: 75px;
+  }
+  
+  #sellTechImg {
+    width: 600px;
+  }
+
+  #sellTechButton{
+    margin-left: -60px;
+  }
+
+  #sellTechText {
+    margin-top: 50px;
+    margin-left: 30px;
+    width: 400px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 1120px){
+
+  #sellTechContent {
+    margin-top: 75px;
+    margin-bottom: 75px;
+  }
+  
+  #sellTechImg {
+    width: 475px;
+  }
+
+  #sellTechButton{
+    margin-left: -60px;
+  }
+
+  #sellTechText {
+    margin-top: 70px;
+    margin-left: 0px;
+    width: 400px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 800px){
+
+  #sellTechContent {
+    margin-top: 75px;
+    margin-bottom: 75px;
+  }
+  
+  #sellTechImg {
+    width: 375px;
+  }
+
+  #sellTechButton{
+    margin-left: -60px;
+  }
+
+  #sellTechText {
+    margin-top: 0px;
+    margin-left: -10px;
+    width: 400px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 740px){
+
+  .media-col-left {
+    display: none;
+  }
+  .media-col-right h1 {
+    font-size: 1.6rem;
+  }
+
+  #sellTechContent {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  #sellTechButton{
+    margin-left: -35px;
+  }
+  
+  #sellTechImg {
+    width: 300px;
+  }
+  
+  #sellTechText {
+    margin-top: 0px;
+    margin-left: -20px;
+    width: 300px;
+    text-align: center;
+  }
+}
 
 @media only screen and (max-width: 600px) {
   .media-col-left {
@@ -162,5 +273,86 @@ button:focus-visible {
   }
   .media-col-right h1 {
     font-size: 1.6rem;
+  }
+
+  #sellTechContent {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  #sellTechButton{
+    margin-left: 0px;
+  }
+  
+  #sellTechImg {
+    display: none;
+  }
+  
+  #sellTechText {
+    margin-top: -30px;
+    margin-left: 140px;
+    width: 400px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 590px){
+
+  .media-col-left {
+    display: none;
+  }
+  .media-col-right h1 {
+    font-size: 1.6rem;
+  }
+
+  #sellTechContent {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  #sellTechButton{
+    margin-left: 0px;
+  }
+  
+  #sellTechImg {
+    display: none;
+  }
+  
+  #sellTechText {
+    margin-top: -30px;
+    margin-left: 140px;
+    width: 400px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 420px){
+
+  .media-col-left {
+    display: none;
+  }
+  .media-col-right h1 {
+    font-size: 1.6rem;
+  }
+
+  #sellTechContent {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  #sellTechButton{
+    margin-left: 0px;
+  }
+  
+  #sellTechImg {
+    display: none;
+  }
+  
+  #sellTechText {
+    margin-top: 10px;
+    margin-left: 100px;
+    margin-right: 100px;
+    width: 300px;
+    text-align: center;
   }
 }
