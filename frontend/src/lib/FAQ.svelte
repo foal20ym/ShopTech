@@ -23,7 +23,7 @@
 <div class="container text-center">
   <div class="row">
     <div class="col me-5 media-col-left">
-      <img src="./src/assets/undraw_questions_re_1fy7.svg" class="rounded float-start img-fluid">
+      <img src="./src/assets/undraw_questions_re_1fy7.svg" class="rounded float-start img-fluid" alt="./src/assets/undraw_questions_re_1fy7.svg" >
     </div>
     <div class="col media-col-right">
 			<h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>

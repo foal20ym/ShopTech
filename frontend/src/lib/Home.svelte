@@ -23,6 +23,46 @@
   const toggle = () => (isOpen = !isOpen);
 </script>
 
+<div class="sidenav">
+  <Accordion>
+    <AccordionItem>
+      <h4 class="m-0" slot="header">iPhone</h4>
+      <DropdownItem>iPhone 8</DropdownItem>
+      <DropdownItem>iPhone X</DropdownItem>
+      <DropdownItem>iPhone XS</DropdownItem>
+      <DropdownItem>iPhone 11</DropdownItem>
+      <DropdownItem>iPhone 12</DropdownItem>
+      <DropdownItem>iPhone 12 Pro</DropdownItem>
+      <DropdownItem>iPhone 12 Max</DropdownItem>
+    </AccordionItem>
+  </Accordion>
+
+  <Accordion>
+    <AccordionItem>
+      <h4 class="m-0" slot="header">iPad</h4>
+      <DropdownItem>iPad 4 Air</DropdownItem>
+      <DropdownItem>iPad 5 Pro</DropdownItem>
+      <DropdownItem>iPad Air</DropdownItem>
+    </AccordionItem>
+    <AccordionItem>
+      <h4 class="m-0" slot="header">MacBook</h4>
+      <DropdownItem>MacBook Air 13" 2019</DropdownItem>
+      <DropdownItem>MacBook Air 13" 2020</DropdownItem>
+      <DropdownItem>MacBook Air 13" M1 2020</DropdownItem>
+      <DropdownItem>MacBook Pro 13" intel 2020</DropdownItem>
+      <DropdownItem>MacBook Pro 13" M1 2020</DropdownItem>
+      <DropdownItem>MacBook Pro 13" M2 2022</DropdownItem>
+      <DropdownItem>MacBook Pro 16" M2 2022</DropdownItem>
+    </AccordionItem>
+    <AccordionItem>
+      <h4 class="m-0" slot="header">iMac</h4>
+      <DropdownItem>iMac 2020</DropdownItem>
+      <DropdownItem>iMac 2021</DropdownItem>
+      <DropdownItem>iMac 2022</DropdownItem>
+    </AccordionItem>
+  </Accordion>
+</div>
+
 <section class="category pb-4">
   <div class="container">
     <div class="row">
@@ -53,15 +93,7 @@
 
           <div class="d-flex justify-content-end filter-sort">
             <div class="btn-group bootstrap-select webshop-sort-by form-select light fit-width">
-              <button
-                type="button"
-                class="btn dropdown-toggle btn-default"
-                data-toggle="dropdown"
-                role="button"
-                title="Pris - lågt till högt">
-                <span class="filter-option pull-left">Pris - lågt till högt</span
-                >&nbsp;<span class="bs-caret"><span class="caret" /></span
-                ></button>
+              <!-- svelte-ignore a11y-role-has-required-aria-props -->
               <div
                 class="dropdown-menu open dropdown-menu-right"
                 role="combobox">
@@ -73,7 +105,7 @@
                     <a
                       tabindex="0"
                       class=""
-                      href=""
+                      href=" "
                       data-tokens="null"
                       role="option"
                       aria-disabled="false"
@@ -86,7 +118,7 @@
                     <a
                       tabindex="0"
                       class=""
-                      href=""
+                      href=" "
                       data-tokens="null"
                       role="option"
                       aria-disabled="false"
@@ -100,7 +132,7 @@
                     <a
                       tabindex="0"
                       class=""
-                      href=""
+                      href=" "
                       data-tokens="null"
                       role="option"
                       aria-disabled="false"
@@ -135,7 +167,7 @@
               <div class="panel-body mb-4 collapse show" id="collapseFilters" style="">
                 <div id="price-filter" class="filter-container">
                   <div class="panel-heading border-none">
-                    <h4 class="panel-title active">Pris</h4>
+                    <h4 class="panel-title active"> </h4>
                   </div>
                 </div>
               </div>
@@ -180,7 +212,7 @@
                 <div class="col-md-6 text-center">
                   <div class="h-100 position-relative">
                     <h1>
-                      <a
+                      <a class="link-design"
                         href="https://mresell.se/webshop/p/macbook-pro-16-m1-2021/e858b8747da660cfcd3a5cb55d487a8a/"
                         >{prod.description}</a
                       >
@@ -242,45 +274,6 @@
   </div>
 </section>
 
-<div class="sidenav">
-  <Accordion>
-    <AccordionItem>
-      <h4 class="m-0" slot="header">iPhone</h4>
-      <DropdownItem>iPhone 8</DropdownItem>
-      <DropdownItem>iPhone X</DropdownItem>
-      <DropdownItem>iPhone XS</DropdownItem>
-      <DropdownItem>iPhone 11</DropdownItem>
-      <DropdownItem>iPhone 12</DropdownItem>
-      <DropdownItem>iPhone 12 Pro</DropdownItem>
-      <DropdownItem>iPhone 12 Max</DropdownItem>
-    </AccordionItem>
-  </Accordion>
-
-  <Accordion>
-    <AccordionItem>
-      <h4 class="m-0" slot="header">iPad</h4>
-      <DropdownItem>iPad 4 Air</DropdownItem>
-      <DropdownItem>iPad 5 Pro</DropdownItem>
-      <DropdownItem>iPad Air</DropdownItem>
-    </AccordionItem>
-    <AccordionItem>
-      <h4 class="m-0" slot="header">MacBook</h4>
-      <DropdownItem>MacBook Air 13" 2019</DropdownItem>
-      <DropdownItem>MacBook Air 13" 2020</DropdownItem>
-      <DropdownItem>MacBook Air 13" M1 2020</DropdownItem>
-      <DropdownItem>MacBook Pro 13" intel 2020</DropdownItem>
-      <DropdownItem>MacBook Pro 13" M1 2020</DropdownItem>
-      <DropdownItem>MacBook Pro 13" M2 2022</DropdownItem>
-      <DropdownItem>MacBook Pro 16" M2 2022</DropdownItem>
-    </AccordionItem>
-    <AccordionItem>
-      <h4 class="m-0" slot="header">iMac</h4>
-      <DropdownItem>iMac 2020</DropdownItem>
-      <DropdownItem>iMac 2021</DropdownItem>
-      <DropdownItem>iMac 2022</DropdownItem>
-    </AccordionItem>
-  </Accordion>
-</div>
 
 <!--
   <button class="dropdown-btn"><Dropdown direction="right">
