@@ -155,6 +155,32 @@ button:focus-visible {
   border-radius: 8px;
 }
 
+.toggle-btn {
+  cursor: pointer;
+  border: 0;
+  outline: none;
+  position: relative;
+  background: transparent;
+}
+
+.input-group {
+  position: absolute;
+  transition: 0.5s;
+}
+
+#login-btn.active {
+  border-bottom: 2px solid;
+}
+
+#signup-btn.active {
+  border-bottom: 2px solid;
+}
+
+
+.form-box {
+  overflow: hidden;
+}
+
 #sellTechContent {
   margin-top: 75px;
   margin-bottom: 75px;
@@ -166,6 +192,15 @@ button:focus-visible {
 
 #sellTechText {
   margin-top: 100px;
+}
+
+@media only screen and (max-width: 986px) {
+  .col-media-hide {
+    display: none;
+  }
+  #exampleInputEmail1 {
+    width: 200px;
+  }
 }
 
 @media only screen and (max-width: 1366px){
@@ -214,6 +249,8 @@ button:focus-visible {
   }
 }
 
+
+
 @media only screen and (max-width: 800px){
 
   #sellTechContent {
@@ -235,6 +272,8 @@ button:focus-visible {
     width: 400px;
     text-align: center;
   }
+
+  
 }
 
 @media only screen and (max-width: 740px){
@@ -274,6 +313,7 @@ button:focus-visible {
   .media-col-right h1 {
     font-size: 1.6rem;
   }
+  
 
   #sellTechContent {
     margin-top: 20px;
@@ -356,3 +396,4 @@ button:focus-visible {
     text-align: center;
   }
 }
+

@@ -4,13 +4,24 @@
   import SellTech from "./lib/SellTech.svelte";
   import FAQ from "./lib/FAQ.svelte";
   import Pricing from "./lib/Pricing.svelte"
+  import Signup from "./lib/Signup.svelte";
 </script>
 
 <Router>
   <header>
     <nav
-      class="navbar bg-dark navbar-expand-lg bg-body-tertiary fixed-top"
+      class="navbar bg-dark navbar-expand-md bg-body-tertiary fixed-top"
       data-bs-theme="dark">
+      <button 
+      class="navbar-toggler ms-2 btn btn-light btn-outline-light"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -48,6 +59,7 @@
     <Route path="/sellTech" component={SellTech} />
     <Route path="/faq" component={FAQ} />
     <Route path="/pricing" component={Pricing} />
+    <Route path="/signup" component={Signup}/>
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
