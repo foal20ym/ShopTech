@@ -55,8 +55,8 @@
               style="width: 400px;"
             />
           </div>
-					<div class="mt-5 mb-3">
-            <Button id="sellTechButton"> <Link to="/createad" class="nav-link active" aria-current="page">Login</Link> </Button>
+					<div class="signUpPageButton">
+            <Button> <Link to="/createad" class="nav-link active" aria-current="page">Login</Link> </Button>
 					</div>
         </form>
       {:else}
@@ -107,8 +107,8 @@
               style="width: 400px;"
             />
           </div>
-					<div class="mt-5 mb-3">
-            <Button id="sellTechButton"> <Link to="/createad" class="nav-link active" aria-current="page">Sign up</Link> </Button>
+					<div class="signUpPageButton">
+            <Button> <Link to="/createad" class="nav-link active" aria-current="page">Sign up</Link> </Button>
 					</div>
         </form>
       {/if}

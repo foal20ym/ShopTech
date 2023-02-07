@@ -253,6 +253,11 @@ button:focus-visible {
     width: 400px;
     text-align: center;
   }
+  .signUpPageButton{
+    margin-right: 300px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+  }
 }
 
 @media only screen and (max-width: 1120px){
@@ -297,6 +302,12 @@ button:focus-visible {
   }
   #exampleInputEmail1 {
     width: 200px;
+  }
+
+  .signUpPageButton{
+    margin-right: 300px;
+    margin-top: -10px;
+    margin-bottom: 20px;
   }
 }
 
