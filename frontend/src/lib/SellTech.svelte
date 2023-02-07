@@ -2,6 +2,7 @@
 <script lang="ts">
     import { Router, Link, Route } from "svelte-routing";
     import Home from "../lib/Home.svelte"; // ersätt med login/register sidan senare
+    import SignUp from "../lib/Signup.svelte"
     
     import { 
         Container,
@@ -22,7 +23,7 @@
             <p> We guarantee that we can offer the highest price. </p>
             <p>If you were to find a better price, we’ll match it. </p>
             <Col sm={{offset:2}}>
-                <Button id="sellTechButton"> <Link to="/" class="nav-link active" aria-current="page">Sell your tech!</Link> </Button>
+                <Button id="sellTechButton"> <Link to="/signup" class="nav-link active" aria-current="page">Sell your tech!</Link> </Button>
                 <!-- ersätt med login/register sidan senare -->
             </Col>
         </Col>
@@ -32,4 +33,4 @@
 </Container>
 </div>
 
-<Route path="/" component={Home}/> <!-- ersätt med login/register sidan senare -->
+<Route path="/signup" component={SignUp}/> <!-- ersätt med login/register sidan senare -->
