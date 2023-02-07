@@ -44,7 +44,7 @@
               style="width: 400px;"
             />
           </div>
-					<div class="mt-5 mb-3">
+					<div class="signUpPageButton">
           <button type="submit" class="btn btn-outline-dark mt-3">Login</button
           >
 					</div>
@@ -97,7 +97,7 @@
               style="width: 400px;"
             />
           </div>
-					<div class="mt-5 mb-3">
+					<div class="signUpPageButton">
           <button type="submit" class="btn btn-outline-dark mt-3">Sign up</button
           >
 					</div>
