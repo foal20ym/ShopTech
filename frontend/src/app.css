@@ -82,6 +82,12 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.signUpPageButton{
+  margin-right: 100px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -161,6 +167,7 @@ button:focus-visible {
 }
 
 .toggle-btn {
+  color: #000000;
   cursor: pointer;
   border: 0;
   outline: none;
@@ -325,6 +332,11 @@ button:focus-visible {
     background-color: rgba(17, 17, 17, 0);
     overflow-x: hidden;
     padding-top: 2px;
+  }
+  .signUpPageButton{
+    margin-right: 300px;
+    margin-top: -10px;
+    margin-bottom: 20px;
   }
 }
 
