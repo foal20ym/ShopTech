@@ -1,5 +1,16 @@
-<script>
+<script lang="ts">
   let showLogin = true;
+  import { Router, Link, Route } from "svelte-routing";
+  import CreateAd from "../lib/CreateAd.svelte";
+  
+  import { 
+      Container,
+      Image,
+      Col,
+      Row, 
+      Button,
+  } 
+    from 'sveltestrap';
 </script>
 
 <div class="container ">
@@ -45,8 +56,7 @@
             />
           </div>
 					<div class="mt-5 mb-3">
-          <button type="submit" class="btn btn-outline-dark mt-3">Login</button
-          >
+            <Button id="sellTechButton"> <Link to="/createad" class="nav-link active" aria-current="page">Login</Link> </Button>
 					</div>
         </form>
       {:else}
@@ -98,8 +108,7 @@
             />
           </div>
 					<div class="mt-5 mb-3">
-          <button type="submit" class="btn btn-outline-dark mt-3">Sign up</button
-          >
+            <Button id="sellTechButton"> <Link to="/createad" class="nav-link active" aria-current="page">Sign up</Link> </Button>
 					</div>
         </form>
       {/if}
@@ -109,3 +118,5 @@
 		</div>
   </div>
 </div>
+
+<Route path="/createad" component={CreateAd}/>

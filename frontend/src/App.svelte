@@ -5,6 +5,7 @@
   import FAQ from "./lib/FAQ.svelte";
   import Pricing from "./lib/Pricing.svelte"
   import Signup from "./lib/Signup.svelte";
+  import CreateAd from "./lib/CreateAd.svelte";
 </script>
 
 <Router>
@@ -60,6 +61,7 @@
     <Route path="/faq" component={FAQ} />
     <Route path="/pricing" component={Pricing} />
     <Route path="/signup" component={Signup}/>
+    <Route path="/createad" component={CreateAd}/>
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
