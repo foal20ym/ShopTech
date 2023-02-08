@@ -23,7 +23,7 @@
   const toggle = () => (isOpen = !isOpen);
 </script>
 
-<div class="sidenav">
+<div class="sidenav text-dark">
   <Accordion>
     <AccordionItem>
       <h4 class="m-0" slot="header">iPhone</h4>
@@ -87,13 +87,13 @@
               data-target="#collapseCategory"
               aria-expanded="true"
               aria-controls="collapseCategory">
-              <i class="list-icon" />Filter
+              <i class="list-icon" />
             </button>
           </div>
 
           <div class="d-flex justify-content-end filter-sort">
             <div class="btn-group bootstrap-select webshop-sort-by form-select light fit-width">
-              <!-- svelte-ignore a11y-role-has-required-aria-props -->
+              
               <div
                 class="dropdown-menu open dropdown-menu-right"
                 role="combobox">
@@ -174,26 +174,24 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> 
 
       <div class="col-md-8 col-lg-9 category-item">
         <div class="col col-md-12 col-lg-12 col-xs-12 d-none d-sm-none d-md-block d-lg-block">
-          <div class="d-flex justify-content-end filter-sort">
-            <div class="btn-group bootstrap-select webshop-sort-by form-select light fit-width">
+          <div class="d-flex justify-content-end filter-sort mb-3">
 
               <select
                 name="sort_by"
-                class="webshop-sort-by form-select light"
+                class="webshop-sort-by form-select light mx-auto"
                 tabindex="-98">
                 <option value="price_low">Pris - lågt till högt</option>
                 <option value="price_high">Pris - högt till lågt</option> 
                 <option value="latest_product">Senaste produkterna</option>
-                <!--option selected="selected" value="latest_product">Senaste produkterna</option-->
+                
               </select>
 
-            </div>
           </div>
-        </div>
+        </div> 
         <div class="clearfix" />
 
         <div class="row row-p0-greed">
@@ -212,7 +210,7 @@
                 <div class="col-md-6 text-center">
                   <div class="h-100 position-relative">
                     <h1>
-                      <a class="link-design"
+                      <a class="link-design text-dark"
                         href="https://mresell.se/webshop/p/macbook-pro-16-m1-2021/e858b8747da660cfcd3a5cb55d487a8a/"
                         >{prod.description}</a
                       >
