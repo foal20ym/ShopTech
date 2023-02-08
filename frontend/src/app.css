@@ -206,18 +206,30 @@ button:focus-visible {
   margin-top: 100px;
 }
 
-@media only screen and (max-width: 986px) {
-  .col-media-hide {
-    display: none;
-  }
-  #exampleInputEmail1 {
-    width: 200px;
-  }
-  .signUpPageButton{
-    margin-right: 300px;
-    margin-top: -10px;
-    margin-bottom: 20px;
-  }
+#CreateAdPictureAndText {
+  margin-left: 17%;
+  margin-top: 5%;
+  margin-bottom: -2%;
+}
+
+#CreateAdSpecifications {
+  margin-left: 2%;
+}
+
+#CreateAdImg {
+  width: 80%;
+  height: auto;
+  margin-left: 15%;
+  margin-top: 10%;
+}
+
+#CreateAdForm {
+  margin-bottom: 30px;
+}
+
+#CreateAdButton {
+  margin-left: -20%;
+  margin-bottom: 4%;
 }
 
 @media only screen and (max-width: 1366px){
@@ -240,6 +252,11 @@ button:focus-visible {
     margin-left: 30px;
     width: 400px;
     text-align: center;
+  }
+  .signUpPageButton{
+    margin-right: 300px;
+    margin-top: -10px;
+    margin-bottom: 20px;
   }
 }
 
@@ -279,7 +296,20 @@ button:focus-visible {
   }
 }
 
+@media only screen and (max-width: 986px) {
+  .col-media-hide {
+    display: none;
+  }
+  #exampleInputEmail1 {
+    width: 200px;
+  }
 
+  .signUpPageButton{
+    margin-right: 300px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+  }
+}
 
 @media only screen and (max-width: 800px){
 
@@ -391,6 +421,12 @@ button:focus-visible {
     width: 400px;
     text-align: center;
   }
+
+  #CreateAdButton {
+    margin-left: 0px;
+    margin-bottom: 4%;
+  }
+  
 }
 
 @media only screen and (max-width: 590px){
