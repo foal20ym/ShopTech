@@ -1,50 +1,40 @@
 export const products = [
     {
-        id: 1, description: "Apple Intel Processor", price: 12345
+        id: 1, description: "Apple Intel Processor", price: 4119
     },
     {
-        id: 17, description: "PC Intel Processor", price: 9345
+        id: 2, description: "PC Intel Processor", price: 9345
     },
     {
-        id: 2341, description: "PC AMD Processor", price: 897
+        id: 3, description: "PC AMD Processor", price: 897
     },
     {
-        id: 1, description: "Apple Intel Processor", price: 12345
+        id: 4, description: "Apple Intel Processor", price: 1454
     },
     {
-        id: 17, description: "PC Intel Processor", price: 9345
+        id: 5, description: "PC Intel Processor", price: 6758
     },
     {
-        id: 2341, description: "PC AMD Processor", price: 897
+        id: 6, description: "PC AMD Processor", price: 4637
     },
     {
-        id: 1, description: "Apple Intel Processor", price: 12345
+        id: 7, description: "Apple Intel Processor", price: 2543
     },
     {
-        id: 17, description: "PC Intel Processor", price: 9345
+        id: 8, description: "PC Intel Processor", price: 6622
     },
     {
-        id: 2341, description: "PC AMD Processor", price: 897
+        id: 9, description: "PC AMD Processor", price: 7712
     },
     {
-        id: 1, description: "Apple Intel Processor", price: 12345
+        id: 10, description: "Apple Intel Processor", price: 8222
     },
     {
-        id: 17, description: "PC Intel Processor", price: 9345
+        id: 11, description: "PC Intel Processor", price: 1842
     },
     {
-        id: 2341, description: "PC AMD Processor", price: 897
+        id: 12, description: "PC AMD Processor", price: 3447
     },
-    {
-        id: 1, description: "Apple Intel Processor", price: 12345
-    },
-    {
-        id: 17, description: "PC Intel Processor", price: 9345
-    },
-    {
-        id: 2341, description: "PC AMD Processor", price: 897
-    },
-    
 ]
 
 export const faqs = [

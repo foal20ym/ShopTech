@@ -1,4 +1,5 @@
 <script>
+
   import { Router, Link, Route } from "svelte-routing";
   import Home from "./lib/Home.svelte";
   import SellTech from "./lib/SellTech.svelte";
@@ -6,6 +7,8 @@
   import Pricing from "./lib/Pricing.svelte";
   import Signup from "./lib/Signup.svelte";
   import CreateAd from "./lib/CreateAd.svelte";
+  import Advert from "./lib/Advert.svelte";
+
 </script>
 
 <Router>
@@ -72,8 +75,9 @@
     <Route path="/sellTech" component={SellTech} />
     <Route path="/faq" component={FAQ} />
     <Route path="/pricing" component={Pricing} />
-    <Route path="/signup" component={Signup} />
-    <Route path="/createad" component={CreateAd} />
+    <Route path="/signup" component={Signup}/>
+    <Route path="/createad" component={CreateAd}/>
+    <Route path="/advert/:id" component={Advert}/> 
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
