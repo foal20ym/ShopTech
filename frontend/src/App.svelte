@@ -4,7 +4,7 @@
   import Home from "./lib/Home.svelte";
   import SellTech from "./lib/SellTech.svelte";
   import FAQ from "./lib/FAQ.svelte";
-  import Pricing from "./lib/Pricing.svelte"
+  import Pricing from "./lib/Pricing.svelte";
   import Signup from "./lib/Signup.svelte";
   import CreateAd from "./lib/CreateAd.svelte";
   import Advert from "./lib/Advert.svelte";
@@ -13,47 +13,59 @@
 
 <Router>
   <header>
-    <nav
-      class="navbar bg-dark navbar-expand-md bg-body-tertiary fixed-top"
-      data-bs-theme="dark">
-      <button 
-      class="navbar-toggler ms-2 btn btn-light btn-outline-light"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-      <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <Link to="/" class="nav-link active" aria-current="page">Home</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/sellTech" class="nav-link active" aria-current="page">Sell Tech</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/pricing" class="nav-link active" aria-current="page">Pricing</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/faq" class="nav-link active" aria-current="page">FAQ</Link>
-            </li>
-            <Link to="/" class="navbar-brand logo">ShopTech</Link>
-          </ul>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"/>
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+      <nav
+        class="navbar bg-dark navbar-expand-sm bg-body-tertiary fixed-top"
+        data-bs-theme="dark"
+      >
+        <Link to="/" class="navbar-brand logo ms-5">ShopTech</Link>
+        <button
+          class="navbar-toggler me-2 btn btn-light bg-light"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon bg-light" />
+        </button>
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <Link to="/" class="nav-link active" aria-current="page"
+                  >Home</Link
+                >
+              </li>
+              <li class="nav-item">
+                <Link to="/sellTech" class="nav-link active" aria-current="page"
+                  >Sell Tech</Link
+                >
+              </li>
+              <li class="nav-item">
+                <Link to="/pricing" class="nav-link active" aria-current="page"
+                  >Pricing</Link
+                >
+              </li>
+              <li class="nav-item">
+                <Link to="/faq" class="nav-link active" aria-current="page"
+                  >FAQ</Link
+                >
+              </li>
+            </ul>
+            <form class="d-flex me-5" role="search">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-light" type="submit">Search</button
+              >
+            </form>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
   </header>
 
   <main>
