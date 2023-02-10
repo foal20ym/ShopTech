@@ -1,26 +1,14 @@
 <script lang="ts">
-  import {
-    Nav,
-    NavItem,
-    Dropdown,
-    DropdownItem,
-    DropdownToggle,
-    DropdownMenu,
-    NavLink,
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Col,
-    Row,
-    Container,
-    Accordion,
-    AccordionItem,
+  import { Nav,NavItem,Dropdown,DropdownItem,DropdownToggle,DropdownMenu,
+    NavLink,Collapse,Navbar,NavbarToggler,NavbarBrand,Col,Row,Container,
+    Accordion,AccordionItem,
   } from "sveltestrap";
   import { products } from "../data";
+  import { Router, Link, Route } from "svelte-routing";
 
   let isOpen = false;
   const toggle = () => (isOpen = !isOpen);
+
 </script>
 
 <div class="sidenav">
@@ -206,6 +194,7 @@
               data-position="1"
               data-price=""
             >
+            <Link to="/advert/{prod.id}">
               <div
                 class="grouped-product-card d-flex flex-row-reverse justify-content-center"
               >
@@ -243,7 +232,8 @@
                   </a>
                 </div>
               </div>
-            </div>
+          </Link>
+        </div>
           {/each}
         </div>
       </div>
@@ -273,103 +263,3 @@
     </div>
   </div>
 </section>
-
-
-<!--
-  <button class="dropdown-btn"><Dropdown direction="right">
-    <DropdownToggle caret>iPhone</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>iPhone 8</DropdownItem>
-      <DropdownItem>iPhone X</DropdownItem>
-      <DropdownItem>iPhone XS</DropdownItem>
-      <DropdownItem>iPhone 11</DropdownItem>
-      <DropdownItem>iPhone 12</DropdownItem>
-      <DropdownItem>iPhone 12 PRO</DropdownItem>
-      <DropdownItem>iPhone 12 MAX</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-    <i class="fa fa-caret-down"></i>
-  </button>
-  
-  <button class="dropdown-btn"><Dropdown direction="right">
-    <DropdownToggle caret>iPad</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>iPhone 8</DropdownItem>
-      <DropdownItem>iPhone X</DropdownItem>
-      <DropdownItem>iPhone XS</DropdownItem>
-      <DropdownItem>iPhone 11</DropdownItem>
-      <DropdownItem>iPhone 12</DropdownItem>
-      <DropdownItem>iPhone 12 PRO</DropdownItem>
-      <DropdownItem>iPhone 12 MAX</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <button class="dropdown-btn"><Dropdown direction="right">
-    <DropdownToggle caret>iMac</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>iPhone 8</DropdownItem>
-      <DropdownItem>iPhone X</DropdownItem>
-      <DropdownItem>iPhone XS</DropdownItem>
-      <DropdownItem>iPhone 11</DropdownItem>
-      <DropdownItem>iPhone 12</DropdownItem>
-      <DropdownItem>iPhone 12 PRO</DropdownItem>
-      <DropdownItem>iPhone 12 MAX</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <button class="dropdown-btn"><Dropdown direction="right">
-    <DropdownToggle caret>macBook</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>iPhone 8</DropdownItem>
-      <DropdownItem>iPhone X</DropdownItem>
-      <DropdownItem>iPhone XS</DropdownItem>
-      <DropdownItem>iPhone 11</DropdownItem>
-      <DropdownItem>iPhone 12</DropdownItem>
-      <DropdownItem>iPhone 12 PRO</DropdownItem>
-      <DropdownItem>iPhone 12 MAX</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-    <i class="fa fa-caret-down"></i>
-  </button>
--->
-
-<!--
-<Nav vertical>
-  <Dropdown direction="right">
-    <DropdownToggle caret>iPhones</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>iPhone 8</DropdownItem>
-      <DropdownItem>iPhone X</DropdownItem>
-      <DropdownItem>iPhone XS</DropdownItem>
-      <DropdownItem>iPhone 11</DropdownItem>
-      <DropdownItem>iPhone 12</DropdownItem>
-      <DropdownItem>iPhone 12 PRO</DropdownItem>
-      <DropdownItem>iPhone 12 MAX</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-  <Dropdown direction="right">
-    <DropdownToggle caret>iPads</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>Another Action</DropdownItem>
-      <DropdownItem>Another Action</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-  <Dropdown direction="right">
-    <DropdownToggle caret>MacBooks</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>Another Action</DropdownItem>
-      <DropdownItem>Another Action</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-  <Dropdown direction="right">
-    <DropdownToggle caret>iMac</DropdownToggle>
-    <DropdownMenu>
-      <DropdownItem>Another Action</DropdownItem>
-      <DropdownItem>Another Action</DropdownItem>
-    </DropdownMenu>
-  </Dropdown>
-
-</Nav>
--->
