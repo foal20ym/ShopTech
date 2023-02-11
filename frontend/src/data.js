@@ -1,40 +1,29 @@
 export const products = [
     {
-        id: 1, description: "Apple Intel Processor", price: 4119
+        id: 1, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
     },
     {
-        id: 2, description: "PC Intel Processor", price: 9345
+        id: 2, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
     },
     {
-        id: 3, description: "PC AMD Processor", price: 897
+        id: 3, title: "MacBook Pro 14\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
     },
     {
-        id: 4, description: "Apple Intel Processor", price: 1454
+        id: 4, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
     },
     {
-        id: 5, description: "PC Intel Processor", price: 6758
+        id: 5, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
     },
     {
-        id: 6, description: "PC AMD Processor", price: 4637
+        id: 6, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
     },
     {
-        id: 7, description: "Apple Intel Processor", price: 2543
+        id: 7, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
     },
     {
-        id: 8, description: "PC Intel Processor", price: 6622
+        id: 8, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
     },
-    {
-        id: 9, description: "PC AMD Processor", price: 7712
-    },
-    {
-        id: 10, description: "Apple Intel Processor", price: 8222
-    },
-    {
-        id: 11, description: "PC Intel Processor", price: 1842
-    },
-    {
-        id: 12, description: "PC AMD Processor", price: 3447
-    },
+    
 ]
 
 export const faqs = [

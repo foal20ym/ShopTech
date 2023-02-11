@@ -201,7 +201,7 @@
                     <h1>
                       <a class="link-design text-dark"
                         href="https://mresell.se/webshop/p/macbook-pro-16-m1-2021/e858b8747da660cfcd3a5cb55d487a8a/"
-                        >{prod.description}</a
+                        >{prod.title}</a
                       >
                     </h1>
                     <div class="call-to-action-container">
@@ -222,9 +222,7 @@
                         class="card-img-top"
                         alt="MacBook Pro 16&quot; M1 2021"
                         title="MacBook Pro 16&quot; M1 2021"
-                        src="https://mresell.se/wp-content/uploads/2022/01/macbook-pro-16-m1-2021-space-gray-180x180.png"
-                        width="180"
-                        height="180"
+                        src={prod.img_src}
                       />
                     </div>
                   </a>
