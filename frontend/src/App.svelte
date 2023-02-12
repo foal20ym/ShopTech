@@ -8,6 +8,7 @@
   import Signup from "./lib/Signup.svelte";
   import CreateAd from "./lib/CreateAd.svelte";
   import Advert from "./lib/Advert.svelte";
+  import Account from "./lib/Account.svelte"
 
 </script>
 
@@ -43,13 +44,13 @@
                 >
               </li>
               <li class="nav-item">
-                <Link to="/pricing" class="nav-link active" aria-current="page"
-                  >Pricing</Link
+                <Link to="/faq" class="nav-link active" aria-current="page"
+                  >FAQ</Link
                 >
               </li>
               <li class="nav-item">
-                <Link to="/faq" class="nav-link active" aria-current="page"
-                  >FAQ</Link
+                <Link to="/account" class="nav-link active" aria-current="page"
+                  >Account</Link
                 >
               </li>
             </ul>
@@ -78,6 +79,7 @@
     <Route path="/signup" component={Signup}/>
     <Route path="/createad" component={CreateAd}/>
     <Route path="/advert/:id" component={Advert}/> 
+    <Route path="/account" component={Account}/>
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
@@ -143,16 +145,16 @@
           </p>
           <p class="text-start">
             <Link
-              to="/pricing"
+              to="/faq"
               class="text-body-secondary"
-              style="text-decoration: none;">Pricing</Link
+              style="text-decoration: none;">FAQ</Link
             >
           </p>
           <p class="text-start">
             <Link
-              to="faq"
+              to="/account"
               class="text-body-secondary"
-              style="text-decoration: none;">FAQ</Link
+              style="text-decoration: none;">Account</Link
             >
           </p>
         </div>

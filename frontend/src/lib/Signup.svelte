@@ -114,7 +114,7 @@
       {/if}
     </div>
     <div class="col col-media-hide mt-5">
-			<img src="./public/appleProductsStockPhoto.png" alt="./public/appleProductsStockPhoto.png" id="sellTechImg">
+			<img src="/appleProductsStockPhoto.png" alt="/appleProductsStockPhoto.png" id="sellTechImg">
 		</div>
   </div>
 </div>
