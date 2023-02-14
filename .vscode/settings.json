@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5555,
+            "driver": "MariaDB",
+            "name": "queries_testing",
+            "group": "testing",
+            "database": "abc",
+            "username": "root"
+        }
+    ]
+}
