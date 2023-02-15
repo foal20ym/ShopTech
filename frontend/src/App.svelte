@@ -9,6 +9,8 @@
   import CreateAd from "./lib/CreateAd.svelte";
   import Advert from "./lib/Advert.svelte";
   import Account from "./lib/Account.svelte"
+  import IndvidualFaq from "./lib/IndvidualFAQ.svelte";
+  import UpdateFAQ from "./lib/UpdateFAQ.svelte";
 
 </script>
 
@@ -80,6 +82,8 @@
     <Route path="/createad" component={CreateAd}/>
     <Route path="/advert/:id" component={Advert}/> 
     <Route path="/account" component={Account}/>
+    <Route path="/faq/:id" component={IndvidualFaq}/>
+    <Route path="faq/update/:id" component={UpdateFAQ}/>
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">

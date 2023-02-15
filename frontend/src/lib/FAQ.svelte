@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {faqs} from "../data"
+	import { Link } from "svelte-routing"
 	import {
     Nav,
     NavItem,
@@ -35,7 +36,9 @@
 				<Accordion>
 				<AccordionItem>
 					<h4 class="m-0" slot="header">{faq.question}</h4>
-					<DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
+					<Link to="/faq/{faq.id}" class="text-dark" style="text-decoration: none;">
+						<DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
+					</Link>
 				</AccordionItem>
 			</Accordion>
 			<hr>
