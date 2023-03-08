@@ -10,6 +10,7 @@ const pool = createPool({
 	database: "abc",
 })
 */
+
 const pool = createPool({
 	host: "db",
 	port: 3306,
@@ -24,8 +25,56 @@ pool.on('error', function(error){
 
 const app = express()
 
+app.use(function(request, response, next){
+
+	response.set("Access-Control-Allow-Origin", "*")
+	response.set("Access-Control-Allow-Methods", "*")
+	response.set("Access-Control-Allow-Headers", "*")
+	response.set("Access-Control-Expose-Headers", "*")
+
+	next()
+})
+
 app.use(express.json())
 app.use(express.urlencoded())
+
+app.get("/faq", async function (request, response) {
+
+	console.log("Hello there from shoptech")
+
+	try {
+		const connection = await pool.getConnection();
+
+		const query = "SELECT * FROM faqs";
+
+		const faqs = await connection.query(query);
+
+		response.status(200).json(faqs);
+
+	} catch (error) {
+		console.log(error);
+		response.status(500).end();
+	}
+});
+
+app.get("/faq/:id", async function (request, response) {
+
+	try {
+		const id = request.params.id;
+
+		const connection = await pool.getConnection();
+
+		const faq = await connection.query("SELECT * FROM faqs WHERE id = ?", [id])
+
+		response.status(200).json(faq);
+
+	}	catch (error) {
+
+		console.log(error);
+		response.status(500).end();
+	}
+
+});
 
 app.get("/", async function(request, response){
 	
@@ -72,9 +121,10 @@ app.get("/humans", async function(request, response){
 	}
 	
 })
-
+/*
 app.get("/", function(request, response){
 	response.send("It works, shoptech")
 })
+*/
 
 app.listen(8080)
