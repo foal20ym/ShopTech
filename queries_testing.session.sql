@@ -1,1 +1,1 @@
-SELECT * from humans
+SELECT *  FROM adverts

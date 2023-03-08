@@ -1,27 +1,27 @@
 export const products = [
     {
-        id: 1, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
+        id: 1, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/macbook2016.png"
     },
     {
-        id: 2, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
+        id: 2, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/MacBook_Pro_13-inch_M1_2020.png"
     },
     {
-        id: 3, title: "MacBook Pro 14\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
+        id: 3, title: "MacBook Pro 14\" M1 2021", price: 4119, img_src: "/macbook2016.png"
     },
     {
-        id: 4, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
+        id: 4, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/MacBook_Pro_13-inch_M1_2020.png"
     },
     {
-        id: 5, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
+        id: 5, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/macbook2016.png"
     },
     {
-        id: 6, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
+        id: 6, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/MacBook_Pro_13-inch_M1_2020.png"
     },
     {
-        id: 7, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/public/macbook2016.png"
+        id: 7, title: "MacBook Pro 13\" M1 2021", price: 4119, img_src: "/macbook2016.png"
     },
     {
-        id: 8, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/public/MacBook_Pro_13-inch_M1_2020.png"
+        id: 8, title: "MacBook Pro 16\" M1 2021", price: 9345, img_src: "/MacBook_Pro_13-inch_M1_2020.png"
     },
     
 ]
