@@ -30,3 +30,28 @@ CREATE TABLE comments (
 	FOREIGN KEY (accountID) REFERENCES accounts(accountID),
 	FOREIGN KEY (advertID) REFERENCES adverts(advertID)
 );
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 16\" M1 2021',2227, 'Cool laptop','/MacBook_Pro_13-inch_M1_2020.png', CURRENT_TIMESTAMP);
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 16\" M1 2021','18768', 'Cool laptop','/MacBook_Pro_13-inch_M1_2020.png', CURRENT_TIMESTAMP);
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 13\" M1 2020','4563', 'Cool laptop','/macbook2016.png', CURRENT_TIMESTAMP);
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 13\" M2 2022','2345', 'Cool laptop','/macbook2016.png', CURRENT_TIMESTAMP);
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 16\" M1 2021',2227, 'Cool laptop','/MacBook_Pro_13-inch_M1_2020.png', CURRENT_TIMESTAMP);
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 16\" M1 2021','18768', 'Cool laptop','/MacBook_Pro_13-inch_M1_2020.png', CURRENT_TIMESTAMP);
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 13\" M1 2020','4563', 'Cool laptop','/macbook2016.png', CURRENT_TIMESTAMP);
+
+INSERT INTO adverts (category, title, price, description, img_src, createdAt)
+VALUES('MacBook', 'MacBook Pro 13\" M2 2022','2345', 'Cool laptop','/macbook2016.png', CURRENT_TIMESTAMP);
+
