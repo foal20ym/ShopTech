@@ -1,5 +1,5 @@
 <script lang="ts">
-	//import {faqs} from "../data"
+	import {faqs} from "../data"
 	import { Link } from "svelte-routing"
 	import {
     Nav,
@@ -19,9 +19,6 @@
     Accordion,
     AccordionItem,
   } from "sveltestrap";
-
-  const fetchFAQSPromise = fetch("http://localhost:8080/faq")
-
 </script>
 
 <div class="container text-center">
@@ -32,16 +29,8 @@
     <div class="col media-col-right">
 			<h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
 			<hr>
-
-			{#await fetchFAQSPromise}
 			
-				<p>Wait, i'm loading...</p>
-
-			{:then response}
-
-				{#await response.json() then faqs}
-
-				{#each faqs as faq}
+			{#each faqs as faq}
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 				<Accordion>
@@ -68,16 +57,6 @@
 				</div>
 			</div>-->
 			{/each}
-				{/await}
-
-			{:catch error}
-			<p>{error.message}</p>
-			<p>{JSON.stringify(error)}</p>
-				<p>Something went wrong, try again later.</p>
-
-			{/await}
-			
-	
     </div>
   </div>
 </div>
