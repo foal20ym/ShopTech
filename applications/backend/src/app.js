@@ -102,23 +102,19 @@ app.get("/", async function(request, response){
 
 app.get("/advert/:id", async function (request, response) {
 
-	const id = request.params.id
-
 	console.log("Fetching an advert")
+
 	try {
-		console.log("Fetching an advert 2")
 
+		const id = request.params.id
+		
 		const connection = await pool.getConnection()
-
-		console.log("Fetching an advert 3")
 
 		const advert = await connection.query("SELECT * FROM adverts WHERE advertID = ?", [id])
 
 		console.log(advert)
 
-		console.log("Fetching an advert 4")
-
-		response.status(200).json(advert)
+		response.status(200).json(advert[0])
 
 		connection.end()
 

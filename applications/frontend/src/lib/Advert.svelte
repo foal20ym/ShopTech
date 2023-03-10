@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Router, Link, Route } from "svelte-routing";
+    //import { Router, Link, Route } from "svelte-routing";
     import { products } from "../data";
     import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button } from 'sveltestrap';
     import { Form, FormGroup, FormText, Input, Label } from 'sveltestrap';

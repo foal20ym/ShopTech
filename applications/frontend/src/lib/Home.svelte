@@ -3,7 +3,6 @@
     NavLink,Collapse,Navbar,NavbarToggler,NavbarBrand,Col,Row,Container,
     Accordion,AccordionItem,
   } from "sveltestrap";
-  import { products } from "../data";
   import { Router, Link, Route } from "svelte-routing";
 
   const fetchAdvertsPromise = fetch("http://localhost:8080")
@@ -84,6 +83,7 @@
           <div class="d-flex justify-content-end filter-sort">
             <div class="btn-group bootstrap-select webshop-sort-by form-select light fit-width">
               
+              <!-- svelte-ignore a11y-role-has-required-aria-props -->
               <div
                 class="dropdown-menu open dropdown-menu-right"
                 role="combobox">
