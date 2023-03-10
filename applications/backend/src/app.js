@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { json } from 'express'
 import { createPool } from 'mariadb'
 
 /*
@@ -17,6 +17,8 @@ const pool = createPool({
 	user: "root",
 	password: "abc123",
 	database: "abc",
+	connectionLimit: 100,
+	connectTimeout: 20000
 })
 
 pool.on('error', function(error){
@@ -36,7 +38,6 @@ app.use(function(request, response, next){
 })
 
 app.use(express.json())
-app.use(express.urlencoded())
 
 app.get("/faq", async function (request, response) {
 
@@ -89,6 +90,8 @@ app.get("/", async function(request, response){
 		const adverts = await connection.query(query)
 		
 		response.status(200).json(adverts)
+
+		connection.end()
 		
 	}catch(error){
 		console.log(error)
@@ -97,10 +100,36 @@ app.get("/", async function(request, response){
 	
 })
 
+app.get("/advert/:id", async function (request, response) {
+
+	console.log("Fetching an advert")
+
+	try {
+
+		const id = request.params.id
+		
+		const connection = await pool.getConnection()
+
+		const advert = await connection.query("SELECT * FROM adverts WHERE advertID = ?", [id])
+
+		console.log(advert)
+
+		response.status(200).json(advert[0])
+
+		connection.end()
+
+	}	catch (error) {
+
+		console.log(error);
+		console.log("Failed to fetch an advert")
+		response.status(500).end()
+	}
+
+});
 
 
 
-
+/*
 app.get("/humans", async function(request, response){
 	
 	console.log("Hello there hi from shoptech")
@@ -121,7 +150,7 @@ app.get("/humans", async function(request, response){
 	}
 	
 })
-/*
+
 app.get("/", function(request, response){
 	response.send("It works, shoptech")
 })

@@ -1,6 +1,6 @@
 services:
   db:
-    build: ./database/
+    build: ./backend/database/
     ports:
       - "5555:3306"
     environment:

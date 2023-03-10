@@ -3,8 +3,9 @@
     NavLink,Collapse,Navbar,NavbarToggler,NavbarBrand,Col,Row,Container,
     Accordion,AccordionItem,
   } from "sveltestrap";
-  import { products } from "../data";
   import { Router, Link, Route } from "svelte-routing";
+
+  const fetchAdvertsPromise = fetch("http://localhost:8080")
 
   let isOpen = false;
   const toggle = () => (isOpen = !isOpen);
@@ -82,6 +83,7 @@
           <div class="d-flex justify-content-end filter-sort">
             <div class="btn-group bootstrap-select webshop-sort-by form-select light fit-width">
               
+              <!-- svelte-ignore a11y-role-has-required-aria-props -->
               <div
                 class="dropdown-menu open dropdown-menu-right"
                 role="combobox">
@@ -183,7 +185,15 @@
         <div class="clearfix" />
 
         <div class="row row-p0-greed">
-          {#each products as prod}
+          {#await fetchAdvertsPromise}
+
+          <p>Wait, i'm loading...</p>
+
+          {:then response}
+
+          {#await response.json() then adverts}
+
+          {#each adverts as advert}
             <div
               class="col-md-12 col-lg-6 pr-0 grouped-product-card-container ec_product myborder"
               data-id=""
@@ -192,7 +202,7 @@
               data-position="1"
               data-price=""
             >
-            <Link to="/advert/{prod.id}">
+            <Link to="/advert/{advert.advertID}">
               <div
                 class="grouped-product-card d-flex flex-row-reverse justify-content-center"
               >
@@ -201,11 +211,11 @@
                     <h1>
                       <a class="link-design text-dark"
                         href="https://mresell.se/webshop/p/macbook-pro-16-m1-2021/e858b8747da660cfcd3a5cb55d487a8a/"
-                        >{prod.title}</a
+                        >{advert.title}</a
                       >
                     </h1>
                     <div class="call-to-action-container">
-                      <div class="mb-2">från {prod.price} kr</div>
+                      <div class="mb-2">från {advert.price} kr</div>
                       <a
                         href="https://mresell.se/webshop/p/macbook-pro-16-m1-2021/e858b8747da660cfcd3a5cb55d487a8a/"
                         class="btn btn-blue">Visa mer</a
@@ -222,7 +232,7 @@
                         class="card-img-top"
                         alt="MacBook Pro 16&quot; M1 2021"
                         title="MacBook Pro 16&quot; M1 2021"
-                        src={prod.img_src}
+                        src={advert.img_src}
                       />
                     </div>
                   </a>
@@ -231,6 +241,18 @@
           </Link>
         </div>
           {/each}
+
+          {/await}
+
+          {:catch error}
+          <p>{error.message}</p>
+          <p>{JSON.stringify(error)}</p>
+
+            <p>Something went wrong, try again later.</p>
+
+          {/await}
+
+        
         </div>
       </div>
 
