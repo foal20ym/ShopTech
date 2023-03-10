@@ -1,1 +1,2 @@
-SELECT *  FROM adverts WHERE advertID = 2
+SELECT * FROM adverts;
+DELETE FROM adverts WHERE advertID = 9

@@ -1,5 +1,7 @@
 import express, { json } from 'express'
 import { createPool } from 'mariadb'
+import multer from 'multer'
+
 
 /*
 const pool = createPool({
@@ -118,7 +120,7 @@ app.get("/advert/:id", async function (request, response) {
 
 		connection.end()
 
-	}	catch (error) {
+	} catch (error) {
 
 		console.log(error);
 		console.log("Failed to fetch an advert")
@@ -129,31 +131,49 @@ app.get("/advert/:id", async function (request, response) {
 
 
 
-/*
-app.get("/humans", async function(request, response){
+app.post("/createad", async function(request, response){
+
+	console.log("Create advert!")
+
+	const errorCodes = []
+	const advertData = request.body
 	
-	console.log("Hello there hi from shoptech")
-	
-	try{
-		
+	if(advertData.title.length < 1){
+		errorCodes.push("Title can't be empty")
+	}
+	if(0 < errorCodes.length){
+		response.status(400).json(errorCodes)
+		return
+	}
+
+	const timestamp = Date.now()
+
+	try {
+
 		const connection = await pool.getConnection()
-		
-		const query = "SELECT * FROM humans ORDER BY name"
-		
-		const humans = await connection.query(query)
-		
-		response.status(200).json(humans)
-		
-	}catch(error){
-		console.log(error)
+
+		const advert = await connection.query
+		(
+			"INSERT INTO adverts (category, title, price, description, img_src) VALUES (?,?,?,?,?)",
+			[advertData.category, advertData.title, advertData.price, advertData.description, advertData.img_src]
+		)
+
+		console.log("Creating advert 2")
+		response.status(200).json(advert[0])
+
+		console.log("Advert created")
+		//response.set("Location", "/advert/${advertData.advertID}")
+
+		connection.end()
+
+	} catch (error) {
+
+		console.log(error);
+		console.log("Failed to create advert")
 		response.status(500).end()
 	}
 	
 })
 
-app.get("/", function(request, response){
-	response.send("It works, shoptech")
-})
-*/
 
 app.listen(8080)
