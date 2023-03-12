@@ -3,6 +3,7 @@ FROM node:18.14.1
 WORKDIR /backend
 
 COPY ./package*.json ./
+COPY ./package-lock.json ./
 
 RUN npm install
 

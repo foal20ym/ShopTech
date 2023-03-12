@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {faqs} from "../data"
-	import { Link } from "svelte-routing"
-	import {
+  import { faqs } from "../data";
+  import { Link } from "svelte-routing";
+  import {
     Nav,
     NavItem,
     Dropdown,
@@ -24,27 +24,35 @@
 <div class="container text-center">
   <div class="row">
     <div class="col me-5 media-col-left">
-      <img src="./src/assets/undraw_questions_re_1fy7.svg" class="rounded float-start img-fluid" alt="./src/assets/undraw_questions_re_1fy7.svg" >
+      <img
+        src="./src/assets/undraw_questions_re_1fy7.svg"
+        class="rounded float-start img-fluid"
+        alt="./src/assets/undraw_questions_re_1fy7.svg"
+      />
     </div>
     <div class="col media-col-right">
-			<h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
-			<hr>
-			
-			{#each faqs as faq}
-			<div class="accordion accordion-flush" id="accordionFlushExample">
-				<div class="accordion-item">
-				<Accordion>
-				<AccordionItem>
-					<h4 class="m-0" slot="header">{faq.question}</h4>
-					<Link to="/faq/{faq.id}" class="text-dark" style="text-decoration: none;">
-						<DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
-					</Link>
-				</AccordionItem>
-			</Accordion>
-			<hr>
-				</div>
-			</div>
-			<!--<div class="accordion accordion-flush" id="accordionFlushExample">
+      <h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
+      <hr />
+
+      {#each faqs as faq}
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+          <div class="accordion-item">
+            <Accordion>
+              <AccordionItem>
+                <h4 class="m-0" slot="header">{faq.question}</h4>
+                <Link
+                  to="/faq/{faq.id}"
+                  class="text-dark"
+                  style="text-decoration: none;"
+                >
+                  <DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
+                </Link>
+              </AccordionItem>
+            </Accordion>
+            <hr />
+          </div>
+        </div>
+        <!--<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingOne">
 						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -56,7 +64,7 @@
 					</div>
 				</div>
 			</div>-->
-			{/each}
+      {/each}
     </div>
   </div>
 </div>
