@@ -1,133 +1,65 @@
-import express, { json } from 'express'
-import { createPool } from 'mariadb'
+import express from "express";
+import faqRouter from "./routers/faq-router.js";
 
-/*
-const pool = createPool({
-	host: "172.19.0.2",
-	port: 3306,
-	user: "root",
-	password: "abc123",
-	database: "abc",
-})
-*/
+const app = express();
+app.use(express.json());
 
-const pool = createPool({
-	host: "db",
-	port: 3306,
-	user: "root",
-	password: "abc123",
-	database: "abc",
-	connectionLimit: 100,
-	connectTimeout: 20000
-})
+app.use("/faq", faqRouter);
 
-pool.on('error', function(error){
-	console.log("Error from pool", error)
-})
+app.use(function (request, response, next) {
+  response.set("Access-Control-Allow-Origin", "*");
+  response.set("Access-Control-Allow-Methods", "*");
+  response.set("Access-Control-Allow-Headers", "*");
+  response.set("Access-Control-Expose-Headers", "*");
 
-const app = express()
-
-app.use(function(request, response, next){
-
-	response.set("Access-Control-Allow-Origin", "*")
-	response.set("Access-Control-Allow-Methods", "*")
-	response.set("Access-Control-Allow-Headers", "*")
-	response.set("Access-Control-Expose-Headers", "*")
-
-	next()
-})
-
-app.use(express.json())
-
-app.get("/faq", async function (request, response) {
-
-	console.log("Hello there from shoptech")
-
-	try {
-		const connection = await pool.getConnection();
-
-		const query = "SELECT * FROM faqs";
-
-		const faqs = await connection.query(query);
-
-		response.status(200).json(faqs);
-
-	} catch (error) {
-		console.log(error);
-		response.status(500).end();
-	}
+  next();
 });
 
-app.get("/faq/:id", async function (request, response) {
 
-	try {
-		const id = request.params.id;
 
-		const connection = await pool.getConnection();
+/*app.get("/", async function (request, response) {
+  console.log("Hello there from shoptech");
 
-		const faq = await connection.query("SELECT * FROM faqs WHERE id = ?", [id])
+  try {
+    const connection = await pool.getConnection();
 
-		response.status(200).json(faq);
+    const query = "SELECT * FROM adverts";
 
-	}	catch (error) {
+    const adverts = await connection.query(query);
 
-		console.log(error);
-		response.status(500).end();
-	}
+    response.status(200).json(adverts);
 
+    connection.end();
+  } catch (error) {
+    console.log(error);
+    response.status(500).end();
+  }
 });
-
-app.get("/", async function(request, response){
-	
-	console.log("Hello there from shoptech")
-	
-	try{
-		
-		const connection = await pool.getConnection()
-		
-		const query = "SELECT * FROM adverts"
-		
-		const adverts = await connection.query(query)
-		
-		response.status(200).json(adverts)
-
-		connection.end()
-		
-	}catch(error){
-		console.log(error)
-		response.status(500).end()
-	}
-	
-})
 
 app.get("/advert/:id", async function (request, response) {
+  console.log("Fetching an advert");
 
-	console.log("Fetching an advert")
+  try {
+    const id = request.params.id;
 
-	try {
+    const connection = await pool.getConnection();
 
-		const id = request.params.id
-		
-		const connection = await pool.getConnection()
+    const advert = await connection.query(
+      "SELECT * FROM adverts WHERE advertID = ?",
+      [id]
+    );
 
-		const advert = await connection.query("SELECT * FROM adverts WHERE advertID = ?", [id])
+    console.log(advert);
 
-		console.log(advert)
+    response.status(200).json(advert[0]);
 
-		response.status(200).json(advert[0])
-
-		connection.end()
-
-	}	catch (error) {
-
-		console.log(error);
-		console.log("Failed to fetch an advert")
-		response.status(500).end()
-	}
-
-});
-
-
+    connection.end();
+  } catch (error) {
+    console.log(error);
+    console.log("Failed to fetch an advert");
+    response.status(500).end();
+  }
+});*/
 
 /*
 app.get("/humans", async function(request, response){
@@ -156,4 +88,4 @@ app.get("/", function(request, response){
 })
 */
 
-app.listen(8080)
+app.listen(8080, () => console.log("Server started"));
