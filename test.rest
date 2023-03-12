@@ -1,0 +1,7 @@
+POST  http://localhost:8080/faq/create
+Content-Type: "application/json"
+
+{
+	"question": "Test rågas snälal funka",
+	"answer": "jag ber till gud funka snälla"
+}

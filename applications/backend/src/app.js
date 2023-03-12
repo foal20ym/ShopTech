@@ -1,7 +1,22 @@
 import express, { json } from 'express'
+import faqRouter from "./routers/faq-router.js";
 import { createPool } from 'mariadb'
 import multer from 'multer'
 
+
+const app = express();
+app.use(express.json());
+
+app.use("/faq", faqRouter);
+
+app.use(function (request, response, next) {
+  response.set("Access-Control-Allow-Origin", "*");
+  response.set("Access-Control-Allow-Methods", "*");
+  response.set("Access-Control-Allow-Headers", "*");
+  response.set("Access-Control-Expose-Headers", "*");
+
+  next();
+});
 
 /*
 const pool = createPool({
@@ -27,20 +42,7 @@ pool.on('error', function(error){
 	console.log("Error from pool", error)
 })
 
-const app = express()
-
-app.use(function(request, response, next){
-
-	response.set("Access-Control-Allow-Origin", "*")
-	response.set("Access-Control-Allow-Methods", "*")
-	response.set("Access-Control-Allow-Headers", "*")
-	response.set("Access-Control-Expose-Headers", "*")
-
-	next()
-})
-
-app.use(express.json())
-
+/*
 app.get("/faq", async function (request, response) {
 
 	console.log("Hello there from shoptech")
@@ -78,6 +80,7 @@ app.get("/faq/:id", async function (request, response) {
 	}
 
 });
+*/
 
 app.get("/", async function(request, response){
 	
@@ -162,7 +165,6 @@ app.post("/createad", async function(request, response){
 		response.status(200).json(advert[0])
 
 		console.log("Advert created")
-		//response.set("Location", "/advert/${advertData.advertID}")
 
 		connection.end()
 
@@ -176,4 +178,9 @@ app.post("/createad", async function(request, response){
 })
 
 
-app.listen(8080)
+app.listen(8080, () => console.log("Server started"));
+
+
+
+
+
