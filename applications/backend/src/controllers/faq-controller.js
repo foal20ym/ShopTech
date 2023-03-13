@@ -29,7 +29,7 @@ export async function createFAQ(request, response) {
 		console.log(request.body);
 		const values = [request.body.question, request.body.answer];
 		const newFAQ = await db.query("INSERT INTO faqs (question, answer) VALUES (?, ?)", values);
-		response.status(201).send("FAQ created successfully").json(newFAQ);
+		response.status(201).send("FAQ created successfully").json();
 	} catch (error) {
 		console.error(error);
 		response.status(500).send("Internal server error");
@@ -44,7 +44,7 @@ export async function updateFAQById(request, response) {
 	try {
 		const values = [request.body.updatedQuestion, request.body.updatedAnswer, request.params.id];
 		const updatedFAQ = await db.query("UPDATE faqs SET question = ?, answer = ? WHERE id = ?", values);
-		response.status(200).send("FAQ updated successfully").json(updatedFAQ);
+		response.status(200).send("FAQ updated successfully").json();
 	} catch (error) {
 		console.error(error);
 		response.status(500).send("Internal server error");

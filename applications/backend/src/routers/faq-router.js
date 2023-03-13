@@ -12,4 +12,3 @@ router.delete("/delete/:id", faqController.deleteFAQById);
 export default router;
 
 
-

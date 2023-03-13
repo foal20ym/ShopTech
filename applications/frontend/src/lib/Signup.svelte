@@ -1,16 +1,32 @@
 <script lang="ts">
-  let showLogin = true;
   import { Router, Link, Route } from "svelte-routing";
   import CreateAd from "../lib/CreateAd.svelte";
-  
   import { 
       Container,
       Image,
       Col,
       Row, 
       Button,
-  } 
-    from 'sveltestrap';
+  } from 'sveltestrap';
+    let showLogin = true;
+    let username = ""
+    let password = ""
+
+    async function login(){
+
+      const response = await fetch("http://localhost:8080/tokens", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: 'grant_type=password&username=${encodedURIComponent(username)}&password=${encodedURIComponent(password)}'
+      })
+
+      const body = await response.json()
+
+      const accessToken = body.access_token
+
+    }
 </script>
 
 <div class="container ">
