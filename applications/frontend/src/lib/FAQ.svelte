@@ -19,6 +19,8 @@
     Accordion,
     AccordionItem,
   } from "sveltestrap";
+
+  const fetchFAQPromise = fetch("http://localhost:8080/faq")
 </script>
 
 <div class="container text-center">
@@ -32,6 +34,13 @@
     </div>
     <div class="col media-col-right">
       <h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
+      {#await fetchFAQPromise}
+        <p>Wait, im loading...</p>
+      {:then response}
+      
+      {#await response.json() then faqs}
+        
+      
       <hr />
 
       {#each faqs as faq}
@@ -65,6 +74,12 @@
 				</div>
 			</div>-->
       {/each}
+      {/await}
+      {:catch error}
+        <p>{error.message}</p>
+        <p>{JSON.stringify(error)}</p>
+        <p>Something went wrong, try again later</p>
+      {/await}
     </div>
   </div>
 </div>
