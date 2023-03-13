@@ -4,8 +4,6 @@
     import { Container,Image,Col,Row, Button } from 'sveltestrap';
     import { Form, FormGroup, FormText, Input, Label } from 'sveltestrap';
 
-
-    //let showRAMForm = false;
     let selectedCategory = '';
     function handleSelect(event) {
         selectedCategory = event.target.value;
@@ -16,7 +14,6 @@
     let price = ""
     let description = ""
     let img_src = ""
-    let x = ""
     let errorCodes = []
     let advertWasCreated = false
 
