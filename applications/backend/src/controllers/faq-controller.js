@@ -1,4 +1,4 @@
-import db from "../database-operations/db.js"
+/*import db from "../database-operations/db.js"
 
 export async function getFAQ(request, response) {
 	try {
@@ -60,5 +60,5 @@ export async function deleteFAQById(request, response) {
 		response.status(500).send("Internal server error");
 	}
 }
-
+*/
 

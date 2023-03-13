@@ -1,4 +1,4 @@
-import express from "express";
+/*import express from "express";
 import * as faqController from "../controllers/faq-controller.js"
 const router = express.Router();
 
@@ -10,6 +10,5 @@ router.patch("/update/:id", faqController.updateFAQById);
 router.delete("/delete/:id", faqController.deleteFAQById);
 
 export default router;
-
-
+*/
 
