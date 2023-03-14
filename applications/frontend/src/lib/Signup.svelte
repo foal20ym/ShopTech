@@ -78,15 +78,30 @@
       const body = await response.json()
 
       const accessToken = body.access_token
+      
+      console.log(response.status)
+      switch (response.status) {
+        
+      case 200:
+        $user = {
+          isLoggedIn: true,
+          accessToken,
+        };
 
-      $user = {
-        isLoggedIn: true,
-        accessToken
-      }
-
-      navigate("/account", {
+        navigate("/account", {
         replace: false
-      })
+        })
+
+        break;
+
+      case 400:
+        errorCodes.push(body)
+        break;
+
+        default:
+          errorCodes.push("Unexpected response")
+    }
+
 
     }
 
@@ -157,6 +172,13 @@
             <Button type="submit" id="CreateAdButton" value="Login"> Login  </Button>
 					</div>
         </form>
+
+        <div> errorCodes </div>
+        <ul>
+            {#each errorCodes as errorCode}
+                <li>{errorCode.error}</li>
+            {/each}
+        </ul>
       {:else}
         <form class="input-group" id="register-form" on:submit|preventDefault={signUp}>
           <div class="mb-3 mt-2">
@@ -218,4 +240,5 @@
 			<img src="/appleProductsStockPhoto.png" alt="/appleProductsStockPhoto.png" id="sellTechImg">
 		</div>
   </div>
+
 </div>
