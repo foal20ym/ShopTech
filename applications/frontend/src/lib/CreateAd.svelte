@@ -3,6 +3,7 @@
     import Home from "../lib/Home.svelte"; // ersätt senare med lämplig länk
     import { Container,Image,Col,Row, Button } from 'sveltestrap';
     import { Form, FormGroup, FormText, Input, Label } from 'sveltestrap';
+    import { user } from "../user-store.js";
 
     let selectedCategory = '';
     function handleSelect(event) {
@@ -32,7 +33,8 @@
             const response = await fetch("http://localhost:8080/createad", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer "+$user.accessToken
                 },
                 body: JSON.stringify(advert)
             })

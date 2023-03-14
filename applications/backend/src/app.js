@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken"
 const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7"
 
 
+
 const app = express();
 app.use(express.json());
 
@@ -33,16 +34,9 @@ app.post("/tokens", function(request, response){
 		response.status(400).json({error: "unsupported_grant_type"})
 		return
 	}
-	if(username == null){
-		response.status(400).json({error: "invalid_request"})
-		return
-	}
-	if(password == null){
-		response.status(400).json({error: "invalid_request"})
-		return
-	}
 
-	if(username == "abc" && password == "abc123"){
+
+	if(username == "testtest" && password == "testtest"){
 
 		const payload = {
 			isLoggedIn: true, 
@@ -62,9 +56,13 @@ app.post("/tokens", function(request, response){
 
 	} else {
 
-		response.status(400).json({error: "inavlid_grant"})
+		response.status(400).json({error: "invalid_grant"})
 
 	}
+})
+
+app.post("/signup", async function(request, response){
+	
 })
 
 

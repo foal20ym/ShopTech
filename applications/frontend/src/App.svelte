@@ -13,6 +13,7 @@
   import UpdateFAQ from "./lib/UpdateFAQ.svelte";
   //import CreateFAQ from "./lib/CreateFAQ.svelte";
   import CreateFaq from "./lib/CreateFAQ.svelte"
+  import { user } from "./user-store.js";
 
 </script>
 
@@ -52,11 +53,20 @@
                   >FAQ</Link
                 >
               </li>
+              {#if $user.isLoggedIn}
               <li class="nav-item">
                 <Link to="/account" class="nav-link active" aria-current="page"
                   >Account</Link
                 >
               </li>
+                {:else}
+                <li class="nav-item">
+                <Link to="/signup" class="nav-link active" aria-current="page"
+                  >Login</Link
+                >
+              </li>
+                {/if}
+              
             </ul>
             <form class="d-flex me-5" role="search">
               <input
