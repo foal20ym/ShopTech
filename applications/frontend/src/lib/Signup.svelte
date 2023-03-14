@@ -16,50 +16,48 @@
     let email = ""
     let firstName = ""
     let lastName = ""
-    let phoneNumber = "112"
+    let phoneNumber = ""
     let createdAt = Date.now()
+    let accountWasCreated = false
 
     let errorCodes = []
 
     async function signUp(){
 
-    const account = {
-        email,
-        password,
-        firstName,
-        lastName,
-        phoneNumber,
-        createdAt
-    }
-
-    try {
-
-        const response = await fetch("http://localhost:8080/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer "+$user.accessToken
-            },
-            body: JSON.stringify(account)
-        })
-
-        switch(response.status){
-            case 201:
-                
-            break 
-
-            case 400:
-                errorCodes = await response.json()
-            break; 
-
+        const account = {
+            email,
+            password,
+            firstName,
+            lastName,
+            phoneNumber,
         }
 
-    } catch(error) {
-        errorCodes.push("COMMUNICATION_ERROR")
-        errorCodes = errorCodes
-    }
+        try {
 
-}
+            const response = await fetch("http://localhost:8080/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(account)
+            })
+
+            switch(response.status){
+                case 201:
+                    accountWasCreated = true
+                break 
+
+                case 400:
+                    errorCodes = await response.json()
+                break; 
+
+            }
+
+        } catch(error) {
+            errorCodes.push("COMMUNICATION_ERROR")
+            errorCodes = errorCodes
+        }
+    }
 
 
     let showLogin = true;
@@ -92,10 +90,27 @@
 
     }
 
+    function onSignUpSubmitted(){
+      email = ""
+      password = ""
+      firstName = ""
+      lastName = ""
+      phoneNumber = ""
+      accountWasCreated = false
+      showLogin = true
+    }
+
 </script>
+
 
 <div class="container ">
   <div class="row">
+    {#if accountWasCreated}
+      <div>
+        <h1>Account was created!</h1>
+        <Button id="sellTechButton" on:click={() => (onSignUpSubmitted())}> Sign in </Button>
+      </div>
+    {:else} 
     <div class="col me-5 form-box">
       <h2 class="mt-5">Login or create an account to continue</h2>
       <div class="button-box mb-3">
@@ -150,15 +165,24 @@
                 type="text"
                 class="form-control"
                 id="exampleInputPassword1"
-                placeholder="Username"
+                placeholder="Email"
                 style="width: 400px;"
-                bind:value={username}
+                bind:value={email}
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Password"
+                style="width: 400px;"
+                bind:value={password}
               />
             </div>
             <input
               type="text"
               class="form-control"
-              id="exampleInputEmail1"
               placeholder="First name"
               style="width: 400px;"
               bind:value={firstName}
@@ -176,23 +200,11 @@
           </div>
           <div class="mb-3">
             <input
-              type="email"
+              type="text"
               class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              placeholder="Email"
+              placeholder="Phone Number"
               style="width: 400px;"
-              bind:value={email}
-            />
-          </div>
-          <div class="mb-3">
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-              placeholder="Password"
-              style="width: 400px;"
-              bind:value={password}
+              bind:value={phoneNumber}
             />
           </div>
 					<div class="signUpPageButton">
@@ -201,6 +213,7 @@
         </form>
       {/if}
     </div>
+    {/if}
     <div class="col col-media-hide mt-5">
 			<img src="/appleProductsStockPhoto.png" alt="/appleProductsStockPhoto.png" id="sellTechImg">
 		</div>
