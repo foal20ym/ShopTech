@@ -172,13 +172,14 @@
             <Button type="submit" id="CreateAdButton" value="Login"> Login  </Button>
 					</div>
         </form>
-
-        <div> errorCodes </div>
-        <ul>
-            {#each errorCodes as errorCode}
-                <li>{errorCode.error}</li>
-            {/each}
-        </ul>
+        {#if errorCodes.length}
+        <p>Errors:</p>
+          <ul>
+              {#each errorCodes as errorCode}
+                  <li>{errorCode}</li>
+              {/each}
+          </ul>
+        {/if}
       {:else}
         <form class="input-group" id="register-form" on:submit|preventDefault={signUp}>
           <div class="mb-3 mt-2">
@@ -233,6 +234,14 @@
             <Button type="submit" id="CreateAdButton" value="Signup"> Sign up  </Button>
 					</div>
         </form>
+        {#if errorCodes.length}
+        <p>Errors:</p>
+          <ul>
+              {#each errorCodes as errorCode}
+                  <li>{errorCode}</li>
+              {/each}
+          </ul>
+        {/if}
       {/if}
     </div>
     {/if}
