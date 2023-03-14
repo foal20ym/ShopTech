@@ -1,30 +1,7 @@
-import express, { json } from 'express'
-import faqRouter from "./routers/faq-router.js";
-import advertRouter from "./routers/advert-router.js";
-import authRouter from "./routers/auth-router.js"
-import bodyParser from 'body-parser'
+import db from "../database-operations/db.js"
+import jwt from "jsonwebtoken"
+import bcrypt from 'bcrypt'
 
-
-const app = express();
-app.use(express.json());
-app.use(bodyParser.urlencoded())
-
-
-app.use(function(request, response, next){
-
-	response.set("Access-Control-Allow-Origin", "*")
-	response.set("Access-Control-Allow-Methods", "*")
-	response.set("Access-Control-Allow-Headers", "*")
-	response.set("Access-Control-Expose-Headers", "*")
-
-	next()
-})
-
-app.use("/faq", faqRouter);
-app.use("/", advertRouter);
-app.use("/", authRouter);
-
-/*
 const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7"
 const SALT_ROUNDS = 10
 const MIN_EMAIL_LENGTH = 6
@@ -38,7 +15,8 @@ const MAX_LASTNAME_LENGTH = 128
 
 
 
-app.post("/tokens", async function(request, response){
+//app.post("/tokens", async function(request, response){
+export async function signIn(request, response){
 
 	const grantType = request.body.grant_type
 	const username = request.body.username
@@ -98,7 +76,7 @@ app.post("/tokens", async function(request, response){
 		console.log("Login failed")
 
 	}
-})
+}
 
 function validatePassword(password){
 	const errorMessages = []
@@ -122,7 +100,8 @@ function validateEmail(email){
 	}
 }
 
-app.post("/signup", async function(request, response){
+//app.post("/signup", async function(request, response){
+export async function signUp(request, response){
 
 	console.log("Creating account")
 	const accountData = request.body
@@ -152,6 +131,8 @@ app.post("/signup", async function(request, response){
 
 	if(accountData.email.length == 0){
 		errorMessages.push("Email length can't be 0")
+	} else if(accountData.email.length < MIN_EMAIL_LENGTH){
+		errorMessages.push("Email can't be less than " + MIN_EMAIL_LENGTH + " characters long")
 	} else if(MAX_EMAIL_LENGTH < accountData.email.length){
 		errorMessages.push("Email can't be more than " + MAX_EMAIL_LENGTH + " characters long")
 	}
@@ -188,11 +169,4 @@ app.post("/signup", async function(request, response){
 		console.log("error")
 		response.status(500).send("Internal server error");
 	}
-})
-
-*/
-
-app.listen(8080, () => console.log("Server started"));
-
-
-
+}
