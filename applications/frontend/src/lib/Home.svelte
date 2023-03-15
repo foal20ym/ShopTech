@@ -5,6 +5,8 @@
   } from "sveltestrap";
   import { Router, Link, Route } from "svelte-routing";
 
+  import { user } from "../user-store.js";
+
   const fetchAdvertsPromise = fetch("http://localhost:8080")
 
   let isOpen = false;

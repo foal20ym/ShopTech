@@ -1,9 +1,12 @@
 <script>
-  import { Link } from "svelte-routing";
+  import { Link, navigate, Route, Router } from "svelte-routing";
+  import { Button } from "sveltestrap";
+  import { user } from "../user-store.js";
+  import Signup from "./Signup.svelte";
+
 </script>
 
-<!--SEN NÄR VI HAR USER FÅR VI ERSÄTTA INFORMATION MED USER INFO-->
-
+{#if $user.isLoggedIn}
 <div class="container my-5">
     <div class="row">
       <div class="col-lg-4">
@@ -70,4 +73,8 @@
       </div>
     </div>
   </div>
+{:else}
+  <div>Please Login to see your account.</div>
+  <Button id="sellTechButton"> <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link> </Button>
+{/if}
 
