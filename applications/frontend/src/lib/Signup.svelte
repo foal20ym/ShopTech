@@ -14,11 +14,14 @@
 
 
     let email = ""
+    let username = ""
+    let password = ""
+    let address = ""
     let firstName = ""
     let lastName = ""
     let phoneNumber = ""
-    let createdAt = Date.now()
     let accountWasCreated = false
+
 
     let errorCodes = []
 
@@ -26,7 +29,9 @@
 
         const account = {
             email,
+            username,
             password,
+            address,
             firstName,
             lastName,
             phoneNumber,
@@ -49,6 +54,7 @@
 
                 case 400:
                     errorCodes = await response.json()
+                    errorCodes.push("BIG ERROR")
                 break; 
 
             }
@@ -59,10 +65,7 @@
         }
     }
 
-
     let showLogin = true;
-    let username = ""
-    let password = ""
 
     async function login(){
 
@@ -72,12 +75,14 @@
           "Content-Type": "application/x-www-form-urlencoded",
           "Authorization": "Bearer "+$user.accessToken,
         },
-        body: `grant_type=password&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        body: `grant_type=password&username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
       })
 
       const body = await response.json()
+      console.log("body: ", body)
 
       const accessToken = body.access_token
+      const d = body.username
       
       console.log(response.status)
       switch (response.status) {
@@ -86,6 +91,7 @@
         $user = {
           isLoggedIn: true,
           accessToken,
+          userEmail: d
         };
 
         navigate("/account", {
@@ -108,6 +114,7 @@
     function onSignUpSubmitted(){
       email = ""
       password = ""
+      username = ""
       firstName = ""
       lastName = ""
       phoneNumber = ""
@@ -133,14 +140,14 @@
         <button
           type="button"
           class="toggle-btn"
-					class:active={showLogin == true}
+          class:active={showLogin == true}
           id="login-btn"
           on:click={() => (showLogin = true)}>Login</button
         >
         <button
           type="button"
           class="toggle-btn"
-					class:active={showLogin == false}
+          class:active={showLogin == false}
           id="signup-btn"
           on:click={() => (showLogin = false)}>Sign up</button
         >
@@ -153,9 +160,9 @@
               class="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
-              placeholder="Username"
+              placeholder="Email"
               style="width: 400px;"
-              bind:value={username}
+              bind:value={email}
             />
           </div>
           <div class="mb-3">
@@ -168,9 +175,9 @@
               bind:value={password}
             />
           </div>
-					<div class="signUpPageButton">
+          <div class="signUpPageButton">
             <Button type="submit" id="CreateAdButton" value="Login"> Login  </Button>
-					</div>
+          </div>
         </form>
         {#if errorCodes.length}
         <p>Errors:</p>
@@ -195,12 +202,32 @@
             </div>
             <div class="mb-3">
               <input
+                type="text"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="username"
+                style="width: 400px;"
+                bind:value={username}
+              />
+            </div>
+            <div class="mb-3">
+              <input
                 type="password"
                 class="form-control"
                 id="exampleInputPassword1"
                 placeholder="Password"
                 style="width: 400px;"
                 bind:value={password}
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Address"
+                style="width: 400px;"
+                bind:value={address}
               />
             </div>
             <input
@@ -230,9 +257,9 @@
               bind:value={phoneNumber}
             />
           </div>
-					<div class="signUpPageButton">
+          <div class="signUpPageButton">
             <Button type="submit" id="CreateAdButton" value="Signup"> Sign up  </Button>
-					</div>
+          </div>
         </form>
         {#if errorCodes.length}
         <p>Errors:</p>
@@ -246,8 +273,9 @@
     </div>
     {/if}
     <div class="col col-media-hide mt-5">
-			<img src="/appleProductsStockPhoto.png" alt="/appleProductsStockPhoto.png" id="sellTechImg">
-		</div>
+      <img src="/appleProductsStockPhoto.png" alt="/appleProductsStockPhoto.png" id="sellTechImg">
+    </div>
   </div>
 
 </div>
+

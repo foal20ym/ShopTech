@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post("/tokens", authController.signIn);
 router.post("/signup", authController.signUp);
-
-//router.patch("/update/:id", authController.updateAdvertById);
-//router.delete("/delete/:id", authController.deleteAdvertById);
+router.get("/account/:id", authController.getUserByEmail);
+router.patch("/account/update/:id", authController.updateAccountByEmail);
+router.delete("/account/delete/:id", authController.deleteAccountByEmail);
 
 export default router;
