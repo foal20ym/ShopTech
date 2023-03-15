@@ -2,7 +2,7 @@ import express from "express";
 import * as advertController from "../controllers/advert-controller.js"
 const router = express.Router();
 
-
+router.get("/test/:id", advertController.getUserAdverts);
 router.get("/", advertController.getAdverts);
 router.get("/advert/:id", advertController.getAdvertById);
 router.post("/createad", advertController.createAdvert);
