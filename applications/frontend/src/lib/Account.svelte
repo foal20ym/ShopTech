@@ -2,9 +2,8 @@
   import { Link, navigate, Route, Router } from "svelte-routing";
   import { Button } from "sveltestrap";
   import { user } from "../user-store.js";
-  import Signup from "./Signup.svelte";
+  import UpdateAccount from "./UpdateAccount.svelte";
 
-  export let userId
   let isFetchingUserData = true
   let failedToFetchUserData
   let userData = null
@@ -21,7 +20,7 @@
                     break;
             }
         }catch(error){
-            console.log("error:" + error)
+            console.log("error:", error)
             isFetchingUserData = false
             failedToFetchUserData = true
         }
@@ -29,6 +28,57 @@
 
   loadUserData()
 
+
+  async function updateAccount(){
+
+    const account = {
+
+    }
+
+    try {
+            const response = await fetch("http://localhost:8080/account/update/" + $user.userEmail, {
+              method: "PATCH",
+              headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(account)
+            })
+
+            switch(response.status){
+                case 200:
+                    navigate("/", {
+                      replace: false
+                    })
+                    break;
+            }
+
+    }catch(error){
+      console.log("error:", error)
+    }
+  }
+
+  async function deleteAccount(){
+
+    try {
+            const response = await fetch("http://localhost:8080/account/delete/" + $user.userEmail, {
+              method: "DELETE",
+              headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+
+            switch(response.status){
+                case 200:
+                    navigate("/", {
+                      replace: false
+                    })
+                    break;
+            }
+
+    }catch(error){
+      console.log("error:", error)
+    }
+  }
 
 </script>
 
@@ -71,8 +121,8 @@
               </div>
             </li>
           </ul>
-          <button type="button" class="btn btn-outline-dark mr-2 mt-3 mb-3">Update</button>
-          <button type="button" class="btn btn-outline-danger mt-3 mb-3">Delete Account</button>
+          <Button id="sellTechButton"> <Link to="/updateAccount" class="nav-link active" aria-current="page">Update account info</Link> </Button>
+          <Button class="btn btn-outline-danger mt-3 mb-3" on:click={() => (deleteAccount())}> Delete Account </Button>
         </form>
       </div>
       <div class="col-lg-8">
@@ -115,4 +165,4 @@
   <Button id="sellTechButton"> <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link> </Button>
 {/if}
 
-
+<Route path="updateAccount" component={UpdateAccount}/> 

@@ -127,6 +127,14 @@ export async function signUp(request, response){
     if(!validateEmail(accountData.email)){
         errorMessages.push("Invalid email")
     }
+	if(accountData.address.length == 0){
+		errorMessages.push("Address can't be null, please enter a valid address.")
+	}
+	if(accountData.phoneNumber.length == 0){
+		errorMessages.push("Invalid phone number: Too short")
+	} else if(!(regexCheckNumber.test(accountData.phoneNumber))){
+		errorMessages.push("Invalid phone number: Must be digits only")
+	}
     if(regexCheckSpecialCharacter.test(accountData.password)){
         errorMessages.push("Password must contain at least one special character")
     } else if(accountData.password.length == 0){
@@ -179,4 +187,31 @@ export async function signUp(request, response){
     }
 }
 
+export async function updateAccountByEmail(request, response) {
+	const accountData = request.body
 
+	if (!request.body) {
+		response.status(400).send("Missing request body");
+		return;
+	}
+	try {
+		const values = [accountData.firstName, accountData.lastName, accountData.address, accountData.phoneNumber, request.params.id];
+		const updatedAccount = await db.query("UPDATE accounts SET firstName = ?, lastName = ?, address = ?, phoneNumber = ? WHERE email = ?", values);
+		response.status(200).send("Account updated successfully").json();
+	} catch (error) {
+		console.error(error);
+		response.status(500).send("Internal server error");
+	}
+}
+
+export async function deleteAccountByEmail(request, response) {
+	console.log("DELETE ACCOUNT")
+	try {
+		console.log([request.params.id])
+		await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id])
+		response.status(204).send("Account successfully deleted");
+	} catch (error) {
+		console.error(error);
+		response.status(500).send("Internal server error");
+	}
+}

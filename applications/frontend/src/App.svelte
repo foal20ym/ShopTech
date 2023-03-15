@@ -13,6 +13,7 @@
   import UpdateFAQ from "./lib/UpdateFAQ.svelte";
   //import CreateFAQ from "./lib/CreateFAQ.svelte";
   import CreateFaq from "./lib/CreateFAQ.svelte"
+  import UpdateAccount from "./lib/UpdateAccount.svelte";
   import { user } from "./user-store.js";
 
 </script>
@@ -97,6 +98,7 @@
     <Route path="/faq/:id" component={IndvidualFaq}/>
     <Route path="/faq/update/:id" component={UpdateFAQ}/>
     <Route path="/faq/create" component={CreateFaq}/>
+    <Route path="/updateAccount" component={UpdateAccount}/>
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
