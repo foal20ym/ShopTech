@@ -1,12 +1,13 @@
 CREATE TABLE accounts (
-	accountID INT PRIMARY KEY AUTO_INCREMENT,
-	email VARCHAR(50),
-	password VARCHAR(255),
-	address VARCHAR(50),
-	firstName VARCHAR(50),
-	lastName VARCHAR(50),
-	phoneNumber VARCHAR(50),
-	createdAt VARCHAR(50)
+    accountID INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(50),
+    username VARCHAR(50),
+    password VARCHAR(255),
+    address VARCHAR(50),
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    phoneNumber VARCHAR(50),
+    createdAt VARCHAR(50)
 );
 
 CREATE TABLE adverts (

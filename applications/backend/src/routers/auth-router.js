@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/tokens", authController.signIn);
 router.post("/signup", authController.signUp);
-
+router.get("/account/:id", authController.getUserByEmail);
 //router.patch("/update/:id", authController.updateAdvertById);
 //router.delete("/delete/:id", authController.deleteAdvertById);
 
