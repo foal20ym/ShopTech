@@ -4,7 +4,6 @@
   import Home from "./lib/Home.svelte";
   import SellTech from "./lib/SellTech.svelte";
   import FAQ from "./lib/FAQ.svelte";
-  import Pricing from "./lib/Pricing.svelte";
   import Signup from "./lib/Signup.svelte";
   import CreateAd from "./lib/CreateAd.svelte";
   import Advert from "./lib/Advert.svelte";
@@ -90,7 +89,6 @@
     <Route path="/" component={Home} />
     <Route path="/sellTech" component={SellTech} />
     <Route path="/faq" component={FAQ} />
-    <Route path="/pricing" component={Pricing} />
     <Route path="/signup" component={Signup}/>
     <Route path="/createad" component={CreateAd}/>
     <Route path="/advert/:id" component={Advert}/> 
