@@ -120,7 +120,6 @@
       </div>
       <div class="col-lg-8">
         <h3 class="mb-3 fw-bold">Listings</h3>
-
           {#if adverts} 
           <table class="table">
             <thead>
@@ -130,7 +129,6 @@
                 <th scope="col">Price</th>
               </tr>
             </thead>
-  
             {#each adverts as advert}
             <tbody>
               <tr>

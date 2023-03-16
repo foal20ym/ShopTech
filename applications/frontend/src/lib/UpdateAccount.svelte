@@ -70,6 +70,26 @@
       console.log("error:", error);
     }
   }
+
+  let adverts = []
+
+  async function loadUserAdverts(){
+
+    try{
+            const response = await fetch("http://localhost:8080/test/" + $user.userEmail)
+
+            switch(response.status){
+                case 200:
+                    adverts = await response.json()
+                    console.log(adverts[0])
+                    break;
+            }
+        }catch(error){
+            console.log("error:", error)
+    }
+  }
+
+  loadUserAdverts()
 </script>
 
 {#if $user.isLoggedIn}
@@ -151,32 +171,28 @@
         </div>
         <div class="col-lg-8">
           <h3 class="mb-3 fw-bold">Listings</h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Apple iPhone XR</td>
-                <td>Electronics</td>
-                <td>$499</td>
-              </tr>
-              <tr>
-                <td>Lenovo ThinkPad X1 Carbon</td>
-                <td>Computers</td>
-                <td>$1,299</td>
-              </tr>
-              <tr>
-                <td>Sony Alpha a7 III</td>
-                <td>Cameras</td>
-                <td>$1,999</td>
-              </tr>
-            </tbody>
-          </table>
+            {#if adverts} 
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              {#each adverts as advert}
+              <tbody>
+                <tr>
+                  <td>{advert.title}</td>
+                  <td>{advert.category}</td>
+                  <td>${advert.price}</td>
+                </tr>
+              </tbody>
+              {/each}
+            </table>
+            {:else}
+              <p>You have no active adverts</p>
+            {/if}
         </div>
       </div>
     </div>

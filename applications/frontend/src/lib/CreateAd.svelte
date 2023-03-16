@@ -42,6 +42,35 @@
 
     loadUserData()
 
+    async function handleFileUpload(event){
+        event.preventDefault();
+
+        const fileInput = event.target.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+
+        const data = new FormData();
+        data.append('category', category);
+        data.append('title', title);
+        data.append('price', price);
+        data.append('description', description);
+        data.append('img_src', file);
+        data.append('createdAt', createdAt);
+        data.append('userData', userData);
+
+        try{
+            const response = await fetch("http://localhost:8080/createad", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer "+$user.accessToken
+                },
+                body: data
+            })
+        } catch(error){
+
+        }
+    }
+
     async function createAdvert(){
 
         const advert = {
