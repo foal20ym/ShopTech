@@ -1,6 +1,5 @@
 <script lang="ts">
-    //import { Router, Link, Route } from "svelte-routing";
-    import { products } from "../data";
+    import { Router, Link, Route } from "svelte-routing";
     import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button } from 'sveltestrap';
     import { Form, FormGroup, FormText, Input, Label } from 'sveltestrap';
 
@@ -27,7 +26,6 @@
     loadAdvert()
 
 
-    const product = products.find(product => product.id == id)
     export let comments = [];
 
     let username = '';
@@ -58,11 +56,6 @@
     <h1>{advert.title}</h1>
     <Row>
         <Col sm="12" md="6">
-            <!--
-            {#each product.images as image}
-            <img src="{image}" />
-            {/each}
-            -->
             <div class="advert-page-img-frame">
                 <img
                 class="advert-page-img"
@@ -79,10 +72,8 @@
             <Card class="product-details">
                 <CardBody>
                     <CardTitle>{advert.title}</CardTitle>
-                    <CardText>{advert.description}kfvjkefjnkkfvjkefjnkkfvjkefjnkkfvjkefjnkkfvjkefjnkkfvjkefjnkfjnkkfvjkefjnkkfvjkefjnkkfvjkefjnk</CardText>
+                    <CardText>{advert.description}</CardText>
                     <p><b>Price:</b> {advert.price} SEK</p>
-                    <!--p><b>Available Colors:</b> {product.colors.join(', ')}</p>
-                    <p><b>Sizes:</b> {product.sizes.join(', ')}</p-->
                     <Button on:click={addToCart}>Contact seller</Button>
                 </CardBody>
             </Card>
@@ -110,19 +101,9 @@
                 <FormGroup>
                     <Label for="exampleText">Text Area</Label>
                     <Input type="textarea" name="text" id="exampleText" bind:value={text}/>
-    
-                    <!--Label for="text">Comment:</Label>
-                    <textarea id="text" bind:value={text}></textarea-->
                 </FormGroup>
                 <Button type="submit">Submit</Button>
                 </form>    
         </Col>
     </Row>
-
-    
 </Container>
-
-
-
-
-

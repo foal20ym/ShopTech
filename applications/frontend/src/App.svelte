@@ -4,7 +4,6 @@
   import Home from "./lib/Home.svelte";
   import SellTech from "./lib/SellTech.svelte";
   import FAQ from "./lib/FAQ.svelte";
-  import Pricing from "./lib/Pricing.svelte";
   import Signup from "./lib/Signup.svelte";
   import CreateAd from "./lib/CreateAd.svelte";
   import Advert from "./lib/Advert.svelte";
@@ -12,8 +11,9 @@
   import IndvidualFaq from "./lib/IndvidualFAQ.svelte";
   import UpdateFAQ from "./lib/UpdateFAQ.svelte";
   //import CreateFAQ from "./lib/CreateFAQ.svelte";
-  import CreateFaq from "./lib/CreateFAQ.svelte"
+  import CreateFaq from "./lib/CreateFAQ.svelte";
   import UpdateAccount from "./lib/UpdateAccount.svelte";
+  import UpdateAdvert from "./lib/UpdateAdvert.svelte";
   import { user } from "./user-store.js";
 
 </script>
@@ -90,7 +90,6 @@
     <Route path="/" component={Home} />
     <Route path="/sellTech" component={SellTech} />
     <Route path="/faq" component={FAQ} />
-    <Route path="/pricing" component={Pricing} />
     <Route path="/signup" component={Signup}/>
     <Route path="/createad" component={CreateAd}/>
     <Route path="/advert/:id" component={Advert}/> 
@@ -99,6 +98,8 @@
     <Route path="/faq/update/:id" component={UpdateFAQ}/>
     <Route path="/faq/create" component={CreateFaq}/>
     <Route path="/updateAccount" component={UpdateAccount}/>
+    <Route path="/advert/update/:id" component={UpdateAdvert}/>
+    
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
