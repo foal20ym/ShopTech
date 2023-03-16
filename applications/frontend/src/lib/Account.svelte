@@ -1,12 +1,14 @@
 <script>
   import { Link, navigate, Route, Router } from "svelte-routing";
-  import { Button } from "sveltestrap";
+  import { Button, Alert } from "sveltestrap";
   import { user } from "../user-store.js";
   import UpdateAccount from "./UpdateAccount.svelte";
+  import UpdateAdvert from "./UpdateAdvert.svelte";
 
   let isFetchingUserData = true
   let failedToFetchUserData = false
   let userData = null
+  let showDeleteConfirmation = false;
 
   async function loadUserData(){
     try{
@@ -34,7 +36,7 @@
   async function loadUserAdverts(){
 
     try{
-            const response = await fetch("http://localhost:8080/test/" + $user.userEmail)
+            const response = await fetch("http://localhost:8080/getUserAdverts/" + $user.userEmail)
 
             switch(response.status){
                 case 200:
@@ -114,8 +116,21 @@
               </div>
             </li>
           </ul>
-          <Button id="sellTechButton"> <Link to="/updateAccount" class="nav-link active" aria-current="page">Update account info</Link> </Button>
-          <Button class="btn btn-outline-danger mt-3 mb-3" on:click={() => (deleteAccount())}> Delete Account </Button>
+          <button
+              type="submit"
+              class="btn btn-outline-dark mr-2 mt-3 mb-3"><Link to="/updateAccount" class="nav-link active" aria-current="page">Update account info</Link></button>
+          <button on:click|preventDefault on:click={() => (showDeleteConfirmation = !showDeleteConfirmation)}
+            class="btn btn-outline-danger mt-3 mb-3">
+            Delete account
+          </button>
+          <Alert
+            color="primary"
+            isOpen={showDeleteConfirmation}
+            toggle={() => (showDeleteConfirmation = false)}
+            fade={false}>
+            <button
+            class="btn btn-outline-danger mt-3 mb-3" on:click={() => (deleteAccount())}>Confirm deletion, this is irreversible</button>
+          </Alert>
         </form>
       </div>
       <div class="col-lg-8">
@@ -129,15 +144,19 @@
                 <th scope="col">Price</th>
               </tr>
             </thead>
-            {#each adverts as advert}
             <tbody>
+              {#each adverts as advert}
               <tr>
-                <td>{advert.title}</td>
+                <td>
+                  <Link to="/advert/update/{advert.advertID}">
+                    {advert.title}
+                  </Link>
+                </td>
                 <td>{advert.category}</td>
                 <td>${advert.price}</td>
               </tr>
+              {/each}
             </tbody>
-            {/each}
           </table>
           {:else}
             <p>You have no active adverts</p>
@@ -154,3 +173,5 @@
 {/if}
 
 <Route path="updateAccount" component={UpdateAccount}/> 
+<Route path="/advert/update/:id" component={UpdateAdvert}/> 
+

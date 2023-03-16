@@ -163,16 +163,17 @@ export async function createAdvert(request, response) {
 	}
 }
 
-
 export async function updateAdvertById(request, response) {
+	const advertData = request.body
+
 	if (!request.body) {
 		response.status(400).send("Missing request body");
 		return;
 	}
 	try {
-		const values = [request.body.updatedQuestion, request.body.updatedAnswer, request.params.id];
-		const updatedFAQ = await db.query("UPDATE faqs SET question = ?, answer = ? WHERE id = ?", values);
-		response.status(200).send("FAQ updated successfully").json(updatedFAQ);
+		const values = [advertData.title, advertData.description, advertData.price, request.params.id];
+		const updatedAccount = await db.query("UPDATE adverts SET title = ?, description = ?, price = ? WHERE advertID = ?", values);
+		response.status(200).send("Advert updated successfully").json();
 	} catch (error) {
 		console.error(error);
 		response.status(500).send("Internal server error");
@@ -180,9 +181,11 @@ export async function updateAdvertById(request, response) {
 }
 
 export async function deleteAdvertById(request, response) {
+	console.log("DELETE ADVERT")
 	try {
-		await db.query("DELETE FROM faqs WHERE id = ?", [request.params.id])
-		response.status(204).send("FAQ successfully deleted");
+		console.log([request.params.id])
+		await db.query("DELETE FROM adverts WHERE advertID = ?", [request.params.id])
+		response.status(204).send("Advert successfully deleted");
 	} catch (error) {
 		console.error(error);
 		response.status(500).send("Internal server error");
