@@ -5,3 +5,9 @@ export const user = writable({
     accessToken: "",
     userEmail: ""
 })
+
+export const admin = writable({
+    isLoggedIn: false,
+    accessToken: "",
+    adminEmail: ""
+})

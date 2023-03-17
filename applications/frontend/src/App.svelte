@@ -14,6 +14,10 @@
   import CreateFaq from "./lib/CreateFAQ.svelte";
   import UpdateAccount from "./lib/UpdateAccount.svelte";
   import UpdateAdvert from "./lib/UpdateAdvert.svelte";
+  import Reviews from "./lib/Reviews.svelte";
+  import Review from "./lib/Review.svelte";
+  import CreateReview from "./lib/CreateReview.svelte";
+  import UpdateReview from "./lib/UpdateReview.svelte";
   import { user } from "./user-store.js";
 
 </script>
@@ -52,6 +56,11 @@
               <li class="nav-item">
                 <Link to="/faq" class="nav-link active" aria-current="page"
                   >FAQ</Link
+                >
+              </li>
+              <li class="nav-item">
+                <Link to="/reviews" class="nav-link active" aria-current="page"
+                  >Reviews</Link
                 >
               </li>
               {#if $user.isLoggedIn}
@@ -99,7 +108,10 @@
     <Route path="/faq/create" component={CreateFaq}/>
     <Route path="/updateAccount" component={UpdateAccount}/>
     <Route path="/advert/update/:id" component={UpdateAdvert}/>
-    
+    <Route path="/reviews" component={Reviews}/>
+    <Route path="/review/:id" component={Review}/>
+    <Route path="/reviews/create" component={CreateReview}/>
+    <Route path="/review/update/:id" component={UpdateReview}/>
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
