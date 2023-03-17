@@ -3,6 +3,7 @@
     import Home from "../lib/Home.svelte"; // ersätt senare med lämplig länk
     import { Container,Image,Col,Row, Button } from 'sveltestrap';
     import { Form, FormGroup, FormText, Input, Label } from 'sveltestrap';
+    import { user } from "../user-store.js";
 
     let selectedCategory = '';
     function handleSelect(event) {
@@ -14,8 +15,61 @@
     let price = ""
     let description = ""
     let img_src = ""
+    let createdAt = ""
     let errorCodes = []
     let advertWasCreated = false
+    let isFetchingUserData = true
+    let failedToFetchUserData = false
+    let userData = null
+
+    async function loadUserData(){
+        try{
+                const response = await fetch("http://localhost:8080/account/" + $user.userEmail)
+                console.log("user email from account: ", $user.userEmail)
+
+                switch(response.status){
+                    case 200:
+                        userData = await response.json()
+                        isFetchingUserData = false
+                        break;
+                }
+            }catch(error){
+                console.log("error:", error)
+                isFetchingUserData = false
+                failedToFetchUserData = true
+            }
+    }
+
+    loadUserData()
+
+    async function handleFileUpload(event){
+        event.preventDefault();
+
+        const fileInput = event.target.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+
+        const data = new FormData();
+        data.append('category', category);
+        data.append('title', title);
+        data.append('price', price);
+        data.append('description', description);
+        data.append('img_src', file);
+        data.append('createdAt', createdAt);
+        data.append('userData', userData);
+
+        try{
+            const response = await fetch("http://localhost:8080/createad", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer "+$user.accessToken
+                },
+                body: data
+            })
+        } catch(error){
+
+        }
+    }
 
     async function createAdvert(){
 
@@ -24,7 +78,9 @@
             title, 
             price, 
             description,
-            img_src
+            img_src,
+            createdAt,
+            userData
         }
 
         try {
@@ -32,7 +88,8 @@
             const response = await fetch("http://localhost:8080/createad", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer "+$user.accessToken
                 },
                 body: JSON.stringify(advert)
             })
@@ -65,7 +122,7 @@
             <Row cols={2}>
                 <Row>
                     <Col id="CreateAdSpecifications" sm={{offset:1}}>
-                        <form on:submit|preventDefault={createAdvert}>
+                        <form on:submit|preventDefault={createAdvert} enctype="multipart/form-data">
                             <FormGroup class="CreateAdForm">
                                 <Label for="exampleSelect">Select Category:</Label>
                                 <Input type="select" name="select" id="exampleSelect" on:change={handleSelect} bind:value={category}>
@@ -109,38 +166,9 @@
                                     placeholder="ex: $899"
                                 />
                             </FormGroup>
-
-                            <!--FormGroup class="CreateAdForm">
-                                <Label for="exampleSelect">Select memory size:</Label>
-                                <Input type="select" name="select" id="exampleSelect">
-                                    <option>8TB</option>
-                                    <option>4TB</option>
-                                    <option>2GB</option>
-                                    <option>1TB</option>
-                                    <option>512GB</option>
-                                    <option>256GB</option>
-                                    <option>128GB</option>
-                                    <option>64GB</option>
-                                    <option>32GB</option>
-                                    <option>16GB</option>
-                                </Input>
-                            </FormGroup-->
-
-                            {#if selectedCategory == 'MacBook' || selectedCategory == 'iMac'}
-                                <FormGroup class="CreateAdForm" id="showRAMform">
-                                    <Label for="exampleSelect">Select RAM:</Label>
-                                    <Input type="select" name="select" id="exampleSelect">
-                                        <option>128GB</option>
-                                        <option>64GB</option>
-                                        <option>32GB</option>
-                                        <option>16GB</option>
-                                    </Input>
-                                </FormGroup>
-                            {/if}
-
                             <FormGroup>
                                 <Label for="exampleFile">Upload picture</Label>
-                                <Input type="file" name="file" bind:value={img_src}/>
+                                <Input type="file" name="image" bind:value={img_src}/>
                                 <FormText color="muted">
                                     Please choose at least one clear picture of your device. 
                                     If no clear picture is submitted we reserve the right to

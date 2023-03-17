@@ -88,6 +88,25 @@ button:focus-visible {
   }
 }
 
+.advert-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;  
+}
+
+.advert-link:hover {
+  text-decoration: underline;
+}
+
+.input-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
 /* Fixed sidenav, full height */
 .sidenav {
   height: 100%;

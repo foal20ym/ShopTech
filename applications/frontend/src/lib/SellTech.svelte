@@ -1,8 +1,9 @@
 
 <script lang="ts">
     import { Router, Link, Route } from "svelte-routing";
-    import Home from "../lib/Home.svelte"; // ersätt med login/register sidan senare
     import SignUp from "../lib/Signup.svelte"
+    import CreateAd from "./CreateAd.svelte";
+    import { user } from "../user-store.js";
     
     import { 
         Container,
@@ -23,8 +24,11 @@
             <p> We guarantee that we can offer the highest price. </p>
             <p>If you were to find a better price, we’ll match it. </p>
             <Col sm={{offset:2}}>
-                <Button id="sellTechButton"> <Link to="/signup" class="nav-link active" aria-current="page">Sell your tech!</Link> </Button>
-                <!-- ersätt med login/register sidan senare -->
+                {#if $user.isLoggedIn}
+                <Button id="sellTechButton"> <Link to="/createad" class="nav-link active" aria-current="page">Sell your tech!</Link> </Button>
+                {:else}
+                <Button id="sellTechButton"> <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link> </Button>
+                {/if}
             </Col>
         </Col>
         </Row>
@@ -33,4 +37,5 @@
 </Container>
 </div>
 
-<Route path="/signup" component={SignUp}/> <!-- ersätt med login/register sidan senare -->
+<Route path="sellTech/createad" component={CreateAd}/> 
+<Route path="sellTech/signup" component={SignUp}/>

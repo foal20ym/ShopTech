@@ -1,12 +1,13 @@
 CREATE TABLE accounts (
-	accountID INT PRIMARY KEY AUTO_INCREMENT,
-	email VARCHAR(50),
-	password VARCHAR(255),
-	address VARCHAR(50),
-	firstName VARCHAR(50),
-	lastName VARCHAR(50),
-	phoneNumber VARCHAR(50),
-	createdAt VARCHAR(50)
+    accountID INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(50),
+    username VARCHAR(50),
+    password VARCHAR(255),
+    address VARCHAR(50),
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    phoneNumber VARCHAR(50),
+    createdAt VARCHAR(50)
 );
 
 CREATE TABLE adverts (
@@ -21,21 +22,23 @@ CREATE TABLE adverts (
 	FOREIGN KEY (accountID) REFERENCES accounts(accountID)
 );
 
-CREATE TABLE comments (
-	commentID INT PRIMARY KEY AUTO_INCREMENT,
-	content VARCHAR(50),
-	createdAt VARCHAR(50),
-	accountID INT,
-	advertID INT,
-	FOREIGN KEY (accountID) REFERENCES accounts(accountID),
-	FOREIGN KEY (advertID) REFERENCES adverts(advertID)
-);
 
 CREATE TABLE faqs (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	question VARCHAR(200),
 	answer VARCHAR(200)
 );
+
+CREATE TABLE reviews (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(50),
+	description VARCHAR(300),
+	stars VARCHAR(1)
+);
+
+
+INSERT INTO reviews (username, description, stars) VALUES ('AntonThoresson', 'This is a intial review description', '5');
+
 
 INSERT INTO faqs (question, answer) VALUES ('I can not find my ad, where is it?', 'Your ad is under review. To prevent incorrect ads from ending up on the page, all ads go through a review check, which means that it may take a little longer before your ad is pushblished.');
 INSERT INTO faqs (question, answer) VALUES ('How do I remove my ad?', 'You can remove your published ad by signing in to your account and view your listings.');
