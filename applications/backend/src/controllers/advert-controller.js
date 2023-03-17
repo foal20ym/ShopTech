@@ -1,5 +1,5 @@
 import db from "../database-operations/db.js"
-import path from 'path'
+import * as path from 'path'
 import multer from 'multer'
 
 
