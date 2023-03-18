@@ -7,11 +7,10 @@
   let failedToFetchUserData;
   let userData = null;
 
-
-  let address = ""
-  let firstName = ""
-  let lastName = ""
-  let phoneNumber = ""
+  let address = "";
+  let firstName = "";
+  let lastName = "";
+  let phoneNumber = "";
 
   async function loadUserData() {
     try {
@@ -44,7 +43,7 @@
       address,
       firstName,
       lastName,
-      phoneNumber
+      phoneNumber,
     };
 
     try {
@@ -71,25 +70,26 @@
     }
   }
 
-  let adverts = []
+  let adverts = [];
 
-  async function loadUserAdverts(){
+  async function loadUserAdverts() {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/test/" + $user.userEmail
+      );
 
-    try{
-            const response = await fetch("http://localhost:8080/test/" + $user.userEmail)
-
-            switch(response.status){
-                case 200:
-                    adverts = await response.json()
-                    console.log(adverts[0])
-                    break;
-            }
-        }catch(error){
-            console.log("error:", error)
+      switch (response.status) {
+        case 200:
+          adverts = await response.json();
+          console.log(adverts[0]);
+          break;
+      }
+    } catch (error) {
+      console.log("error:", error);
     }
   }
 
-  loadUserAdverts()
+  loadUserAdverts();
 </script>
 
 {#if $user.isLoggedIn}
@@ -139,7 +139,8 @@
               </li>
               <li class="list-group-item">
                 <div class="form-group">
-                  <label for="locationInput" class="fw-bold">Phone number</label>
+                  <label for="locationInput" class="fw-bold">Phone number</label
+                  >
                   <input
                     type="text"
                     class="form-control-plaintext"
@@ -163,15 +164,14 @@
                 </div>
               </li>
             </ul>
-            <button
-              type="submit"
-              class="btn btn-outline-dark mr-2 mt-3 mb-3">Save and update</button
+            <button type="submit" class="btn btn-outline-dark mr-2 mt-3 mb-3"
+              >Save and update</button
             >
           </form>
         </div>
         <div class="col-lg-8">
           <h3 class="mb-3 fw-bold">Listings</h3>
-            {#if adverts} 
+          {#if adverts}
             <table class="table">
               <thead>
                 <tr>
@@ -181,18 +181,18 @@
                 </tr>
               </thead>
               {#each adverts as advert}
-              <tbody>
-                <tr>
-                  <td>{advert.title}</td>
-                  <td>{advert.category}</td>
-                  <td>${advert.price}</td>
-                </tr>
-              </tbody>
+                <tbody>
+                  <tr>
+                    <td>{advert.title}</td>
+                    <td>{advert.category}</td>
+                    <td>${advert.price}</td>
+                  </tr>
+                </tbody>
               {/each}
             </table>
-            {:else}
-              <p>You have no active adverts</p>
-            {/if}
+          {:else}
+            <p>You have no active adverts</p>
+          {/if}
         </div>
       </div>
     </div>

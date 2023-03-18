@@ -1,24 +1,24 @@
 <script>
-  import {Router, Link} from "svelte-routing"
-  import {onMount} from "svelte"
+  import { Router, Link } from "svelte-routing";
+  import { onMount } from "svelte";
   let question = "";
   let answer = "";
-  let errorMessages = []
+  let errorMessages = [];
 
   async function submitForm() {
     const response = await fetch("http://localhost:8080/faq/create", {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/json"
-     },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ question, answer }),
     });
     if (response.status == 400 || response.status == 500) {
       errorMessages = await response.json();
     } else if (response.ok) {
       console.log("FAQ created successfully");
-      const locationHeader = response.headers.get('Location');
-      console.log(locationHeader)
+      const locationHeader = response.headers.get("Location");
+      console.log(locationHeader);
       //const id = data.id
       //console.log(id);
       question = "";
@@ -26,7 +26,7 @@
       if (locationHeader) {
         window.location.href = locationHeader;
       }
-    } 
+    }
   }
 </script>
 
@@ -37,7 +37,7 @@
       {#if errorMessages.length}
         <ul>
           {#each errorMessages as error}
-          <li>{error}</li>
+            <li>{error}</li>
           {/each}
         </ul>
       {/if}
