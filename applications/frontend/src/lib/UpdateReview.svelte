@@ -5,11 +5,11 @@
   let updatedDescription = "";
   let updatedStars = "";
   let failedToFetchReview = false;
-  let failedToUpdateReview = false;
+  let errorMessages = [];
 
   async function submitForm() {
-		console.log(updatedStars)
-    const resposne = await fetch("http://localhost:8080/reviews/update/" + id, {
+    console.log(updatedStars);
+    const response = await fetch("http://localhost:8080/reviews/update/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -20,13 +20,13 @@
         updatedStars,
       }),
     });
-    if (resposne.ok) {
+    if (response.status == 400 || response.status == 500) {
+      errorMessages = await response.json();
+    } else if (response.ok) {
       updatedUsername = "";
       updatedDescription = "";
       updatedStars = "";
       window.location.href = "/review/" + id;
-    } else {
-      failedToUpdateReview = true;
     }
   }
 
@@ -52,7 +52,14 @@
   <div class="row">
     <div class="col me-5 form-box">
       <h2 class="mt-5">Update Review</h2>
-      {#if failedToFetchReview || failedToUpdateReview}
+      {#if errorMessages.length}
+        <ul>
+          {#each errorMessages as error}
+            <li>{error}</li>
+          {/each}
+        </ul>
+      {/if}
+      {#if failedToFetchReview}
         <p>Internal server error</p>
       {:else}
         <form
