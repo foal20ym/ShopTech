@@ -135,6 +135,8 @@ button:focus-visible {
   outline: none;
 }
 
+a:link { text-decoration: none; }
+
 /* On mouse-over */
 .sidenav a:hover, .dropdown-btn:hover {
   color: #f1f1f1;

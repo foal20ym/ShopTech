@@ -19,9 +19,9 @@
     Accordion,
     AccordionItem,
   } from "sveltestrap";
-  import { admin } from "../user-store.js"
+  import { admin } from "../user-store.js";
 
-  const fetchFAQPromise = fetch("http://localhost:8080/faq")
+  const fetchFAQPromise = fetch("http://localhost:8080/faq");
 </script>
 
 <div class="container text-center">
@@ -37,38 +37,42 @@
       <h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
       <div class="text-start">
         {#if $admin.isLoggedIn}
-          <Link to="/faq/create"><button type="button" class="btn btn-outline-dark mr-2 mt-3 mb-3 text-start">Create</button></Link>
+          <Link to="/faq/create"
+            ><button
+              type="button"
+              class="btn btn-outline-dark mr-2 mt-3 mb-3 text-start"
+              >Create</button
+            ></Link
+          >
         {/if}
       </div>
-      
+
       {#await fetchFAQPromise}
         <p>Wait, im loading...</p>
       {:then response}
-      
-      {#await response.json() then faqs}
-        
-      
-      <hr />
+        {#await response.json() then faqs}
+          <hr />
 
-      {#each faqs as faq}
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-          <div class="accordion-item">
-            <Accordion>
-              <AccordionItem>
-                <h4 class="m-0" slot="header">{faq.question}</h4>
-                <Link
-                  to="/faq/{faq.id}"
-                  class="text-dark"
-                  style="text-decoration: none;"
-                >
-                  <DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
-                </Link>
-              </AccordionItem>
-            </Accordion>
-            <hr />
-          </div>
-        </div>
-        <!--<div class="accordion accordion-flush" id="accordionFlushExample">
+          {#each faqs as faq}
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <div class="accordion-item">
+                <Accordion>
+                  <AccordionItem>
+                    <h4 class="m-0" slot="header">{faq.question}</h4>
+                    <Link
+                      to="/faq/{faq.id}"
+                      class="text-dark"
+                      style="text-decoration: none;"
+                    >
+                      <DropdownItem class="text-wrap">{faq.answer}</DropdownItem
+                      >
+                    </Link>
+                  </AccordionItem>
+                </Accordion>
+                <hr />
+              </div>
+            </div>
+            <!--<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingOne">
 						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -80,8 +84,8 @@
 					</div>
 				</div>
 			</div>-->
-      {/each}
-      {/await}
+          {/each}
+        {/await}
       {:catch error}
         <p>{error.message}</p>
         <p>{JSON.stringify(error)}</p>

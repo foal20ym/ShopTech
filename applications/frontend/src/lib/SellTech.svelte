@@ -1,41 +1,47 @@
-
 <script lang="ts">
-    import { Router, Link, Route } from "svelte-routing";
-    import SignUp from "../lib/Signup.svelte"
-    import CreateAd from "./CreateAd.svelte";
-    import { user } from "../user-store.js";
-    
-    import { 
-        Container,
-        Image,
-        Col,
-        Row, 
-        Button,
-    } 
-    from 'sveltestrap';
+  import { Router, Link, Route } from "svelte-routing";
+  import SignUp from "../lib/Signup.svelte";
+  import CreateAd from "./CreateAd.svelte";
+  import { user } from "../user-store.js";
+
+  import { Container, Image, Col, Row, Button } from "sveltestrap";
 </script>
 
 <div id="sellTechContent">
-<Container>
+  <Container>
     <Row cols={2}>
-        <Row>
-        <Col id="sellTechText" sm={{offset:1}}>
-            <p>Sell your old tech to us and get a fair price. </p> 
-            <p> We guarantee that we can offer the highest price. </p>
-            <p>If you were to find a better price, we’ll match it. </p>
-            <Col sm={{offset:2}}>
-                {#if $user.isLoggedIn}
-                <Button id="sellTechButton"> <Link to="/createad" class="nav-link active" aria-current="page">Sell your tech!</Link> </Button>
-                {:else}
-                <Button id="sellTechButton"> <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link> </Button>
-                {/if}
-            </Col>
+      <Row>
+        <Col id="sellTechText" sm={{ offset: 1 }}>
+          <p>Sell your old tech to us and get a fair price.</p>
+          <p>We guarantee that we can offer the highest price.</p>
+          <p>If you were to find a better price, we’ll match it.</p>
+          <Col sm={{ offset: 2 }}>
+            {#if $user.isLoggedIn}
+              <Button id="sellTechButton">
+                <Link to="/createad" class="nav-link active" aria-current="page"
+                  >Sell your tech!</Link
+                >
+              </Button>
+            {:else}
+              <Button id="sellTechButton">
+                <Link to="/signup" class="nav-link active" aria-current="page"
+                  >Sign in</Link
+                >
+              </Button>
+            {/if}
+          </Col>
         </Col>
-        </Row>
-        <Col> <img src="./appleProductsStockPhoto.png" alt="./appleProductsStockPhoto.png" id="sellTechImg"> </Col>
+      </Row>
+      <Col>
+        <img
+          src="./appleProductsStockPhoto.png"
+          alt="./appleProductsStockPhoto.png"
+          id="sellTechImg"
+        />
+      </Col>
     </Row>
-</Container>
+  </Container>
 </div>
 
-<Route path="sellTech/createad" component={CreateAd}/> 
-<Route path="sellTech/signup" component={SignUp}/>
+<Route path="sellTech/createad" component={CreateAd} />
+<Route path="sellTech/signup" component={SignUp} />

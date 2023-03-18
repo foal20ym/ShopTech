@@ -7,7 +7,7 @@
   let review = null;
 
   async function deleteReview() {
-    const response = await fetch("http://localhost:8080/reviews/delete/"+id, {
+    const response = await fetch("http://localhost:8080/reviews/delete/" + id, {
       method: "DELETE",
     });
     if (response.ok) {

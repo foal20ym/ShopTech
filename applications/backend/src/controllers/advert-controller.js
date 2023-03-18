@@ -10,32 +10,6 @@ const MAX_DESCRIPTION_LENGTH = 128
 const MIN_PRICE = 1
 const MAX_PRICE = Number.MAX_SAFE_INTEGER
 
-const storage = multer.diskStorage({
-	destination: (request, file, cb) => {
-		cb(null, "../public");
-	},
-
-	filename: (request, file, cb) => {
-		const fileName = Date.now() + path.extname(file.originalname);
-
-		request.filePath = fileName;
-		cb(null, fileName);
-	},
-});
-
-export const upload = multer({
-	storage: storage,
-
-	fileFilter: (req, file, cb) => {
-		if (allowedFileTypes.includes(file.mimetype)) {
-			cb(null, true);
-		} else {
-			req.isUploadError = true;
-
-			cb(null, false);
-		}
-	},
-});
 
 export async function getUserAdverts(request, response) {
 
