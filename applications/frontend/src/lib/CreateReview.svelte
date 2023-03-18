@@ -2,6 +2,7 @@
 	let username = "";
 	let description = "";
 	let stars = "";
+	let errorMessages = [];
 
 	async function submitForm() {
 		const response = await fetch("http://localhost:8080/reviews/create", {
@@ -11,7 +12,9 @@
 			},
 			body: JSON.stringify({ username, description, stars}),
 		});
-		if (response.ok) {
+		if (response.status == 400 || response.status == 500) {
+			errorMessages = await response.json();
+		} else if (response.ok) {
 			const locationHeader = response.headers.get('Location');
 			username = "";
 			description = "";
@@ -19,8 +22,6 @@
 			if (locationHeader) {
 				window.location.href = locationHeader;
 			}
-		} else {
-			console.error("An error occured while creating the review entry");
 		}
 	}
 </script>
@@ -29,6 +30,13 @@
   <div class="row">
     <div class="col me-5 form-box">
       <h2 class="mt-5">Create Review</h2>
+			{#if errorMessages.length}
+        <ul>
+          {#each errorMessages as error}
+          <li>{error}</li>
+          {/each}
+        </ul>
+      {/if}
       <form
         class="input-group"
         id="register-form"
