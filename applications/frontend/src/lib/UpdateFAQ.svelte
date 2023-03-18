@@ -3,8 +3,8 @@
   let faq = null;
   let updatedQuestion = "";
   let updatedAnswer = "";
-  let failedToUpdateFAQ = false;
   let failedToFetchFAQ = false;
+  let errorMessages = [];
 
   async function loadFAQ() {
 		try {
@@ -32,13 +32,13 @@
       },
       body: JSON.stringify({ updatedQuestion, updatedAnswer })
     });
-    if (response.ok) {
+    if (response.status == 400 || response.status == 500) {
+      errorMessages = await response.json();
+    } else if (response.ok) {
       updatedQuestion = "";
       updatedAnswer = "";
       window.location.href = "/faq/"+id;
-    } else {
-      failedToUpdateFAQ = true;
-    }
+    } 
   }
 
   
@@ -46,12 +46,19 @@
 </script>
 
 <div class="ms-5">
-  {#if failedToUpdateFAQ || failedToFetchFAQ}
+  {#if failedToFetchFAQ}
   <p>Internal server error</p>
   {:else}
     <div class="row">
       <div class="col me-5 form-box">
         <h2 class="mt-5">Update FAQ</h2>
+        {#if errorMessages.length}
+          {#each errorMessages as error}
+            <ul>
+              <li>{error}</li>
+            </ul>
+          {/each}
+        {/if}
           <form class="input-group" id="register-form" on:submit|preventDefault={submitForm}>
             <div class="mb-3 mt-2">
               <label for="update-faq-input">Question</label>
