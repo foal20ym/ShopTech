@@ -9,6 +9,7 @@
   let failedToFetchUserData = false;
   let userData = null;
   let showDeleteConfirmation = false;
+  let adverts = [];
 
   async function loadUserData() {
     try {
@@ -31,8 +32,6 @@
   }
 
   loadUserData();
-
-  let adverts = [];
 
   async function loadUserAdverts() {
     try {
