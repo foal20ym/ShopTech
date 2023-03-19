@@ -31,6 +31,17 @@
   }
 
   let category = "Date added - oldest";
+
+  function shouldShowStockPhoto(imagePath) {
+    if (
+      imagePath === "/MacBook_Pro_13-inch_M1_2020.png" ||
+      imagePath === "/macbook2016.png"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 </script>
 
 <div class="sidenav text-dark">
@@ -137,12 +148,21 @@
                         class="col-md-6 m-0 p-0 text-center align-self-center"
                       >
                         <div class="card-img-wrapper">
-                          <img
-                            class="card-img-top"
-                            alt="MacBook Pro 16&quot; M1 2021"
-                            title="MacBook Pro 16&quot; M1 2021"
-                            src={advert.img_src}
-                          />
+                          {#if shouldShowStockPhoto(advert.img_src)}
+                            <img
+                              class="card-img-top"
+                              alt="MacBook Pro 16&quot; M1 2021"
+                              title="MacBook Pro 16&quot; M1 2021"
+                              src={advert.img_src}
+                            />
+                          {:else}
+                            <img
+                              class="card-img-top"
+                              alt="MacBook Pro 16&quot; M1 2021"
+                              title="MacBook Pro 16&quot; M1 2021"
+                              src={"data:image/png;base64," + advert.img_src}
+                            />
+                          {/if}
                         </div>
                       </div>
                     </div>
@@ -155,28 +175,6 @@
             <p>{JSON.stringify(error)}</p>
             <p>Something went wrong, try again later.</p>
           {/await}
-        </div>
-      </div>
-      <div>
-        <div class="col-md-12 mt-4 description d-block d-md-none d-lg-none">
-          <div class="notify-block notify-category static mb-0 text-center">
-            <div class="mb-3">
-              <img
-                width="33px"
-                height="48px"
-                alt="notify"
-                src="https://mresell.se/wp-content/themes/mresell_v4/img/v4/icon-notify-bell.svg"
-              />
-            </div>
-            <div class="mb-2">
-              Om du inte kan hitta modellen du söker efter är du välkommen att
-              använda vårt notifikationsverktyg! Så snart vi har motsvarande
-              modell enligt dina kriterier på lager så kommer vi att höra av oss
-            </div>
-            <div>
-              <a href="https://mresell.se/notify/">Notifiera mig</a>
-            </div>
-          </div>
         </div>
       </div>
     </div>

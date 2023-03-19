@@ -53,17 +53,6 @@
   }
   loadAdvert();
 
-  export let comments = [];
-
-  let username = "";
-  let text = "";
-
-  function submitComment() {
-    comments = [...comments, { username, text }];
-    username = "";
-    text = "";
-  }
-
   async function updateAdvert() {
     const advert = {
       category,
@@ -119,6 +108,17 @@
       console.log("error:", error);
     }
   }
+
+  function shouldShowStockPhoto(imagePath) {
+    if (
+      imagePath === "/MacBook_Pro_13-inch_M1_2020.png" ||
+      imagePath === "/macbook2016.png"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 </script>
 
 <Container class="product-page">
@@ -132,14 +132,21 @@
       <Row>
         <Col sm="12" md="6">
           <div class="advert-page-img-frame">
-            <img
-              class="advert-page-img"
-              alt={advert.title}
-              title="MacBook Pro 16&quot; M1 2021"
-              src={advert.img_src}
-              width="180"
-              height="180"
-            />
+            {#if shouldShowStockPhoto(advert.img_src)}
+              <img
+                class="card-img-top"
+                alt="MacBook Pro 16&quot; M1 2021"
+                title="MacBook Pro 16&quot; M1 2021"
+                src={advert.img_src}
+              />
+            {:else}
+              <img
+                class="card-img-top"
+                alt="MacBook Pro 16&quot; M1 2021"
+                title="MacBook Pro 16&quot; M1 2021"
+                src={"data:image/png;base64," + advert.img_src}
+              />
+            {/if}
           </div>
         </Col>
         <Col sm="12" md="6">

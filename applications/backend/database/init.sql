@@ -16,7 +16,7 @@ CREATE TABLE adverts (
 	title VARCHAR(50),
 	price INT,
 	description VARCHAR(50),
-	img_src VARCHAR(50),
+	img_src LONGTEXT,
 	createdAt VARCHAR(50),
 	accountID INT,
 	FOREIGN KEY (accountID) REFERENCES accounts(accountID)
