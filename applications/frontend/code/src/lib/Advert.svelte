@@ -1,21 +1,16 @@
 <script lang="ts">
   import { Router, Link, Route } from "svelte-routing";
   import {
-    Container,
-    Row,
-    Col,
-    Card,
-    CardBody,
-    CardTitle,
-    CardText,
-    Button,
+    Container, Row, Col, Card, CardBody, CardTitle, CardText,
+    Button, Form, FormGroup, FormText, Input, Label
   } from "sveltestrap";
-  import { Form, FormGroup, FormText, Input, Label } from "sveltestrap";
 
   export let id;
   let isfetchingAdvert = true;
   let failedTofetchAdvert = false;
   let advert = null;
+  let showForm = false;
+  let emailSent = false;
 
   async function loadAdvert() {
     try {
@@ -32,21 +27,39 @@
       failedTofetchAdvert = true;
     }
   }
+  
   loadAdvert();
 
-  export let comments = [];
+  let advertOwnerEmail = ""
 
-  let username = "";
-  let text = "";
-  function addToCart() {
-    // Add the product to the shopping cart
+  async function loadAdvertCreatorEmail(){
+    try {
+      const response = await fetch("http://localhost:8080/advertCreatorEmail/" + id);
+
+      switch (response.status) {
+        case 200:
+        const account = await response.json();
+        advertOwnerEmail = account.email;
+        console.log(advertOwnerEmail)
+        break;
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  function submitComment() {
-    comments = [...comments, { username, text }];
-    username = "";
-    text = "";
+  loadAdvertCreatorEmail()
+
+  function showFormOnClick() {
+    showForm = true;
+    emailSent = false;
   }
+  
+  function showEmailSent(){
+    showForm = false;
+    emailSent = true;
+  }
+
 
   console.log(window.location.pathname);
 </script>
@@ -78,7 +91,7 @@
             <CardTitle>{advert.title}</CardTitle>
             <CardText>{advert.description}</CardText>
             <p><b>Price:</b> {advert.price} SEK</p>
-            <Button on:click={addToCart}>Contact seller</Button>
+            <Button on:click={showFormOnClick}>Contact seller</Button>
           </CardBody>
         </Card>
       </Col>
@@ -86,34 +99,37 @@
   {:else}
     <p>No advert with the given id {id}.</p>
   {/if}
-
-  <Row>
-    <Col sm="12" id="comment-section">
-      <h2 id="comment-section-title">Comments</h2>
-      <hr />
-      {#each comments as comment}
-        <div id="comment-section-comment">
-          <b>{comment.username}:</b>
-          {comment.text}
+    
+  {#if showForm}
+    <Row>
+      <form action="https://api.staticforms.xyz/submit" method="post">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name">
         </div>
-      {/each}
-      <hr />
-      <form on:submit|preventDefault={submitComment}>
-        <FormGroup>
-          <Label for="username">Username:</Label>
-          <Input type="text" id="username" bind:value={username} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="exampleText">Text Area</Label>
-          <Input
-            type="textarea"
-            name="text"
-            id="exampleText"
-            bind:value={text}
-          />
-        </FormGroup>
-        <Button type="submit">Submit</Button>
+        <div class="form-group">
+          <label for="email">Your Email</label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" class="form-control" placeholder="Enter your message"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="email">Reply to seller with Email:</label>
+          <input type="text" name="replyTo" value="{advertOwnerEmail}" class="form-control">
+          <!--input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"-->
+        </div>
+        <input type="text" name="honeypot" style="display:none">
+        <input type="hidden" name="accessKey" value="b313a48b-ba91-4b23-a92d-74320e451b26">
+        <input type="hidden" name="subject" value="Contact us from - example.com" />
+        <!--input type="hidden" name="redirectTo" value="https://example.com/contact/success"-->
+        <button type="submit" class="btn btn-primary" on:click={showEmailSent}>Submit</button>
       </form>
-    </Col>
-  </Row>
+    </Row>
+    {:else if emailSent}
+      <Row>
+        <h3>Email sent to seller!</h3>
+      </Row>
+  {/if}
 </Container>

@@ -7,39 +7,39 @@ const DATABASE_ERROR_MESSAGE = "Internal server error";
 
 
 function getErrorMessagesForFAQ(question, answer) {
-	const errorMessages = [];
+  const errorMessages = [];
 
-	if (question.length > FAQ_QUESTION_MAX_LENGTH) {
-		errorMessages.push("Question may at most be " + FAQ_QUESTION_MAX_LENGTH + " characters long");
-	} else if (question.length < FAQ_QUESTION_MIN_LENGTH) {
-		errorMessages.push("Question can't be less than " + FAQ_QUESTION_MIN_LENGTH + " characters long");
-	}
+  if (question.length > FAQ_QUESTION_MAX_LENGTH) {
+    errorMessages.push("Question may at most be " + FAQ_QUESTION_MAX_LENGTH + " characters long");
+  } else if (question.length < FAQ_QUESTION_MIN_LENGTH) {
+    errorMessages.push("Question can't be less than " + FAQ_QUESTION_MIN_LENGTH + " characters long");
+  }
 
-	if (answer.length > FAQ_ANSWER_MAX_LENGTH) {
-		errorMessages.push("Answer may at most be " + FAQ_ANSWER_MAX_LENGTH + " characters long");
-	} else if (answer.length < FAQ_ANSWER_MIN_LENGTH) {
-		errorMessages.push("Answer may at most be " + FAQ_ANSWER_MIN_LENGTH + " characters long");
-	}
-	return errorMessages;
+  if (answer.length > FAQ_ANSWER_MAX_LENGTH) {
+    errorMessages.push("Answer may at most be " + FAQ_ANSWER_MAX_LENGTH + " characters long");
+  } else if (answer.length < FAQ_ANSWER_MIN_LENGTH) {
+    errorMessages.push("Answer may at most be " + FAQ_ANSWER_MIN_LENGTH + " characters long");
+  }
+  return errorMessages;
 }
 
 export async function getFAQ(request, response) {
-	try {
-		const faqs = await db.query("SELECT * FROM faqs");
-		response.status(200).json(faqs);
-	} catch (error) {
-		console.error(error);
-		response.status(500).json(DATABASE_ERROR_MESSAGE);
-	}
+  try {
+    const faqs = await db.query("SELECT * FROM faqs");
+    response.status(200).json(faqs);
+  } catch (error) {
+    console.error(error);
+    response.status(500).json(DATABASE_ERROR_MESSAGE);
+  }
 }
 
 export async function getFAQById(request, response) {
-	try {
-		const faq = await db.query("SELECT * FROM faqs WHERE id = ?", [request.params.id]);
-		response.status(200).json(faq[0]);
-	} catch (error) {
-		response.status(500).json(DATABASE_ERROR_MESSAGE);
-	}
+  try {
+    const faq = await db.query("SELECT * FROM faqs WHERE id = ?", [request.params.id]);
+    response.status(200).json(faq[0]);
+  } catch (error) {
+    response.status(500).json(DATABASE_ERROR_MESSAGE);
+  }
 }
 
 export async function createFAQ(request, response) {
@@ -101,13 +101,11 @@ export async function updateFAQById(request, response) {
 }
 
 export async function deleteFAQById(request, response) {
-	try {
-		await db.query("DELETE FROM faqs WHERE id = ?", [request.params.id])
-		response.status(204).send("FAQ successfully deleted");
-	} catch (error) {
-		console.error(error);
-		response.status(500).json(DATABASE_ERROR_MESSAGE);
-	}
+  try {
+    await db.query("DELETE FROM faqs WHERE id = ?", [request.params.id])
+    response.status(204).send("FAQ successfully deleted");
+  } catch (error) {
+    console.error(error);
+    response.status(500).json(DATABASE_ERROR_MESSAGE);
+  }
 }
-
-

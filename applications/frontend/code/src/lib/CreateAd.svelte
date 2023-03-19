@@ -44,7 +44,29 @@
 
   loadUserData();
 
+  async function handleFileUpload(event) {
+
+    console.log("HANDLEFILEINPUT")
+
+    const fileInput = event.target.querySelector('input[type="file"]');
+    const file = fileInput.files[0];
+    const data = new FormData();
+    data.append("image", file);
+
+    try {
+      const response = await fetch("http://localhost:8080/upload/" + $user.userEmail, {
+        method: "PATCH",
+        body: data,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+
   async function createAdvert() {
+    console.log("CREATE ADVERT")
     const advert = {
       category,
       title,
@@ -79,6 +101,12 @@
       errorCodes = errorCodes;
     }
   }
+
+  async function getData() {
+  
+  const values = await Promise.all([createAdvert(), handleFileUpload(event)]);
+
+  }
 </script>
 
 {#if advertWasCreated}
@@ -89,10 +117,7 @@
       <Row cols={2}>
         <Row>
           <Col id="CreateAdSpecifications" sm={{ offset: 1 }}>
-            <form
-              on:submit|preventDefault={createAdvert}
-              enctype="multipart/form-data"
-            >
+            <form on:submit|preventDefault={getData} enctype="multipart/form-data">
               <FormGroup class="CreateAdForm">
                 <Label for="exampleSelect">Select Category:</Label>
                 <Input

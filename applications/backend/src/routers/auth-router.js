@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/tokens", authController.signIn);
 router.post("/signup", authController.signUp);
 router.get("/account/:id", authController.getUserByEmail);
+router.get("/advertCreatorEmail/:id", authController.getUserByAdvertId);
 router.patch("/account/update/:id", authController.updateAccountByEmail);
 router.delete("/account/delete/:id", authController.deleteAccountByEmail);
 
