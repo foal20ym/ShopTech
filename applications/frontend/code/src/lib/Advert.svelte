@@ -1,8 +1,19 @@
 <script lang="ts">
   import { Router, Link, Route } from "svelte-routing";
   import {
-    Container, Row, Col, Card, CardBody, CardTitle, CardText,
-    Button, Form, FormGroup, FormText, Input, Label
+    Container,
+    Row,
+    Col,
+    Card,
+    CardBody,
+    CardTitle,
+    CardText,
+    Button,
+    Form,
+    FormGroup,
+    FormText,
+    Input,
+    Label,
   } from "sveltestrap";
 
   export let id;
@@ -27,39 +38,51 @@
       failedTofetchAdvert = true;
     }
   }
-  
+
   loadAdvert();
 
-  let advertOwnerEmail = ""
+  let advertOwnerEmail = "";
 
-  async function loadAdvertCreatorEmail(){
+  async function loadAdvertCreatorEmail() {
     try {
-      const response = await fetch("http://localhost:8080/advertCreatorEmail/" + id);
+      const response = await fetch(
+        "http://localhost:8080/advertCreatorEmail/" + id
+      );
 
       switch (response.status) {
         case 200:
-        const account = await response.json();
-        advertOwnerEmail = account.email;
-        console.log(advertOwnerEmail)
-        break;
+          const account = await response.json();
+          advertOwnerEmail = account.email;
+          console.log(advertOwnerEmail);
+          break;
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
-  loadAdvertCreatorEmail()
+  loadAdvertCreatorEmail();
 
   function showFormOnClick() {
     showForm = true;
     emailSent = false;
   }
-  
-  function showEmailSent(){
+
+  function showEmailSent() {
     showForm = false;
     emailSent = true;
   }
 
+  function shouldShowStockPhoto(imagePath) {
+    if (
+      imagePath === "/MacBook_Pro_13-inch_M1_2020.png" ||
+      imagePath === "/macbook2016.png"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   console.log(window.location.pathname);
 </script>
@@ -74,14 +97,21 @@
     <Row>
       <Col sm="12" md="6">
         <div class="advert-page-img-frame">
-          <img
-            class="advert-page-img"
-            alt={advert.title}
-            title="MacBook Pro 16&quot; M1 2021"
-            src={advert.img_src}
-            width="180"
-            height="180"
-          />
+          {#if shouldShowStockPhoto(advert.img_src)}
+            <img
+              class="card-img-top"
+              alt="MacBook Pro 16&quot; M1 2021"
+              title="MacBook Pro 16&quot; M1 2021"
+              src={advert.img_src}
+            />
+          {:else}
+            <img
+              class="card-img-top"
+              alt="MacBook Pro 16&quot; M1 2021"
+              title="MacBook Pro 16&quot; M1 2021"
+              src={"data:image/png;base64," + advert.img_src}
+            />
+          {/if}
         </div>
       </Col>
 
@@ -99,37 +129,69 @@
   {:else}
     <p>No advert with the given id {id}.</p>
   {/if}
-    
+
   {#if showForm}
     <Row>
       <form action="https://api.staticforms.xyz/submit" method="post">
         <div class="form-group">
           <label for="name">Your Name</label>
-          <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Enter your name"
+          />
         </div>
         <div class="form-group">
           <label for="email">Your Email</label>
-          <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter your email"
+          />
         </div>
         <div class="form-group">
           <label for="message">Message</label>
-          <textarea id="message" name="message" class="form-control" placeholder="Enter your message"></textarea>
+          <textarea
+            id="message"
+            name="message"
+            class="form-control"
+            placeholder="Enter your message"
+          />
         </div>
         <div class="form-group">
           <label for="email">Reply to seller with Email:</label>
-          <input type="text" name="replyTo" value="{advertOwnerEmail}" class="form-control">
+          <input
+            type="text"
+            name="replyTo"
+            value={advertOwnerEmail}
+            class="form-control"
+          />
           <!--input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"-->
         </div>
-        <input type="text" name="honeypot" style="display:none">
-        <input type="hidden" name="accessKey" value="b313a48b-ba91-4b23-a92d-74320e451b26">
-        <input type="hidden" name="subject" value="Contact us from - example.com" />
+        <input type="text" name="honeypot" style="display:none" />
+        <input
+          type="hidden"
+          name="accessKey"
+          value="b313a48b-ba91-4b23-a92d-74320e451b26"
+        />
+        <input
+          type="hidden"
+          name="subject"
+          value="Contact us from - example.com"
+        />
         <!--input type="hidden" name="redirectTo" value="https://example.com/contact/success"-->
-        <button type="submit" class="btn btn-primary" on:click={showEmailSent}>Submit</button>
+        <button type="submit" class="btn btn-primary" on:click={showEmailSent}
+          >Submit</button
+        >
       </form>
     </Row>
-    {:else if emailSent}
-      <Row>
-        <h3>Email sent to seller!</h3>
-      </Row>
+  {:else if emailSent}
+    <Row>
+      <h3>Email sent to seller!</h3>
+    </Row>
   {/if}
 </Container>

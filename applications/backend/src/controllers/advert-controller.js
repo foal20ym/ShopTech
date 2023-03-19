@@ -46,6 +46,7 @@ export async function getAdverts(request, response) {
 export async function getAdvertById(request, response) {
   try {
     const advert = await db.query("SELECT * FROM adverts WHERE advertID = ?", [request.params.id]);
+    console.log(advert[0].advertID)
     response.status(200).json(advert[0]);
   } catch (error) {
     response.status(500).send("Error getting advert");
@@ -138,36 +139,35 @@ export async function createAdvert(request, response) {
 export async function insertImageIntoAdvertById(request, response) {
 
   console.log("INSERTING IMAGE INTO ADVERT")
-  console.log("INSERTING IMAGE INTO ADVERT")
-  console.log("INSERTING IMAGE INTO ADVERT")
-  console.log("INSERTING IMAGE INTO ADVERT")
   let accountID = ""
 
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
     accountID = user[0].accountID
-    console.log(accountID)
+    console.log("accountID:", accountID)
   } catch (error) {
     console.error(error);
   }
   let advertID = ""
   try {
-    const advert = await db.query(
-      "SELECT advertID FROM adverts WHERE accountID = ? ORDER BY createdAt DESC LIMIT 1",[accountID]);
-      advertID = advert.advertID
+    const id = accountID
+    console.log("accountID:", id)
+    const adverts = await db.query(
+      "SELECT MAX(advertID) AS maxAdvertID FROM adverts WHERE accountID = ?", id);
+    advertID = adverts[0].maxAdvertID;
   } catch (error) {
     console.error(error);
     response.status(500).send("Internal server error");
   }
 
-  console.log("Ovanför filer.buffer!")
-  const image = request.file.buffer.toString('base64') // Use buffer to get the file content
-  console.log("efter file.buffer")
+  const image = request.file.buffer.toString('base64')
   
+  const updateID = advertID
+  console.log("updateID: ", updateID)
   try {
-    const values = [image, advertID];
-    const advert = await db.query("UPDATE adverts SET img_src = ? WHERE advertID = ?", values);
-    
+    const values = [image, updateID];
+    const insertedImageIntoAdvert = await db.query("UPDATE adverts SET img_src = ? WHERE advertID = ?", values);
+    response.status(200).send("Advert updated successfully").json();
   } catch (error) {
     response.status(500).send("Error getting advert");
   }

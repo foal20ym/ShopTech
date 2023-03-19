@@ -31,6 +31,17 @@
   }
 
   let category = "Date added - oldest";
+
+  function shouldShowStockPhoto(imagePath) {
+    if (
+      imagePath === "/MacBook_Pro_13-inch_M1_2020.png" ||
+      imagePath === "/macbook2016.png"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 </script>
 
 <div class="sidenav text-dark">
@@ -137,12 +148,21 @@
                         class="col-md-6 m-0 p-0 text-center align-self-center"
                       >
                         <div class="card-img-wrapper">
+                          {#if shouldShowStockPhoto(advert.img_src)}
                           <img
                             class="card-img-top"
                             alt="MacBook Pro 16&quot; M1 2021"
                             title="MacBook Pro 16&quot; M1 2021"
                             src={advert.img_src}
                           />
+                          {:else}
+                          <img
+                            class="card-img-top"
+                            alt="MacBook Pro 16&quot; M1 2021"
+                            title="MacBook Pro 16&quot; M1 2021"
+                            src={"data:image/png;base64," + advert.img_src}
+                          />
+                          {/if}
                         </div>
                       </div>
                     </div>
