@@ -36,7 +36,7 @@
     <div class="col media-col-right">
       <h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
       <div class="text-start">
-        {#if $admin.isLoggedIn}
+        
           <Link to="/faq/create"
             ><button
               type="button"
@@ -44,7 +44,7 @@
               >Create</button
             ></Link
           >
-        {/if}
+        
       </div>
 
       {#await fetchFAQPromise}
