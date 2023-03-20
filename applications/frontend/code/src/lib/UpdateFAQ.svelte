@@ -1,4 +1,5 @@
 <script>
+import {navigate} from "svelte-routing"
   export let id;
   let faq = null;
   let updatedQuestion = "";
@@ -36,7 +37,10 @@
     } else if (response.ok) {
       updatedQuestion = "";
       updatedAnswer = "";
-      window.location.href = "/faq/" + id;
+      //window.location.href = "/faq/" + id;
+      navigate("/faq/"+id, {
+          replace: false
+        })
     }
   }
 </script>

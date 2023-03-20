@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Link } from "svelte-routing";
+  import { Link, navigate } from "svelte-routing";
   export let id;
   let isFetchingFAQ = true;
   let failedToFetchFAQ = false;
@@ -12,7 +12,9 @@
     });
     if (response.ok) {
       console.log("FAQ deleted successfully");
-      window.location.href = "/faq";
+      navigate("/faq", {
+        replace: false
+      })
     } else {
       console.log("Failed to delete FAQ");
       failedToDeleteFAQ = true;

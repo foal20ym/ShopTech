@@ -11,6 +11,7 @@
   let firstName = "";
   let lastName = "";
   let phoneNumber = "";
+  let adverts = [];
 
   async function loadUserData() {
     try {
@@ -70,12 +71,10 @@
     }
   }
 
-  let adverts = [];
-
   async function loadUserAdverts() {
     try {
       const response = await fetch(
-        "http://localhost:8080/test/" + $user.userEmail
+        "http://localhost:8080/getUserAdverts/" + $user.userEmail
       );
 
       switch (response.status) {
@@ -90,6 +89,7 @@
   }
 
   loadUserAdverts();
+
 </script>
 
 {#if $user.isLoggedIn}
@@ -180,15 +180,19 @@
                   <th scope="col">Price</th>
                 </tr>
               </thead>
-              {#each adverts as advert}
-                <tbody>
+              <tbody>
+                {#each adverts as advert}
                   <tr>
-                    <td>{advert.title}</td>
+                    <td>
+                      <Link to="/advert/update/{advert.advertID}">
+                        {advert.title}
+                      </Link>
+                    </td>
                     <td>{advert.category}</td>
                     <td>${advert.price}</td>
                   </tr>
-                </tbody>
-              {/each}
+                {/each}
+              </tbody>
             </table>
           {:else}
             <p>You have no active adverts</p>

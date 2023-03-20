@@ -1,5 +1,5 @@
 <script>
-  import { Router, Link } from "svelte-routing";
+  import { Router, Link, navigate } from "svelte-routing";
   import { onMount } from "svelte";
   let question = "";
   let answer = "";
@@ -24,7 +24,9 @@
       question = "";
       answer = "";
       if (locationHeader) {
-        window.location.href = locationHeader;
+        navigate(locationHeader, {
+          replace: false
+        })
       }
     }
   }

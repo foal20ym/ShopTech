@@ -26,6 +26,7 @@
   let img_src = "";
   let createdAt = "";
   let errorCodes = [];
+  let adverts = [];
   let advertWasCreated = false;
   let isFetchingUserData = true;
   let failedToFetchUserData = false;
@@ -108,6 +109,26 @@
       console.log("error:", error);
     }
   }
+
+  async function loadUserAdverts() {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/getUserAdverts/" + $user.userEmail
+      );
+
+      switch (response.status) {
+        case 200:
+          adverts = await response.json();
+          console.log(adverts[0]);
+          break;
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  }
+
+  loadUserAdverts();
+
 
   function shouldShowStockPhoto(imagePath) {
     if (

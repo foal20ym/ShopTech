@@ -1,4 +1,5 @@
 <script>
+import { navigate } from "svelte-routing"
   export let id;
   let review = null;
   let updatedUsername = "";
@@ -26,7 +27,9 @@
       updatedUsername = "";
       updatedDescription = "";
       updatedStars = "";
-      window.location.href = "/review/" + id;
+      navigate("/review/"+id, {
+          replace: false
+        })
     }
   }
 

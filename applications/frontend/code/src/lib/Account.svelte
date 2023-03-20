@@ -127,6 +127,18 @@
               </li>
               <li class="list-group-item">
                 <div class="form-group">
+                  <label for="emailInput" class="fw-bold">Phone Number</label>
+                  <input
+                    type="email"
+                    class="form-control-plaintext"
+                    id="emailInput"
+                    value={userData.phoneNumber}
+                    readonly
+                  />
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="form-group">
                   <label for="memberSinceInput" class="fw-bold"
                     >Member Since</label
                   >

@@ -1,5 +1,5 @@
 <script>
-  import { Link } from "svelte-routing";
+  import { Link, navigate } from "svelte-routing";
   export let id;
   let isFetchingReview = true;
   let failedToFetchReview = false;
@@ -11,7 +11,9 @@
       method: "DELETE",
     });
     if (response.ok) {
-      window.location.href = "/reviews";
+      navigate("/reviews", {
+        replace: false
+      })
     } else {
       console.log("Failed to delete review");
       failedToDeleteReview = true;

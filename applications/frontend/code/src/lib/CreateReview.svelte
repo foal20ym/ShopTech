@@ -1,4 +1,5 @@
 <script>
+import { navigate } from "svelte-routing"
   let username = "";
   let description = "";
   let stars = "";
@@ -20,7 +21,9 @@
       description = "";
       stars = "";
       if (locationHeader) {
-        window.location.href = locationHeader;
+        navigate(locationHeader, {
+          replace: false
+        })
       }
     }
   }
