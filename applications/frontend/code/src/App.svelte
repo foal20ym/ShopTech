@@ -19,7 +19,9 @@
   import CreateReview from "./lib/CreateReview.svelte";
   import UpdateReview from "./lib/UpdateReview.svelte";
   import Test from "./lib/Test.svelte";
+  import AuthSuccess from "./lib/AuthSuccess.svelte";
   import { user } from "./user-store.js";
+  import { component_subscribe } from "svelte/internal";
 
 </script>
 
@@ -119,6 +121,7 @@
     <Route path="/reviews/create" component={CreateReview}/>
     <Route path="/review/update/:id" component={UpdateReview}/>
     <Route path="/test" component={Test}/>
+    <Route path="/auth-response" component={AuthSuccess}/>
     
   </main>
 

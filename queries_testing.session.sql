@@ -1,4 +1,4 @@
-SELECT * from adverts
+SELECT * from accounts
 
 
 

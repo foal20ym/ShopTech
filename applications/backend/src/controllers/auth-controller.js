@@ -209,6 +209,38 @@ export async function signUp(request, response) {
   }
 }
 
+export async function registerGoogleAuthUser(request, response) {
+  const accountData = request.body
+  const date = new Date();
+  const createdAt = date.toISOString().split("T")[0];
+
+  try {
+    const values = [accountData.email, accountData.firstName, accountData.lastName, createdAt];
+    const newAccount = await db.query("INSERT INTO accounts (email, firstName, lastName createdAt) VALUES (?,?,?,?)", values);
+    response.status(201).send("Account created successfully").json();
+    console.log("Account created successfully")
+  } catch (error) {
+    console.error(error);
+    console.log("error")
+    response.status(500).send("Internal server error");
+  }
+}
+
+export async function checkIfUserExists(request, response) {
+
+  const accountData = request.body
+  try {
+    const email = accountData.emailFromInfo
+    const rows = await db.query("SELECT COUNT(*) AS userCount FROM accounts WHERE email = ?", email);
+    const userCount = rows[0].userCount;
+    return userCount > 0;
+  } catch (error) {
+    console.error(error);
+    console.log("error")
+    response.status(500).send("Internal server error");
+  }
+}
+
 export async function updateAccountByEmail(request, response) {
   const accountData = request.body
 
