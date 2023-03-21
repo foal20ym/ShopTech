@@ -1,6 +1,7 @@
 <script>
   import { Router, Link, navigate } from "svelte-routing";
   import { onMount } from "svelte";
+  import { user } from "../user-store";
   let question = "";
   let answer = "";
   let errorMessages = [];
@@ -10,10 +11,11 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer "+$user.accessToken
       },
       body: JSON.stringify({ question, answer }),
     });
-    if (response.status == 400 || response.status == 500) {
+    if (response.status == 400 || response.status == 401 || response.status == 500) {
       errorMessages = await response.json();
     } else if (response.ok) {
       console.log("FAQ created successfully");

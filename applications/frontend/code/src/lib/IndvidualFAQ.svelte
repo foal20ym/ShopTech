@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Link, navigate } from "svelte-routing";
+  import { user } from "../user-store";
   export let id;
   let isFetchingFAQ = true;
   let failedToFetchFAQ = false;
@@ -9,6 +10,9 @@
   async function deleteFAQ() {
     const response = await fetch("http://localhost:8080/faq/delete/" + id, {
       method: "DELETE",
+      headers: {
+        "Authorization": "Bearer"+$user.accessToken
+      }
     });
     if (response.ok) {
       console.log("FAQ deleted successfully");
@@ -51,16 +55,18 @@
           {faq.answer}
         </div>
         <div>
-          <Link to="/faq/update/{faq.id}"
-            ><button type="button" class="btn btn-outline-dark mr-2 mt-3 mb-3"
-              >Update</button
-            ></Link
-          >
-          <button
-            type="button"
-            class="btn btn-outline-danger mt-3 mb-3"
-            on:click={deleteFAQ}>Delete</button
-          >
+          {#if $user.isLoggedIn && $user.admin}
+            <Link to="/faq/update/{faq.id}"
+              ><button type="button" class="btn btn-outline-dark mr-2 mt-3 mb-3"
+                >Update</button
+              ></Link
+            >
+            <button
+              type="button"
+              class="btn btn-outline-danger mt-3 mb-3"
+              on:click={deleteFAQ}>Delete</button
+            >
+          {/if}
           {#if failedToDeleteFAQ}
             <p>Could'nt delete FAQ, try again later</p>
           {/if}

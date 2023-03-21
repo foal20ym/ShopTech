@@ -76,11 +76,21 @@
     console.log(response.status);
     switch (response.status) {
       case 200:
-        $user = {
+        if (body.admin == "admin") {
+          $user = {
           isLoggedIn: true,
           accessToken,
           userEmail: d,
+          admin: true
         };
+        } else {
+          $user = {
+          isLoggedIn: true,
+          accessToken,
+          userEmail: d,
+          admin: false
+        };
+        }
 
         navigate("/account", {
           replace: false,

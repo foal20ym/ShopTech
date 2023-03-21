@@ -2,7 +2,7 @@ import db from "../database-operations/db.js"
 import jwt from "jsonwebtoken"
 import bcrypt from 'bcrypt'
 
-const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7"
+export const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7"
 const SALT_ROUNDS = 10
 const MIN_EMAIL_LENGTH = 6
 const MAX_EMAIL_LENGTH = 128
@@ -12,6 +12,7 @@ const MIN_FIRSTNAME_LENGTH = 2
 const MAX_FIRSTNAME_LENGTH = 128
 const MIN_LASTNAME_LENGTH = 2
 const MAX_LASTNAME_LENGTH = 128
+export const ADMIN_EMAIL = "admin@shoptech.com"
 
 
 export async function getUserByEmail(request, response) {
@@ -48,67 +49,82 @@ export async function getUserByAdvertId(request, response) {
 }
 
 export async function signIn(request, response) {
-
-  const grantType = request.body.grant_type
-  const email = request.body.email
-  const username = request.body.username
-  const password = request.body.password
-  let existingPassword = ""
-  console.log("granttype:", grantType)
-  console.log("email:", email)
-  console.log("username:", username)
-  console.log("password:", password)
-
+  const grantType = request.body.grant_type;
+  const email = request.body.email;
+  const username = request.body.username;
+  const password = request.body.password;
+  let existingPassword = "";
+  console.log("granttype:", grantType);
+  console.log("email:", email);
+  console.log("username:", username);
+  console.log("password:", password);
 
   try {
-    const user = await db.query("SELECT * FROM accounts WHERE email = ?", username);
-    console.log(user)
-    existingPassword = user[0]?.password || ""
+    const user = await db.query(
+      "SELECT * FROM accounts WHERE email = ?",
+      username
+    );
+    console.log(user);
+    existingPassword = user[0]?.password || "";
   } catch (error) {
     console.error(error);
     response.status(500).send("Internal server error");
-    return
+    return;
   }
 
-
   if (grantType != "password") {
-    response.status(400).json({ error: "unsupported_grant_type" })
-    return
+    response.status(400).json({ error: "unsupported_grant_type" });
+    return;
   }
 
-  console.log("password:", password)
-  console.log("existing password", existingPassword)
-  const isMatch = await bcrypt.compare(password, existingPassword)
+  console.log("password:", password);
+  console.log("existing password", existingPassword);
+  const isMatch = await bcrypt.compare(password, existingPassword);
 
   if (grantType != "password") {
-    response.status(400).json({ error: "unsupported_grant_type" })
-    return
+    response.status(400).json({ error: "unsupported_grant_type" });
+    return;
   }
 
   if (isMatch) {
+    let payload = null;
 
-    const payload = {
-      isLoggedIn: true,
+    if (username == ADMIN_EMAIL) {
+      payload = {
+        admin: true,
+        isLoggedIn: true,
+      };
+    } else {
+      payload = {
+        admin: false,
+        isLoggedIn: true,
+      };
     }
 
     jwt.sign(payload, ACCESS_TOKEN_SECRET, function (error, accessToken) {
-
       if (error) {
-        response.status(500).end()
+        response.status(500).end();
       } else {
-        response.status(200).json({
-          access_token: accessToken,
-          type: "bearer",
-          username: username,
-        })
+        if (payload.admin) {
+          response.status(200).json({
+            access_token: accessToken,
+            type: "bearer",
+            username: username,
+            admin: "admin",
+          });
+        } else {
+          response.status(200).json({
+            access_token: accessToken,
+            type: "bearer",
+            username: username,
+            admin: "",
+          });
+        }
       }
-    })
-
+    });
   } else {
-
-    response.status(400).json({ error: "invalid_grant" })
-    console.log("Login failed")
-
+    response.status(400).json({ error: "invalid_grant" });
+    console.log("Login failed");
   }
 }
 

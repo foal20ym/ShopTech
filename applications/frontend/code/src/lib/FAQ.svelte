@@ -19,7 +19,7 @@
     Accordion,
     AccordionItem,
   } from "sveltestrap";
-  import { admin } from "../user-store.js";
+  import { user } from "../user-store.js";
 
   const fetchFAQPromise = fetch("http://localhost:8080/faq");
 </script>
@@ -36,7 +36,7 @@
     <div class="col media-col-right">
       <h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
       <div class="text-start">
-        
+        {#if $user.isLoggedIn && $user.admin}
           <Link to="/faq/create"
             ><button
               type="button"
@@ -44,7 +44,7 @@
               >Create</button
             ></Link
           >
-        
+        {/if}
       </div>
 
       {#await fetchFAQPromise}
@@ -59,14 +59,11 @@
                 <Accordion>
                   <AccordionItem>
                     <h4 class="m-0" slot="header">{faq.question}</h4>
-                    <Link
-                      to="/faq/{faq.id}"
-                      class="text-dark"
-                      style="text-decoration: none;"
-                    >
-                      <DropdownItem class="text-wrap">{faq.answer}</DropdownItem
-                      >
-                    </Link>
+
+                    <DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
+                    <!--{#if $user.isLoggedIn && $user.admin}-->
+                      <Link to="/faq/{faq.id}" class="text-dark" style="text-decoration: underline;">Edit</Link>
+                    <!--{/if}-->
                   </AccordionItem>
                 </Accordion>
                 <hr />
