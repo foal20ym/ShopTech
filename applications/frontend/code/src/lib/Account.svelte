@@ -216,11 +216,13 @@
     <p>No advert with the given id {$user.userEmail}.</p>
   {/if}
 {:else}
-  <div>Please Login to see your account.</div>
-  <Button id="sellTechButton">
-    <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link
-    >
-  </Button>
+  <div class="centered-auth-section">
+    <h4>Please Sign in to see your account.</h4>
+    <Button>
+      <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link
+      >
+    </Button>
+</div>
 {/if}
 
 <Route path="updateAccount" component={UpdateAccount} />

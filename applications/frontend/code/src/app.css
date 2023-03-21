@@ -14,7 +14,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
- 
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -155,7 +155,6 @@ a:link { text-decoration: none; }
   top: 100px;
 }
 
-
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
   display: none;
@@ -196,9 +195,16 @@ a:link { text-decoration: none; }
   border-bottom: 2px solid;
 }
 
-
 .form-box {
   overflow: hidden;
+}
+
+.centered-auth-section {
+  text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 12%;
+  margin-bottom: 10%;
 }
 
 #sellTechContent {

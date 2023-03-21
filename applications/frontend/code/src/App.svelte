@@ -18,6 +18,7 @@
   import Review from "./lib/Review.svelte";
   import CreateReview from "./lib/CreateReview.svelte";
   import UpdateReview from "./lib/UpdateReview.svelte";
+  import Test from "./lib/Test.svelte";
   import { user } from "./user-store.js";
 
 </script>
@@ -61,6 +62,11 @@
               <li class="nav-item">
                 <Link to="/reviews" class="nav-link active" aria-current="page"
                   >Reviews</Link
+                >
+              </li>
+              <li class="nav-item">
+                <Link to="/test" class="nav-link active" aria-current="page"
+                  >Test</Link
                 >
               </li>
               {#if $user.isLoggedIn}
@@ -112,6 +118,8 @@
     <Route path="/review/:id" component={Review}/>
     <Route path="/reviews/create" component={CreateReview}/>
     <Route path="/review/update/:id" component={UpdateReview}/>
+    <Route path="/test" component={Test}/>
+    
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">

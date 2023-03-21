@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Router, Link, Route } from "svelte-routing";
+  import { Router, Link, Route, navigate } from "svelte-routing";
   import Home from "../lib/Home.svelte"; // ersätt senare med lämplig länk
   import { Container, Image, Col, Row, Button } from "sveltestrap";
   import { Form, FormGroup, FormText, Input, Label } from "sveltestrap";
@@ -108,6 +108,7 @@
 
   }
 </script>
+{#if $user.isLoggedIn}
 
 {#if advertWasCreated}
   <p>Advert was created!</p>
@@ -213,6 +214,15 @@
       {/each}
     </ul>
   {/if}
+{/if}
+{:else}
+<div class="centered-auth-section">
+  <h4>Please Sign in to create adverts.</h4>
+    <Button>
+      <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link
+      >
+    </Button>
+</div>
 {/if}
 
 <!--Button id="sellTechButton"> <Link to="/home" class="nav-link active" aria-current="page">Home</Link> </Button-->

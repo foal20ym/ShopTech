@@ -1,9 +1,6 @@
 <script lang="ts">
   import { Router, Link, Route, navigate } from "svelte-routing";
   import { user } from "../user-store.js";
-  import CreateAd from "../lib/CreateAd.svelte";
-  import Account from "./Account.svelte";
-
   import { Container, Image, Col, Row, Button } from "sveltestrap";
 
   let email = "";
@@ -14,7 +11,6 @@
   let lastName = "";
   let phoneNumber = "";
   let accountWasCreated = false;
-
   let errorCodes = [];
 
   async function signUp() {
@@ -128,7 +124,7 @@
             class="toggle-btn"
             class:active={showLogin == true}
             id="login-btn"
-            on:click={() => (showLogin = true)}>Login</button
+            on:click={() => (showLogin = true)}>Sign in</button
           >
           <button
             type="button"

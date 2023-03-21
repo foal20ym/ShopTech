@@ -18,7 +18,6 @@
   let isfetchingAdvert = true;
   let failedTofetchAdvert = false;
   let advert = null;
-
   let category = "";
   let title = "";
   let price = "";
@@ -142,6 +141,8 @@
   }
 </script>
 
+
+{#if $user.isLoggedIn}
 <Container class="product-page">
   {#if isfetchingAdvert}
     <p>Wait, i'm fetching data...</p>
@@ -244,3 +245,12 @@
     <p>No advert with the given id {id}.</p>
   {/if}
 </Container>
+{:else}
+  <div class="centered-auth-section">
+    <h4>Please Sign in to update adverts.</h4>
+    <Button>
+      <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link
+      >
+    </Button>
+  </div>
+{/if}
