@@ -1,21 +1,7 @@
 <script lang="ts">
-  import { faqs } from "../data";
   import { Link } from "svelte-routing";
   import {
-    Nav,
-    NavItem,
-    Dropdown,
     DropdownItem,
-    DropdownToggle,
-    DropdownMenu,
-    NavLink,
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Col,
-    Row,
-    Container,
     Accordion,
     AccordionItem,
   } from "sveltestrap";

@@ -1,5 +1,5 @@
 <script>
-  import { Link, navigate, Route, Router } from "svelte-routing";
+  import { Link, navigate } from "svelte-routing";
   import { Button } from "sveltestrap";
   import { user } from "../user-store.js";
 
@@ -206,7 +206,7 @@
 {:else}
   <div>Please Login to see your account.</div>
   <Button id="sellTechButton">
-    <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link
+    <Link to="/Auth" class="nav-link active" aria-current="page">Sign in</Link
     >
   </Button>
 {/if}

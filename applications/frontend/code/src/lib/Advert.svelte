@@ -9,11 +9,6 @@
     CardTitle,
     CardText,
     Button,
-    Form,
-    FormGroup,
-    FormText,
-    Input,
-    Label,
   } from "sveltestrap";
 
   export let id;

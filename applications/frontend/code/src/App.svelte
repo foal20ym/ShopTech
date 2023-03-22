@@ -1,16 +1,14 @@
 <script>
-
   import { Router, Link, Route } from "svelte-routing";
   import Home from "./lib/Home.svelte";
   import SellTech from "./lib/SellTech.svelte";
   import FAQ from "./lib/FAQ.svelte";
-  import Signup from "./lib/Signup.svelte";
+  import Auth from "./lib/GoogleAuthSuccess.svelte";
   import CreateAd from "./lib/CreateAd.svelte";
   import Advert from "./lib/Advert.svelte";
-  import Account from "./lib/Account.svelte"
+  import Account from "./lib/Account.svelte";
   import IndvidualFaq from "./lib/IndvidualFAQ.svelte";
   import UpdateFAQ from "./lib/UpdateFAQ.svelte";
-  //import CreateFAQ from "./lib/CreateFAQ.svelte";
   import CreateFaq from "./lib/CreateFAQ.svelte";
   import UpdateAccount from "./lib/UpdateAccount.svelte";
   import UpdateAdvert from "./lib/UpdateAdvert.svelte";
@@ -18,79 +16,77 @@
   import Review from "./lib/Review.svelte";
   import CreateReview from "./lib/CreateReview.svelte";
   import UpdateReview from "./lib/UpdateReview.svelte";
+  import AuthSuccess from "./lib/AuthSuccess.svelte";
   import { user } from "./user-store.js";
-
 </script>
 
 <Router>
   <header>
-      <nav
-        class="navbar bg-dark navbar-expand-sm bg-body-tertiary fixed-top"
-        data-bs-theme="dark"
+    <nav
+      class="navbar bg-dark navbar-expand-sm bg-body-tertiary fixed-top"
+      data-bs-theme="dark"
+    >
+      <Link to="/" class="navbar-brand logo ms-5">ShopTech</Link>
+      <button
+        class="navbar-toggler me-2 btn btn-light bg-light"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
       >
-        <Link to="/" class="navbar-brand logo ms-5">ShopTech</Link>
-        <button
-          class="navbar-toggler me-2 btn btn-light bg-light"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon bg-light" />
-        </button>
-        <div class="container-fluid">
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <Link to="/" class="nav-link active" aria-current="page"
-                  >Home</Link
-                >
-              </li>
-              <li class="nav-item">
-                <Link to="/sellTech" class="nav-link active" aria-current="page"
-                  >Sell Tech</Link
-                >
-              </li>
-              <li class="nav-item">
-                <Link to="/faq" class="nav-link active" aria-current="page"
-                  >FAQ</Link
-                >
-              </li>
-              <li class="nav-item">
-                <Link to="/reviews" class="nav-link active" aria-current="page"
-                  >Reviews</Link
-                >
-              </li>
-              {#if $user.isLoggedIn}
+        <span class="navbar-toggler-icon bg-light" />
+      </button>
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <Link to="/" class="nav-link active" aria-current="page"
+                >Home</Link
+              >
+            </li>
+            <li class="nav-item">
+              <Link to="/sellTech" class="nav-link active" aria-current="page"
+                >Sell Tech</Link
+              >
+            </li>
+            <li class="nav-item">
+              <Link to="/faq" class="nav-link active" aria-current="page"
+                >FAQ</Link
+              >
+            </li>
+            <li class="nav-item">
+              <Link to="/reviews" class="nav-link active" aria-current="page"
+                >Reviews</Link
+              >
+            </li>
+            {#if $user.isLoggedIn}
               <li class="nav-item">
                 <Link to="/account" class="nav-link active" aria-current="page"
                   >Account</Link
                 >
               </li>
-                {:else}
-                <li class="nav-item">
-                <Link to="/signup" class="nav-link active" aria-current="page"
+            {:else}
+              <li class="nav-item">
+                <Link to="/Auth" class="nav-link active" aria-current="page"
                   >Login</Link
                 >
               </li>
-                {/if}
-              
-            </ul>
-            <form class="d-flex me-5" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-light" type="submit">Search</button
-              >
-            </form>
-          </div>
+            {/if}
+          </ul>
+          <form class="d-flex me-5" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-light" type="submit">Search</button>
+          </form>
         </div>
-      </nav>
+      </div>
+    </nav>
   </header>
 
   <main>
@@ -99,19 +95,20 @@
     <Route path="/" component={Home} />
     <Route path="/sellTech" component={SellTech} />
     <Route path="/faq" component={FAQ} />
-    <Route path="/signup" component={Signup}/>
-    <Route path="/createad" component={CreateAd}/>
-    <Route path="/advert/:id" component={Advert}/> 
-    <Route path="/account" component={Account}/>
-    <Route path="/faq/:id" component={IndvidualFaq}/>
-    <Route path="/faq/update/:id" component={UpdateFAQ}/>
-    <Route path="/faq/create" component={CreateFaq}/>
-    <Route path="/updateAccount" component={UpdateAccount}/>
-    <Route path="/advert/update/:id" component={UpdateAdvert}/>
-    <Route path="/reviews" component={Reviews}/>
-    <Route path="/review/:id" component={Review}/>
-    <Route path="/reviews/create" component={CreateReview}/>
-    <Route path="/review/update/:id" component={UpdateReview}/>
+    <Route path="/Auth" component={Auth} />
+    <Route path="/createad" component={CreateAd} />
+    <Route path="/advert/:id" component={Advert} />
+    <Route path="/account" component={Account} />
+    <Route path="/faq/:id" component={IndvidualFaq} />
+    <Route path="/faq/update/:id" component={UpdateFAQ} />
+    <Route path="/faq/create" component={CreateFaq} />
+    <Route path="/updateAccount" component={UpdateAccount} />
+    <Route path="/advert/update/:id" component={UpdateAdvert} />
+    <Route path="/reviews" component={Reviews} />
+    <Route path="/review/:id" component={Review} />
+    <Route path="/reviews/create" component={CreateReview} />
+    <Route path="/review/update/:id" component={UpdateReview} />
+    <Route path="/auth-response" component={AuthSuccess} />
   </main>
 
   <footer class="bg-dark-subtle text-body-secondary pt-5 pb-4 bottom-footer">
