@@ -7,7 +7,7 @@
   let errorMessages = [];
 
   async function submitForm() {
-    const response = await fetch("http://localhost:8080/faq/create", {
+    const response = await fetch("http://localhost:8080/api/faq", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

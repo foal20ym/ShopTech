@@ -8,10 +8,10 @@
   let faq = null;
 
   async function deleteFAQ() {
-    const response = await fetch("http://localhost:8080/faq/delete/" + id, {
+    const response = await fetch("http://localhost:8080/api/faq/"+id, {
       method: "DELETE",
       headers: {
-        "Authorization": "Bearer"+$user.accessToken
+        "Authorization": "Bearer "+$user.accessToken
       }
     });
     if (response.ok) {
@@ -27,7 +27,7 @@
 
   async function loadFAQ() {
     try {
-      const response = await fetch("http://localhost:8080/faq/" + id);
+      const response = await fetch("http://localhost:8080/api/faq/" + id);
       switch (response.status) {
         case 200:
           faq = await response.json();

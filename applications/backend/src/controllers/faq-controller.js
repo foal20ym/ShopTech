@@ -69,6 +69,9 @@ export async function createFAQ(request, response) {
       const authorizationHeaderValue = request.get("Authorization");
       const accessToken = authorizationHeaderValue.substring(7);
       const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+      if (!decodedToken.admin) {
+        throw new jwt.JsonWebTokenError();
+      }
 
       console.log(request.body);
       const values = [
@@ -88,8 +91,6 @@ export async function createFAQ(request, response) {
       if (error instanceof jwt.JsonWebTokenError) {
         response.status(401).json([UNAUTHORIZED_USER_ERROR]);
       } else {
-        console.log(error.status);
-        console.error(error.status);
         response.status(500).json([DATABASE_ERROR_MESSAGE]);
       }
     }
@@ -109,6 +110,11 @@ export async function updateFAQById(request, response) {
       const authorizationHeaderValue = request.get("Authorization");
       const accessToken = authorizationHeaderValue.substring(7);
       const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+      if (!decodedToken.admin) {
+        throw new jwt.JsonWebTokenError();
+      }
+
       const values = [
         request.body.updatedQuestion,
         request.body.updatedAnswer,
@@ -136,6 +142,11 @@ export async function deleteFAQById(request, response) {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
     const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+    if (!decodedToken.admin) {
+      throw new jwt.JsonWebTokenError();
+    }
+
     await db.query("DELETE FROM faqs WHERE id = ?", [request.params.id]);
     response.status(204).send("FAQ successfully deleted");
   } catch (error) {

@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get("/", faqController.getFAQ);
 router.get("/:id", faqController.getFAQById);
-router.post("/create", faqController.createFAQ);
-router.patch("/update/:id", faqController.updateFAQById);
-router.delete("/delete/:id", faqController.deleteFAQById);
+router.post("/", faqController.createFAQ);
+router.put("/:id", faqController.updateFAQById);
+router.delete("/:id", faqController.deleteFAQById);
 
 export default router;
 

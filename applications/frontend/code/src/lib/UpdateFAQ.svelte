@@ -10,7 +10,7 @@ import { user } from "../user-store.js"
 
   async function loadFAQ() {
     try {
-      const response = await fetch("http://localhost:8080/faq/" + id);
+      const response = await fetch("http://localhost:8080/api/faq/" + id);
       switch (response.status) {
         case 200:
           faq = await response.json();
@@ -26,8 +26,8 @@ import { user } from "../user-store.js"
   loadFAQ();
 
   async function submitForm() {
-    const response = await fetch("http://localhost:8080/faq/update/" + id, {
-      method: "PATCH",
+    const response = await fetch("http://localhost:8080/api/faq/" + id, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer "+$user.accessToken

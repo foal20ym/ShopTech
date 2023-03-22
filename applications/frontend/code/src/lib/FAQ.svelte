@@ -21,7 +21,7 @@
   } from "sveltestrap";
   import { user } from "../user-store.js";
 
-  const fetchFAQPromise = fetch("http://localhost:8080/faq");
+  const fetchFAQPromise = fetch("http://localhost:8080/api/faq");
 </script>
 
 <div class="container text-center">
@@ -36,7 +36,7 @@
     <div class="col media-col-right">
       <h1 class="text-start mt-5 media-center">Frequently Asked Questions</h1>
       <div class="text-start">
-        {#if $user.isLoggedIn && $user.admin}
+        <!--{#if $user.isLoggedIn && $user.admin}-->
           <Link to="/faq/create"
             ><button
               type="button"
@@ -44,7 +44,7 @@
               >Create</button
             ></Link
           >
-        {/if}
+        <!--{/if}-->
       </div>
 
       {#await fetchFAQPromise}
@@ -61,9 +61,9 @@
                     <h4 class="m-0" slot="header">{faq.question}</h4>
 
                     <DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
-                    <!--{#if $user.isLoggedIn && $user.admin}-->
+                    {#if $user.isLoggedIn && $user.admin}
                       <Link to="/faq/{faq.id}" class="text-dark" style="text-decoration: underline;">Edit</Link>
-                    <!--{/if}-->
+                    {/if}
                   </AccordionItem>
                 </Accordion>
                 <hr />
