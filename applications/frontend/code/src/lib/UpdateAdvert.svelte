@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Router, Link, navigate, Route } from "svelte-routing";
+  import { Link, navigate} from "svelte-routing";
   import {
     Container,
     Row,
@@ -11,25 +11,18 @@
     Button,
     Alert,
   } from "sveltestrap";
-  import { Form, FormGroup, FormText, Input, Label } from "sveltestrap";
   import { user } from "../user-store";
 
   export let id;
   let isfetchingAdvert = true;
   let failedTofetchAdvert = false;
   let advert = null;
-
   let category = "";
   let title = "";
   let price = "";
   let description = "";
-  let img_src = "";
-  let createdAt = "";
   let errorCodes = [];
   let adverts = [];
-  let advertWasCreated = false;
-  let isFetchingUserData = true;
-  let failedToFetchUserData = false;
   let showUpdateConfirmation = false;
   let showDeleteConfirmation = false;
 
@@ -142,6 +135,8 @@
   }
 </script>
 
+
+{#if $user.isLoggedIn}
 <Container class="product-page">
   {#if isfetchingAdvert}
     <p>Wait, i'm fetching data...</p>
@@ -244,3 +239,12 @@
     <p>No advert with the given id {id}.</p>
   {/if}
 </Container>
+{:else}
+  <div class="centered-auth-section">
+    <h4>Please Sign in to update adverts.</h4>
+    <Button>
+      <Link to="/Auth" class="nav-link active" aria-current="page">Sign in</Link
+      >
+    </Button>
+  </div>
+{/if}

@@ -25,8 +25,6 @@ export async function getUserByEmail(request, response) {
 }
 
 export async function getUserByAdvertId(request, response) {
-
-  console.log("Getting owner email")
   let accountID = ""
 
   try {
@@ -69,7 +67,6 @@ export async function signIn(request, response) {
     response.status(500).send("Internal server error");
     return
   }
-
 
   if (grantType != "password") {
     response.status(400).json({ error: "unsupported_grant_type" })
@@ -131,7 +128,6 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-//app.post("/signup", async function(request, response){
 export async function signUp(request, response) {
 
   console.log("Creating account")
@@ -200,6 +196,24 @@ export async function signUp(request, response) {
   try {
     const values = [accountData.email, accountData.username, hashedPassword, accountData.address, accountData.firstName, accountData.lastName, accountData.phoneNumber, createdAt];
     const newAccount = await db.query("INSERT INTO accounts (email, username, password, address, firstName, lastName, phoneNumber, createdAt) VALUES (?,?,?,?,?,?,?,?)", values);
+    response.status(201).send("Account created successfully").json();
+    console.log("Account created successfully")
+  } catch (error) {
+    console.error(error);
+    console.log("error")
+    response.status(500).send("Internal server error");
+  }
+}
+
+export async function registerGoogleAuthUser(request, response) {
+  console.log("registerGoogleAuthUser")
+  const accountData = request.body
+  const date = new Date();
+  const createdAt = date.toISOString().split("T")[0];
+
+  try {
+    const values = [accountData.e, accountData.firstName, accountData.lastName, createdAt];
+    const newAccount = await db.query("INSERT INTO accounts (email, firstName, lastName, createdAt) VALUES (?,?,?,?)", values);
     response.status(201).send("Account created successfully").json();
     console.log("Account created successfully")
   } catch (error) {

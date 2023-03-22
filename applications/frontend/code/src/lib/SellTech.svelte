@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { Router, Link, Route } from "svelte-routing";
-  import SignUp from "../lib/Signup.svelte";
+  import { Link, Route } from "svelte-routing";
+  import Auth from "./GoogleAuthSuccess.svelte";
   import CreateAd from "./CreateAd.svelte";
   import { user } from "../user-store.js";
 
-  import { Container, Image, Col, Row, Button } from "sveltestrap";
+  import { Container, Col, Row, Button } from "sveltestrap";
 </script>
 
 <div id="sellTechContent">
@@ -24,7 +24,7 @@
               </Button>
             {:else}
               <Button id="sellTechButton">
-                <Link to="/signup" class="nav-link active" aria-current="page"
+                <Link to="/Auth" class="nav-link active" aria-current="page"
                   >Sign in</Link
                 >
               </Button>
@@ -44,4 +44,4 @@
 </div>
 
 <Route path="sellTech/createad" component={CreateAd} />
-<Route path="sellTech/signup" component={SignUp} />
+<Route path="sellTech/Auth" component={Auth} />

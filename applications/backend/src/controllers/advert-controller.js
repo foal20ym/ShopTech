@@ -12,10 +12,7 @@ const MAX_PRICE = Number.MAX_SAFE_INTEGER
 
 
 export async function getUserAdverts(request, response) {
-
-  console.log("FETCHING USER ADVERTS")
   let accountID = ""
-
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
     accountID = user[0].accountID
@@ -117,7 +114,6 @@ export async function createAdvert(request, response) {
   let accountID = ""
   console.log("email:", userData.email)
 
-
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [userData.email]);
     accountID = user[0].accountID
@@ -161,7 +157,7 @@ export async function insertImageIntoAdvertById(request, response) {
   }
 
   const image = request.file.buffer.toString('base64')
-  
+
   const updateID = advertID
   console.log("updateID: ", updateID)
   try {
