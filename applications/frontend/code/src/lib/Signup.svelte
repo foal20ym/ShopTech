@@ -49,7 +49,7 @@
     }
   }
 
-  let showLogin = true;
+  let showSignIn = true;
 
   async function login() {
     const response = await fetch("http://localhost:8080/tokens", {
@@ -67,7 +67,7 @@
     console.log("body: ", body);
 
     const accessToken = body.access_token;
-    const d = body.username;
+    const emailFromAuth = body.username;
 
     console.log(response.status);
     switch (response.status) {
@@ -75,7 +75,7 @@
         $user = {
           isLoggedIn: true,
           accessToken,
-          userEmail: d,
+          userEmail: emailFromAuth,
         };
 
         navigate("/account", {
@@ -101,8 +101,37 @@
     lastName = "";
     phoneNumber = "";
     accountWasCreated = false;
-    showLogin = true;
+    showSignIn = true;
   }
+
+  function signInWithGoogle(){
+    var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+    
+
+    var form = document.createElement('form');
+    form.setAttribute('method', 'GET'); 
+    form.setAttribute('action', oauth2Endpoint);
+
+    var params = {'client_id': '201835937760-f6akivk873pvq9cpoptsj9n4r2ktc2hj.apps.googleusercontent.com',
+                    'redirect_uri': 'http://127.0.0.1:5173/auth-response',
+                    'response_type': 'token',
+                    'scope':'https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/userinfo.email',
+                    'include_granted_scopes': 'true',
+                    'state': 'pass-through value'};
+    
+
+    for (var p in params) {
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', p);
+        input.setAttribute('value', params[p]);
+        form.appendChild(input);
+    }
+    
+    document.body.appendChild(form);
+    form.submit();
+    }
+    
 </script>
 
 <div class="container ">
@@ -122,19 +151,28 @@
           <button
             type="button"
             class="toggle-btn"
-            class:active={showLogin == true}
+            class:active={showSignIn == true}
             id="login-btn"
-            on:click={() => (showLogin = true)}>Sign in</button
+            on:click={() => (showSignIn = true)}>Sign in</button
           >
           <button
             type="button"
             class="toggle-btn"
-            class:active={showLogin == false}
+            class:active={showSignIn == false}
             id="signup-btn"
-            on:click={() => (showLogin = false)}>Sign up</button
+            on:click={() => (showSignIn = false)}>Sign up</button
           >
         </div>
-        {#if showLogin}
+        {#if showSignIn}
+          <button class="button-google" on:click={() => signInWithGoogle()}>
+            <img
+              class="button-google__icon"
+              src="/signin-with-google-button-logo.png"
+              alt="sign_in_with_Google"
+            />
+            <span class="button-google__text">Sign in with Google</span>
+          </button>
+          <p class="signInFormParagraph">Or continue with email and password</p>
           <form
             class="input-group"
             id="login-form"
@@ -162,9 +200,7 @@
               />
             </div>
             <div class="signUpPageButton">
-              <Button type="submit" id="CreateAdButton" value="Login">
-                Login
-              </Button>
+              <Button type="submit" value="Login">Login</Button>
             </div>
           </form>
           {#if errorCodes.length}

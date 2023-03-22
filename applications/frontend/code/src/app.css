@@ -199,6 +199,61 @@ a:link { text-decoration: none; }
   overflow: hidden;
 }
 
+.google-signin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: none;
+  background-color: white;
+  color: #757575;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+/*
+.google-signin-btn img {
+  height: 20px;
+  margin-right: 10px;
+}
+*/
+.button-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 16px;
+  height: 40px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.button-google:hover {
+  border-color: #4c8bf5;
+}
+
+.button-google__icon {
+  height: 24px;
+  margin-right: 8px;
+}
+
+.button-google__text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.signInFormParagraph {
+  color: #1a1a1a;
+  font-size: 90%;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+
 .centered-auth-section {
   text-align: center;
 	margin-left: auto;
