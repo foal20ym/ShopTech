@@ -209,14 +209,16 @@ export async function signUp(request, response) {
   }
 }
 
+
 export async function registerGoogleAuthUser(request, response) {
+  console.log("registerGoogleAuthUser")
   const accountData = request.body
   const date = new Date();
   const createdAt = date.toISOString().split("T")[0];
-
+  
   try {
-    const values = [accountData.email, accountData.firstName, accountData.lastName, createdAt];
-    const newAccount = await db.query("INSERT INTO accounts (email, firstName, lastName createdAt) VALUES (?,?,?,?)", values);
+    const values = [accountData.e, accountData.firstName, accountData.lastName, createdAt];
+    const newAccount = await db.query("INSERT INTO accounts (email, firstName, lastName, createdAt) VALUES (?,?,?,?)", values);
     response.status(201).send("Account created successfully").json();
     console.log("Account created successfully")
   } catch (error) {
@@ -227,7 +229,7 @@ export async function registerGoogleAuthUser(request, response) {
 }
 
 export async function checkIfUserExists(request, response) {
-
+  console.log("checkIfUserExists")
   const accountData = request.body
   try {
     const email = accountData.emailFromInfo

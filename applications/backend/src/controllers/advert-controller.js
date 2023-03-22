@@ -14,6 +14,7 @@ const MAX_PRICE = Number.MAX_SAFE_INTEGER
 export async function getUserAdverts(request, response) {
 
   console.log("FETCHING USER ADVERTS")
+  console.log("FETCHING USER ADVERTS for test")
   let accountID = ""
 
   try {
