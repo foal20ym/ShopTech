@@ -1,5 +1,6 @@
 <script>
 import {navigate} from "svelte-routing"
+import { user } from "../user-store.js"
   export let id;
   let faq = null;
   let updatedQuestion = "";
@@ -9,7 +10,7 @@ import {navigate} from "svelte-routing"
 
   async function loadFAQ() {
     try {
-      const response = await fetch("http://localhost:8080/faq/" + id);
+      const response = await fetch("http://localhost:8080/api/faq/" + id);
       switch (response.status) {
         case 200:
           faq = await response.json();
@@ -25,14 +26,15 @@ import {navigate} from "svelte-routing"
   loadFAQ();
 
   async function submitForm() {
-    const response = await fetch("http://localhost:8080/faq/update/" + id, {
-      method: "PATCH",
+    const response = await fetch("http://localhost:8080/api/faq/" + id, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer "+$user.accessToken
       },
       body: JSON.stringify({ updatedQuestion, updatedAnswer }),
     });
-    if (response.status == 400 || response.status == 500) {
+    if (response.status == 400 || response.status == 401|| response.status == 500) {
       errorMessages = await response.json();
     } else if (response.ok) {
       updatedQuestion = "";

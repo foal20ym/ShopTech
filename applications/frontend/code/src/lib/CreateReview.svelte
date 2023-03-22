@@ -6,7 +6,7 @@ import { navigate } from "svelte-routing"
   let errorMessages = [];
 
   async function submitForm() {
-    const response = await fetch("http://localhost:8080/reviews/create", {
+    const response = await fetch("http://localhost:8080/api/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ import { navigate } from "svelte-routing"
             <label for="floatingTextarea2">Description</label>
           </div>
           <div class="form-group">
-            <label class="form-label">Stars</label>
+            <label for="form-select" class="form-label">Stars</label>
             <select
               class="form-select"
               name="grade"

@@ -37,6 +37,7 @@ CREATE TABLE reviews (
 );
 
 
+
 INSERT INTO reviews (username, description, stars) VALUES ('AntonThoresson', 'This is a intial review description', '5');
 
 

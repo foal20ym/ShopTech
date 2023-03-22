@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get("/", reviewController.getReviews);
 router.get("/:id", reviewController.getReviewById);
-router.post("/create", reviewController.createReview)
-router.delete("/delete/:id", reviewController.deleteReviewById);
-router.patch("/update/:id", reviewController.updateReviewById);
+router.post("/", reviewController.createReview)
+router.delete("/:id", reviewController.deleteReviewById);
+router.put("/:id", reviewController.updateReviewById);
 
 
 export default router;

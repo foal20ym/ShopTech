@@ -21,8 +21,8 @@ app.use(function(request, response, next){
 	next()
 })
 
-app.use("/faq", faqRouter);
-app.use("/reviews", reviewRouter)
+app.use("/api/faq", faqRouter);
+app.use("/api/reviews", reviewRouter)
 app.use("/", advertRouter);
 app.use("/", authRouter);
 
