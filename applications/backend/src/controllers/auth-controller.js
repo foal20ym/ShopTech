@@ -91,12 +91,12 @@ export async function signIn(request, response) {
 
     if (username == ADMIN_EMAIL) {
       payload = {
-        admin: true,
+        isAdmin: true,
         isLoggedIn: true,
       };
     } else {
       payload = {
-        admin: false,
+        isAdmin: false,
         isLoggedIn: true,
       };
     }
@@ -105,7 +105,7 @@ export async function signIn(request, response) {
       if (error) {
         response.status(500).end();
       } else {
-        if (payload.admin) {
+        if (payload.isAdmin) {
           response.status(200).json({
             access_token: accessToken,
             type: "bearer",

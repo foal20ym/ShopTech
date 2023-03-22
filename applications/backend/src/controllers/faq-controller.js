@@ -69,7 +69,7 @@ export async function createFAQ(request, response) {
       const authorizationHeaderValue = request.get("Authorization");
       const accessToken = authorizationHeaderValue.substring(7);
       const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
-      if (!decodedToken.admin) {
+      if (!decodedToken.isAdmin) {
         throw new jwt.JsonWebTokenError();
       }
 
@@ -111,7 +111,7 @@ export async function updateFAQById(request, response) {
       const accessToken = authorizationHeaderValue.substring(7);
       const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
 
-      if (!decodedToken.admin) {
+      if (!decodedToken.isAdmin) {
         throw new jwt.JsonWebTokenError();
       }
 
@@ -143,7 +143,7 @@ export async function deleteFAQById(request, response) {
     const accessToken = authorizationHeaderValue.substring(7);
     const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
 
-    if (!decodedToken.admin) {
+    if (!decodedToken.isAdmin) {
       throw new jwt.JsonWebTokenError();
     }
 

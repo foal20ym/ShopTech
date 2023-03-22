@@ -1,5 +1,6 @@
 <script>
 import { navigate } from "svelte-routing"
+import { user } from "../user-store.js"
   export let id;
   let review = null;
   let updatedUsername = "";
@@ -10,10 +11,11 @@ import { navigate } from "svelte-routing"
 
   async function submitForm() {
     console.log(updatedStars);
-    const response = await fetch("http://localhost:8080/reviews/update/" + id, {
-      method: "PATCH",
+    const response = await fetch("http://localhost:8080/api/reviews/" + id, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer "+$user.accessToken
       },
       body: JSON.stringify({
         updatedUsername,
@@ -21,7 +23,7 @@ import { navigate } from "svelte-routing"
         updatedStars,
       }),
     });
-    if (response.status == 400 || response.status == 500) {
+    if (response.status == 400 || response.status == 401 || response.status == 500) {
       errorMessages = await response.json();
     } else if (response.ok) {
       updatedUsername = "";
@@ -35,7 +37,7 @@ import { navigate } from "svelte-routing"
 
   async function loadReview() {
     try {
-      const response = await fetch("http://localhost:8080/reviews/" + id);
+      const response = await fetch("http://localhost:8080/api/reviews/" + id);
       switch (response.status) {
         case 200:
           review = await response.json();
@@ -89,11 +91,11 @@ import { navigate } from "svelte-routing"
               <label for="floatingTextarea2">Description</label>
             </div>
             <div class="form-group">
-              <label class="form-label">Stars</label>
+              <label class="form-option">Stars</label>
               <select
                 class="form-select"
                 bind:value={updatedStars}
-                id="form-select"
+                id="form-option"
               >
                 <option>0</option>
                 <option>1</option>

@@ -81,14 +81,14 @@
           isLoggedIn: true,
           accessToken,
           userEmail: d,
-          admin: true
+          isAdmin: true
         };
         } else {
           $user = {
           isLoggedIn: true,
           accessToken,
           userEmail: d,
-          admin: false
+          isAdmin: false
         };
         }
 

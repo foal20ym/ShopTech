@@ -1,7 +1,7 @@
 <script>
   import { Link } from "svelte-routing";
 
-  const fetchReviewsPromise = fetch("http://localhost:8080/reviews");
+  const fetchReviewsPromise = fetch("http://localhost:8080/api/reviews");
 </script>
 
 <div class="container text-center">

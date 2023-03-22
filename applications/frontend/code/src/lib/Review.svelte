@@ -1,5 +1,6 @@
 <script>
   import { Link, navigate } from "svelte-routing";
+  import { user } from "../user-store.js";
   export let id;
   let isFetchingReview = true;
   let failedToFetchReview = false;
@@ -7,13 +8,16 @@
   let review = null;
 
   async function deleteReview() {
-    const response = await fetch("http://localhost:8080/reviews/delete/" + id, {
+    const response = await fetch("http://localhost:8080/api/reviews/" + id, {
       method: "DELETE",
+      headers: {
+        "Authorization": "Bearer "+$user.accessToken
+      }
     });
     if (response.ok) {
       navigate("/reviews", {
-        replace: false
-      })
+        replace: false,
+      });
     } else {
       console.log("Failed to delete review");
       failedToDeleteReview = true;
@@ -22,7 +26,7 @@
 
   async function loadReview() {
     try {
-      const response = await fetch("http://localhost:8080/reviews/" + id);
+      const response = await fetch("http://localhost:8080/api/reviews/" + id);
       switch (response.status) {
         case 200:
           review = await response.json();
@@ -54,16 +58,19 @@
               <strong>Description: </strong>{review.description}
             </p>
             <p><strong>Stars: </strong> {review.stars}/5</p>
-            <Link to="/review/update/{review.id}"
-              ><button type="button" class="btn btn-outline-dark mr-2 mt-3 mb-3"
-                >Update</button
-              ></Link
-            >
-            <button
-              type="button"
-              class="btn btn-outline-danger mt-3 mb-3"
-              on:click={deleteReview}>Delete</button
-            >
+            {#if $user.isLoggedIn && $user.isAdmin}
+              <Link to="/review/update/{review.id}"
+                ><button
+                  type="button"
+                  class="btn btn-outline-dark mr-2 mt-3 mb-3">Update</button
+                ></Link
+              >
+              <button
+                type="button"
+                class="btn btn-outline-danger mt-3 mb-3"
+                on:click={deleteReview}>Delete</button
+              >
+            {/if}
             {#if failedToDeleteReview}
               <p>Could'nt delete review, try again later</p>
             {/if}

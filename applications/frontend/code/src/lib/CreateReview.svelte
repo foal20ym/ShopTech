@@ -6,7 +6,7 @@ import { navigate } from "svelte-routing"
   let errorMessages = [];
 
   async function submitForm() {
-    const response = await fetch("http://localhost:8080/reviews/create", {
+    const response = await fetch("http://localhost:8080/api/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
