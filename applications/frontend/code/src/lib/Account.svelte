@@ -1,5 +1,5 @@
 <script>
-  import { Link, navigate, Route, Router } from "svelte-routing";
+  import { Link, navigate, Route } from "svelte-routing";
   import { Button, Alert } from "sveltestrap";
   import { user } from "../user-store.js";
   import UpdateAccount from "./UpdateAccount.svelte";
@@ -219,7 +219,7 @@
   <div class="centered-auth-section">
     <h4>Please Sign in to see your account.</h4>
     <Button>
-      <Link to="/signup" class="nav-link active" aria-current="page">Sign in</Link
+      <Link to="/Auth" class="nav-link active" aria-current="page">Sign in</Link
       >
     </Button>
 </div>

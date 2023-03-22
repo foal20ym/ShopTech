@@ -1,24 +1,11 @@
 <script lang="ts">
   import {
-    Nav,
-    NavItem,
-    Dropdown,
     DropdownItem,
-    DropdownToggle,
-    DropdownMenu,
-    NavLink,
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Col,
-    Row,
-    Container,
     Accordion,
     AccordionItem,
     Input,
   } from "sveltestrap";
-  import { Router, Link, Route } from "svelte-routing";
+  import {  Link } from "svelte-routing";
 
   const fetchAdvertsPromise = fetch("http://localhost:8080");
 

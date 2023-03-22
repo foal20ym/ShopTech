@@ -1,6 +1,5 @@
 <script>
-  import { Router, Link, navigate } from "svelte-routing";
-  import { onMount } from "svelte";
+  import { navigate } from "svelte-routing";
   let question = "";
   let answer = "";
   let errorMessages = [];

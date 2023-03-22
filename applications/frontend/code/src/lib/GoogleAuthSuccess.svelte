@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Router, Link, Route, navigate } from "svelte-routing";
+  import { navigate } from "svelte-routing";
   import { user } from "../user-store.js";
-  import { Container, Image, Col, Row, Button } from "sveltestrap";
+  import { Button } from "sveltestrap";
 
   let email = "";
   let username = "";
@@ -51,7 +51,7 @@
 
   let showSignIn = true;
 
-  async function login() {
+  async function signIn() {
     const response = await fetch("http://localhost:8080/tokens", {
       method: "POST",
       headers: {
@@ -104,34 +104,35 @@
     showSignIn = true;
   }
 
-  function signInWithGoogle(){
-    var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-    
+  function signInWithGoogle() {
+    var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 
-    var form = document.createElement('form');
-    form.setAttribute('method', 'GET'); 
-    form.setAttribute('action', oauth2Endpoint);
+    var form = document.createElement("form");
+    form.setAttribute("method", "GET");
+    form.setAttribute("action", oauth2Endpoint);
 
-    var params = {'client_id': '201835937760-f6akivk873pvq9cpoptsj9n4r2ktc2hj.apps.googleusercontent.com',
-                    'redirect_uri': 'http://127.0.0.1:5173/auth-response',
-                    'response_type': 'token',
-                    'scope':'https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/userinfo.email',
-                    'include_granted_scopes': 'true',
-                    'state': 'pass-through value'};
-    
+    var params = {
+      client_id:
+        "201835937760-f6akivk873pvq9cpoptsj9n4r2ktc2hj.apps.googleusercontent.com",
+      redirect_uri: "http://127.0.0.1:5173/auth-response",
+      response_type: "token",
+      scope:
+        "https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/userinfo.email",
+      include_granted_scopes: "true",
+      state: "pass-through value",
+    };
 
     for (var p in params) {
-        var input = document.createElement('input');
-        input.setAttribute('type', 'hidden');
-        input.setAttribute('name', p);
-        input.setAttribute('value', params[p]);
-        form.appendChild(input);
+      var input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", p);
+      input.setAttribute("value", params[p]);
+      form.appendChild(input);
     }
-    
+
     document.body.appendChild(form);
     form.submit();
-    }
-    
+  }
 </script>
 
 <div class="container ">
@@ -145,14 +146,14 @@
       </div>
     {:else}
       <div class="col me-5 form-box">
-        <h2 class="mt-5">Login or create an account to continue</h2>
+        <h2 class="mt-5">signIn or create an account to continue</h2>
         <div class="button-box mb-3">
           <div id="special-btn" />
           <button
             type="button"
             class="toggle-btn"
             class:active={showSignIn == true}
-            id="login-btn"
+            id="signIn-btn"
             on:click={() => (showSignIn = true)}>Sign in</button
           >
           <button
@@ -175,8 +176,8 @@
           <p class="signInFormParagraph">Or continue with email and password</p>
           <form
             class="input-group"
-            id="login-form"
-            on:submit|preventDefault={login}
+            id="signIn-form"
+            on:submit|preventDefault={signIn}
           >
             <div class="mb-3 mt-2">
               <input
@@ -200,7 +201,7 @@
               />
             </div>
             <div class="signUpPageButton">
-              <Button type="submit" value="Login">Login</Button>
+              <Button type="submit" value="signIn">signIn</Button>
             </div>
           </form>
           {#if errorCodes.length}

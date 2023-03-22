@@ -120,23 +120,30 @@
   }
 </script>
 
-<div class="centered-auth-section">
-  <h1>Authorization with Google was successful!</h1>
-  <h3 id="welcomeNameAfterAuth">Welcome:</h3>
-  <img id="welcomeImageAfterAuth" alt="Google_profile_picture" />
-
-  <div>
-    <Button class="btn btn-outline-dark mr-2 mt-3 mb-3">
-      <Link to="/account" class="nav-link active" aria-current="page"
-        >Click here to continue to your account</Link
-      >
-    </Button>
-    {#if !isRegistered}
-      <button
-        class="btn btn-outline-dark mr-2 mt-3 mb-3"
-        on:click={() => registerAuthenticatedUser()}
-        >Click here to finish registration</button
-      >
-    {/if}
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center">
+          <h1 class="mb-4">Authorization with Google was successful!</h1>
+          <img id="welcomeImageAfterAuth" alt="Google_profile_picture" />
+          <h3 id="welcomeNameAfterAuth">Welcome:</h3>
+          <div class="d-flex justify-content-center">
+            <Button class="btn btn-dark mr-2 mb-3">
+              <Link to="/account" class="nav-link active" aria-current="page">
+                Continue to Your Account
+              </Link>
+            </Button>
+            {#if !isRegistered}
+              <button
+                class="btn btn-outline-dark mb-3"
+                on:click={() => registerAuthenticatedUser()}>
+                Click here to Finish Registration
+              </button>
+            {/if}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
