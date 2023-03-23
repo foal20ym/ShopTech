@@ -91,6 +91,7 @@ import { user } from "../user-store.js"
               <label for="floatingTextarea2">Description</label>
             </div>
             <div class="form-group">
+              <!-- svelte-ignore a11y-label-has-associated-control -->
               <label class="form-option">Stars</label>
               <select
                 class="form-select"
