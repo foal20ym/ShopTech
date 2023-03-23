@@ -15,7 +15,7 @@
       },
       body: JSON.stringify({ question, answer }),
     });
-    if (response.status == 400 || response.status == 401 || response.status == 500) {
+    if (response.status == 400 || response.status == 401 || response.status == 404|| response.status == 500) {
       errorMessages = await response.json();
     } else if (response.ok) {
       console.log("FAQ created successfully");

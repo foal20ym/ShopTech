@@ -75,6 +75,7 @@ import { user } from "../user-store.js"
           <div class="mb-3 mt-2">
             <input
               type="text"
+              readonly
               class="form-control"
               id="update-faq-input"
               aria-describedby="emailHelp"

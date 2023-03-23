@@ -48,6 +48,7 @@
         isLoggedIn: true,
         accessToken: subFromInfo,
         userEmail: emailFromInfo,
+        isAdmin: false
       };
 
       console.log("userEmail from loadAtLaunch()", $user.userEmail);

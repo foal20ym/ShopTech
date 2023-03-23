@@ -156,7 +156,7 @@
       </div>
     {:else}
       <div class="col me-5 form-box">
-        <h2 class="mt-5">signIn or create an account to continue</h2>
+        <h2 class="mt-5">Sign in or create an account to continue</h2>
         <div class="button-box mb-3">
           <div id="special-btn" />
           <button
@@ -211,7 +211,7 @@
               />
             </div>
             <div class="signUpPageButton">
-              <Button type="submit" value="signIn">signIn</Button>
+              <Button type="submit" value="signIn">Sign in</Button>
             </div>
           </form>
           {#if errorCodes.length}
@@ -244,7 +244,7 @@
                   type="text"
                   class="form-control"
                   id="exampleInputPassword1"
-                  placeholder="username"
+                  placeholder="Username"
                   style="width: 400px;"
                   bind:value={username}
                 />

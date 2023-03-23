@@ -1,23 +1,24 @@
 <script>
 import { navigate } from "svelte-routing"
-  let username = "";
+import { user } from "../user-store.js"
   let description = "";
   let stars = "";
   let errorMessages = [];
 
   async function submitForm() {
+    let userEmail = $user.userEmail
     const response = await fetch("http://localhost:8080/api/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer "+$user.accessToken
       },
-      body: JSON.stringify({ username, description, stars }),
+      body: JSON.stringify({ userEmail, description, stars }),
     });
     if (response.status == 400 || response.status == 500) {
       errorMessages = await response.json();
     } else if (response.ok) {
       const locationHeader = response.headers.get("Location");
-      username = "";
       description = "";
       stars = "";
       if (locationHeader) {
@@ -46,15 +47,6 @@ import { navigate } from "svelte-routing"
         on:submit|preventDefault={submitForm}
       >
         <div class="mb-3 mt-2">
-          <input
-            type="text"
-            class="form-control"
-            id="update-faq-input"
-            aria-describedby="emailHelp"
-            placeholder="Username"
-            bind:value={username}
-            style="width: 400px;"
-          />
           <div class="form-floating mt-3">
             <textarea
               class="form-control"
