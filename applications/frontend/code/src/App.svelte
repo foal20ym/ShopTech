@@ -3,7 +3,7 @@
   import Home from "./lib/Home.svelte";
   import SellTech from "./lib/SellTech.svelte";
   import FAQ from "./lib/FAQ.svelte";
-  import Auth from "./lib/GoogleAuthSuccess.svelte";
+  import Auth from "./lib/Auth.svelte";
   import CreateAd from "./lib/CreateAd.svelte";
   import Advert from "./lib/Advert.svelte";
   import Account from "./lib/Account.svelte";
@@ -16,8 +16,26 @@
   import Review from "./lib/Review.svelte";
   import CreateReview from "./lib/CreateReview.svelte";
   import UpdateReview from "./lib/UpdateReview.svelte";
-  import AuthSuccess from "./lib/AuthSuccess.svelte";
+  import AuthSuccess from "./lib/GoogleAuthSuccess.svelte";
   import { user } from "./user-store.js";
+
+  function signOut() {
+    fetch("https://oauth2.googleapis.com/revoke?token=" + $user.accessToken, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+      },
+    }).then((data) => {
+      $user = {
+        isLoggedIn: false,
+        accessToken: "",
+        userEmail: "",
+        isAdmin: false,
+      };
+
+      location.href = "http://127.0.0.1:5173/Auth";
+    });
+  }
 </script>
 
 <Router>
@@ -66,6 +84,11 @@
                 <Link to="/account" class="nav-link active" aria-current="page"
                   >Account</Link
                 >
+              </li>
+              <li class="nav-item">
+                <button class="nav-link active" style="background-color: transparent; border-color: transparent;" on:click={() => signOut()}>
+                  Sign out
+                </button>
               </li>
             {:else}
               <li class="nav-item">

@@ -229,7 +229,7 @@ export async function registerGoogleAuthUser(request, response) {
   const createdAt = date.toISOString().split("T")[0];
 
   try {
-    const values = [accountData.e, accountData.firstName, accountData.lastName, createdAt];
+    const values = [accountData.emailFromUserStore, accountData.firstName, accountData.lastName, createdAt];
     const newAccount = await db.query("INSERT INTO accounts (email, firstName, lastName, createdAt) VALUES (?,?,?,?)", values);
     response.status(201).send("Account created successfully").json();
     console.log("Account created successfully")
