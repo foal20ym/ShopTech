@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Link, Route } from "svelte-routing";
-  import Auth from "./GoogleAuthSuccess.svelte";
+  import Auth from "./Auth.svelte";
   import CreateAd from "./CreateAd.svelte";
   import { user } from "../user-store.js";
 

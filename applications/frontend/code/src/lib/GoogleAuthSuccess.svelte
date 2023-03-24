@@ -1,324 +1,151 @@
 <script lang="ts">
-  import { navigate } from "svelte-routing";
-  import { user } from "../user-store.js";
   import { Button } from "sveltestrap";
+  import { Link, navigate } from "svelte-routing";
+  import { user } from "../user-store";
 
-  let email = "";
-  let username = "";
-  let password = "";
-  let address = "";
+  var params = {};
+  var regex = /([^&=]+)=([^&]*)/g,
+    m;
+
+  while ((m = regex.exec(location.href))) {
+    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+  if (Object.keys(params).length > 0) {
+    localStorage.setItem("authInfo", JSON.stringify(params));
+  }
+  window.history.pushState({}, document.title, "/" + "auth-response");
+
+  let info = JSON.parse(localStorage.getItem("authInfo"));
+  console.log(info["access_token"]);
+  console.log(info["expires_in"]);
+  let subFromInfo = "";
+  let emailFromInfo = "";
   let firstName = "";
   let lastName = "";
-  let phoneNumber = "";
   let accountWasCreated = false;
   let errorCodes = [];
+  let isRegistered = true;
+  let userData = null;
 
-  async function signUp() {
-    const account = {
-      email,
-      username,
-      password,
-      address,
-      firstName,
-      lastName,
-      phoneNumber,
-    };
+  fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+    headers: {
+      Authorization: `Bearer ${info["access_token"]}`,
+    },
+  })
+    .then((data) => data.json())
+    .then(async (info) => {
+      //console.log(info);
+      subFromInfo = info.sub;
+      emailFromInfo = info.email;
+      firstName = info.given_name;
+      lastName = info.family_name;
+      document.getElementById("welcomeNameAfterAuth").innerHTML += info.name;
+      document
+        .getElementById("welcomeImageAfterAuth")
+        .setAttribute("src", info.picture);
 
-    try {
-      const response = await fetch("http://localhost:8080/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(account),
-      });
+      $user = {
+        isLoggedIn: true,
+        accessToken: subFromInfo,
+        userEmail: emailFromInfo,
+        isAdmin: false
+      };
 
-      switch (response.status) {
-        case 201:
-          accountWasCreated = true;
-          break;
+      console.log("userEmail from loadAtLaunch()", $user.userEmail);
+      console.log("isLoggedIn from loadAtLaunch()", $user.isLoggedIn);
+    })
+    .then(async function reg() {
+      console.log("isUserRegistered email test:", $user.userEmail);
+      try {
+        const response = await fetch(
+          "http://localhost:8080/account/" + $user.userEmail
+        );
+        console.log("userEmail from isUserRegistered()", $user.userEmail);
 
-        case 400:
-          errorCodes = await response.json();
-          errorCodes.push("BIG ERROR");
-          break;
+        switch (response.status) {
+          case 200:
+            userData = await response.json();
+            break;
+        }
+      } catch (error) {
+        console.log("error:", error);
       }
-    } catch (error) {
-      errorCodes.push("COMMUNICATION_ERROR");
-      errorCodes = errorCodes;
-    }
-  }
-
-  let showSignIn = true;
-
-  async function signIn() {
-    const response = await fetch("http://localhost:8080/tokens", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + $user.accessToken,
-      },
-      body: `grant_type=password&username=${encodeURIComponent(
-        email
-      )}&password=${encodeURIComponent(password)}`,
+      //If user does not exist, userData is null
+      if (userData == null) {
+        isRegistered = false;
+      }
+      console.log("userData:", userData);
+      console.log("isUserRegistred: ", isRegistered);
     });
 
-    const body = await response.json();
-    console.log("body: ", body);
+  async function registerAuthenticatedUser() {
+    console.log("User.email from register", $user.userEmail);
+    console.log("User.isLoggedIn from register", $user.isLoggedIn);
+    const emailFromUserStore = $user.userEmail;
+    console.log(emailFromUserStore)
+    if (!isRegistered) {
+      const account = {
+        emailFromUserStore,
+        firstName,
+        lastName,
+      };
 
-    const accessToken = body.access_token;
-    const emailFromAuth = body.username;
-
-    console.log(response.status);
-    switch (response.status) {
-      case 200:
-        if (body.admin == "admin") {
-          $user = {
-          isLoggedIn: true,
-          accessToken,
-          userEmail: emailFromAuth,
-          isAdmin: true
-        };
-        } else {
-          $user = {
-          isLoggedIn: true,
-          accessToken,
-          userEmail: emailFromAuth,
-          isAdmin: false
-        };
-        }
-
-        navigate("/account", {
-          replace: false,
+      try {
+        const response = await fetch("http://localhost:8080/registerFromAuth", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(account),
         });
 
-        break;
+        switch (response.status) {
+          case 201:
+            accountWasCreated = true;
+            navigate("/account", {
+              replace: false,
+            });
+            break;
 
-      case 400:
-        errorCodes.push(body);
-        break;
-
-      default:
-        errorCodes.push("Unexpected response");
+          case 400:
+            errorCodes = await response.json();
+            errorCodes.push("Errorcode: 400");
+            break;
+        }
+      } catch (error) {
+        errorCodes.push("COMMUNICATION_ERROR");
+        errorCodes = errorCodes;
+      }
+    } else {
+      console.log("Google user is already registered! (Error)");
     }
-  }
-
-  function onSignUpSubmitted() {
-    email = "";
-    password = "";
-    username = "";
-    firstName = "";
-    lastName = "";
-    phoneNumber = "";
-    accountWasCreated = false;
-    showSignIn = true;
-  }
-
-  function signInWithGoogle() {
-    var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-
-    var form = document.createElement("form");
-    form.setAttribute("method", "GET");
-    form.setAttribute("action", oauth2Endpoint);
-
-    var params = {
-      client_id:
-        "201835937760-f6akivk873pvq9cpoptsj9n4r2ktc2hj.apps.googleusercontent.com",
-      redirect_uri: "http://127.0.0.1:5173/auth-response",
-      response_type: "token",
-      scope:
-        "https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/userinfo.email",
-      include_granted_scopes: "true",
-      state: "pass-through value",
-    };
-
-    for (var p in params) {
-      var input = document.createElement("input");
-      input.setAttribute("type", "hidden");
-      input.setAttribute("name", p);
-      input.setAttribute("value", params[p]);
-      form.appendChild(input);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
   }
 </script>
 
-<div class="container ">
-  <div class="row">
-    {#if accountWasCreated}
-      <div>
-        <h1>Account was created!</h1>
-        <Button id="sellTechButton" on:click={() => onSignUpSubmitted()}>
-          Sign in
-        </Button>
-      </div>
-    {:else}
-      <div class="col me-5 form-box">
-        <h2 class="mt-5">signIn or create an account to continue</h2>
-        <div class="button-box mb-3">
-          <div id="special-btn" />
-          <button
-            type="button"
-            class="toggle-btn"
-            class:active={showSignIn == true}
-            id="signIn-btn"
-            on:click={() => (showSignIn = true)}>Sign in</button
-          >
-          <button
-            type="button"
-            class="toggle-btn"
-            class:active={showSignIn == false}
-            id="signup-btn"
-            on:click={() => (showSignIn = false)}>Sign up</button
-          >
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center">
+          <h1 class="mb-4">Authorization with Google was successful!</h1>
+          <img id="welcomeImageAfterAuth" alt="Google_profile_picture" />
+          <h3 id="welcomeNameAfterAuth">Welcome:</h3>
+          <div class="d-flex justify-content-center">
+            <Button class="btn btn-dark mr-2 mb-3">
+              <Link to="/account" class="nav-link active" aria-current="page">
+                Continue to Your Account
+              </Link>
+            </Button>
+            {#if !isRegistered}
+              <button
+                class="btn btn-outline-dark mb-3"
+                on:click={() => registerAuthenticatedUser()}>
+                Click here to Finish Registration
+              </button>
+            {/if}
+          </div>
         </div>
-        {#if showSignIn}
-          <button class="button-google" on:click={() => signInWithGoogle()}>
-            <img
-              class="button-google__icon"
-              src="/signin-with-google-button-logo.png"
-              alt="sign_in_with_Google"
-            />
-            <span class="button-google__text">Sign in with Google</span>
-          </button>
-          <p class="signInFormParagraph">Or continue with email and password</p>
-          <form
-            class="input-group"
-            id="signIn-form"
-            on:submit|preventDefault={signIn}
-          >
-            <div class="mb-3 mt-2">
-              <input
-                type="username"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Email"
-                style="width: 400px;"
-                bind:value={email}
-              />
-            </div>
-            <div class="mb-3">
-              <input
-                type="password"
-                class="form-control"
-                id="exampleInputPassword1"
-                placeholder="Password"
-                style="width: 400px;"
-                bind:value={password}
-              />
-            </div>
-            <div class="signUpPageButton">
-              <Button type="submit" value="signIn">signIn</Button>
-            </div>
-          </form>
-          {#if errorCodes.length}
-            <p>Errors:</p>
-            <ul>
-              {#each errorCodes as errorCode}
-                <li>{errorCode}</li>
-              {/each}
-            </ul>
-          {/if}
-        {:else}
-          <form
-            class="input-group"
-            id="register-form"
-            on:submit|preventDefault={signUp}
-          >
-            <div class="mb-3 mt-2">
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Email"
-                  style="width: 400px;"
-                  bind:value={email}
-                />
-              </div>
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="username"
-                  style="width: 400px;"
-                  bind:value={username}
-                />
-              </div>
-              <div class="mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                  style="width: 400px;"
-                  bind:value={password}
-                />
-              </div>
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Address"
-                  style="width: 400px;"
-                  bind:value={address}
-                />
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="First name"
-                style="width: 400px;"
-                bind:value={firstName}
-              />
-            </div>
-            <div class="mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputPassword1"
-                placeholder="Last name"
-                style="width: 400px;"
-                bind:value={lastName}
-              />
-            </div>
-            <div class="mb-3">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Phone Number"
-                style="width: 400px;"
-                bind:value={phoneNumber}
-              />
-            </div>
-            <div class="signUpPageButton">
-              <Button type="submit" id="CreateAdButton" value="Signup">
-                Sign up
-              </Button>
-            </div>
-          </form>
-          {#if errorCodes.length}
-            <p>Errors:</p>
-            <ul>
-              {#each errorCodes as errorCode}
-                <li>{errorCode}</li>
-              {/each}
-            </ul>
-          {/if}
-        {/if}
       </div>
-    {/if}
-    <div class="col col-media-hide mt-5">
-      <img
-        src="/appleProductsStockPhoto.png"
-        alt="/appleProductsStockPhoto.png"
-        id="sellTechImg"
-      />
     </div>
   </div>
 </div>
