@@ -88,6 +88,11 @@ export async function createReview(request, response) {
           throw new jwt.JsonWebTokenError();
         }
       }
+
+      if(username === "" || username === null){
+        username = request.body.userEmail
+      }
+      
       const values = [
         username,
         request.body.description,

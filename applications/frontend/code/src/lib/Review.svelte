@@ -53,11 +53,7 @@
         <div class="mt-3 text-center">
           <ul>
             <hr />
-            {#if review.username === "" || review.username === null}
-              <h4>Username: {$user.userEmail}</h4>
-            {:else}
-              <h4>Username: {review.username}</h4>
-            {/if}
+            <h4>Username: {review.username}</h4>
             <p class="text-wrap">
               <strong>Description: </strong>{review.description}
             </p>

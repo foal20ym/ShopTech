@@ -22,11 +22,7 @@
             <ul>
               {#each reviews as review}
                 <hr />
-                {#if review.username === "" ||review.username === null}
-              <h4>Username: {$user.userEmail}</h4>
-            {:else}
-              <h4>Username: {review.username}</h4>
-            {/if}
+                <h4>Username: {review.username}</h4>
                 <p>Stars: {review.stars}/5</p>
                 <Link to="/review/{review.id}" class="text-dark"
                   >Click here to read the full review</Link
