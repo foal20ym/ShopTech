@@ -45,8 +45,7 @@
   loadUserData();
 
   async function handleFileUpload(event) {
-
-    console.log("HANDLEFILEINPUT")
+    console.log("HANDLEFILEINPUT");
 
     const fileInput = event.target.querySelector('input[type="file"]');
     const file = fileInput.files[0];
@@ -54,19 +53,21 @@
     data.append("image", file);
 
     try {
-      const response = await fetch("http://localhost:8080/api/adverts/upload/" + $user.userEmail, {
-        method: "PATCH",
-        body: data,
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/adverts/upload/" + $user.userEmail,
+        {
+          method: "PATCH",
+          body: data,
+        }
+      );
       console.log(response);
     } catch (error) {
       console.error(error);
     }
   }
-  
 
   async function createAdvert() {
-    console.log("CREATE ADVERT")
+    console.log("CREATE ADVERT");
     const advert = {
       category,
       title,
@@ -82,7 +83,7 @@
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + $user.accessToken,
+          Authorization: "Bearer " + $user.accessToken,
         },
         body: JSON.stringify(advert),
       });
@@ -103,126 +104,127 @@
   }
 
   async function getData() {
-  
-  const values = await Promise.all([createAdvert(), handleFileUpload(event)]);
-
+    const values = await Promise.all([createAdvert(), handleFileUpload(event)]);
   }
 </script>
+
 {#if $user.isLoggedIn}
+  {#if advertWasCreated}
+    <p>Advert was created!</p>
+  {:else}
+    <div id="CreateAd">
+      <Container>
+        <Row cols={2}>
+          <Row>
+            <Col id="CreateAdSpecifications" sm={{ offset: 1 }}>
+              <form
+                on:submit|preventDefault={getData}
+                enctype="multipart/form-data"
+              >
+                <FormGroup class="CreateAdForm">
+                  <Label for="exampleSelect">Select Category:</Label>
+                  <Input
+                    type="select"
+                    name="select"
+                    id="exampleSelect"
+                    on:change={handleSelect}
+                    bind:value={category}
+                  >
+                    <option>iPhone</option>
+                    <option>iPad</option>
+                    <option>MacBook</option>
+                    <option>iMac</option>
+                  </Input>
+                </FormGroup>
 
-{#if advertWasCreated}
-  <p>Advert was created!</p>
-{:else}
-  <div id="CreateAd">
-    <Container>
-      <Row cols={2}>
-        <Row>
-          <Col id="CreateAdSpecifications" sm={{ offset: 1 }}>
-            <form on:submit|preventDefault={getData} enctype="multipart/form-data">
-              <FormGroup class="CreateAdForm">
-                <Label for="exampleSelect">Select Category:</Label>
-                <Input
-                  type="select"
-                  name="select"
-                  id="exampleSelect"
-                  on:change={handleSelect}
-                  bind:value={category}
-                >
-                  <option>iPhone</option>
-                  <option>iPad</option>
-                  <option>MacBook</option>
-                  <option>iMac</option>
-                </Input>
-              </FormGroup>
+                <FormGroup class="CreateAdForm">
+                  <Label for="exampleSelect">Title:</Label>
+                  <Input
+                    type="text"
+                    name="search"
+                    id="exampleSearch"
+                    placeholder="ex: iPhone 13 Pro"
+                    bind:value={title}
+                  />
+                </FormGroup>
 
-              <FormGroup class="CreateAdForm">
-                <Label for="exampleSelect">Title:</Label>
-                <Input
-                  type="text"
-                  name="search"
-                  id="exampleSearch"
-                  placeholder="ex: iPhone 13 Pro"
-                  bind:value={title}
-                />
-              </FormGroup>
+                <FormGroup class="CreateAdForm">
+                  <Label for="exampleSelect">Description:</Label>
+                  <Input
+                    type="text"
+                    name="search"
+                    id="exampleSearch"
+                    placeholder="ex: The iPhone is in very good condition..."
+                    bind:value={description}
+                  />
+                </FormGroup>
 
-              <FormGroup class="CreateAdForm">
-                <Label for="exampleSelect">Description:</Label>
-                <Input
-                  type="text"
-                  name="search"
-                  id="exampleSearch"
-                  placeholder="ex: The iPhone is in very good condition..."
-                  bind:value={description}
-                />
-              </FormGroup>
+                <FormGroup class="CreateAdForm">
+                  <Label for="exampleSelect">Price:</Label>
+                  <Input
+                    type="text"
+                    bind:value={price}
+                    name="search"
+                    id="exampleSearch"
+                    placeholder="ex: $899"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleFile">Upload picture</Label>
+                  <!--Input type="file" name="image" bind:value={img_src}/-->
+                  <Input type="file" name="image" />
+                  <FormText color="muted">
+                    Please choose at least one clear picture of your device. If
+                    no clear picture is submitted we reserve the right to reject
+                    the ad.
+                  </FormText>
+                </FormGroup>
 
-              <FormGroup class="CreateAdForm">
-                <Label for="exampleSelect">Price:</Label>
-                <Input
-                  type="text"
-                  bind:value={price}
-                  name="search"
-                  id="exampleSearch"
-                  placeholder="ex: $899"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleFile">Upload picture</Label>
-                <!--Input type="file" name="image" bind:value={img_src}/-->
-                <Input type="file" name="image" />
-                <FormText color="muted">
-                  Please choose at least one clear picture of your device. If no
-                  clear picture is submitted we reserve the right to reject the
-                  ad.
-                </FormText>
-              </FormGroup>
-
-              <Col sm={{ offset: 2 }}>
-                <Button type="submit" id="CreateAdButton" value="Create ad">
-                  Create Ad
-                </Button>
-              </Col>
-              <!--input type="submit" value="Create ad"-->
-            </form>
+                <Col sm={{ offset: 2 }}>
+                  <Button type="submit" id="CreateAdButton" value="Create ad">
+                    Create Ad
+                  </Button>
+                </Col>
+                <!--input type="submit" value="Create ad"-->
+              </form>
+            </Col>
+          </Row>
+          <Col>
+            <div id="CreateAdPictureAndText">
+              <p>Sell your old tech to us and get a fair price.</p>
+              <p>We guarantee that we can offer the highest price.</p>
+              <p>If you were to find a better price, we’ll match it.</p>
+            </div>
+            <Col>
+              <img
+                src="./appleProductsStockPhoto.png"
+                alt="./appleProductsStockPhoto.png"
+                id="CreateAdImg"
+              />
+            </Col>
           </Col>
         </Row>
-        <Col>
-          <div id="CreateAdPictureAndText">
-            <p>Sell your old tech to us and get a fair price.</p>
-            <p>We guarantee that we can offer the highest price.</p>
-            <p>If you were to find a better price, we’ll match it.</p>
-          </div>
-          <Col>
-            <img
-              src="./appleProductsStockPhoto.png"
-              alt="./appleProductsStockPhoto.png"
-              id="CreateAdImg"
-            />
-          </Col>
-        </Col>
-      </Row>
-    </Container>
-  </div>
+      </Container>
+    </div>
 
-  {#if 0 < errorCodes.length}
-    <p>the following errors occured:</p>
+    {#if 0 < errorCodes.length}
+      <p>the following errors occured:</p>
 
-    <ul>
-      {#each errorCodes as errorCode}
-        <li>{errorCode}</li>
-      {/each}
-    </ul>
+      <ul>
+        {#each errorCodes as errorCode}
+          <li>{errorCode}</li>
+        {/each}
+      </ul>
+    {/if}
   {/if}
-{/if}
 {:else}
-<div class="centered-auth-section">
-  <h4>Please Sign in to create adverts.</h4>
+  <div class="centered-auth-section">
+    <h4>Please Sign in to create adverts.</h4>
     <Button>
       <Link to="/Auth" class="nav-link active" aria-current="page">Sign in</Link
       >
     </Button>
-</div>
+  </div>
 {/if}
 
 <!--Button id="sellTechButton"> <Link to="/home" class="nav-link active" aria-current="page">Home</Link> </Button-->

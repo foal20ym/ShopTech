@@ -86,7 +86,11 @@
                 >
               </li>
               <li class="nav-item">
-                <button class="nav-link active" style="background-color: transparent; border-color: transparent;" on:click={() => signOut()}>
+                <button
+                  class="nav-link active"
+                  style="background-color: transparent; border-color: transparent;"
+                  on:click={() => signOut()}
+                >
                   Sign out
                 </button>
               </li>

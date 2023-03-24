@@ -54,7 +54,7 @@
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + $user.accessToken
+            Authorization: "Bearer " + $user.accessToken,
           },
           body: JSON.stringify(account),
         }
@@ -90,7 +90,6 @@
   }
 
   loadUserAdverts();
-
 </script>
 
 {#if $user.isLoggedIn}
@@ -207,7 +206,6 @@
 {:else}
   <div>Please Login to see your account.</div>
   <Button id="sellTechButton">
-    <Link to="/Auth" class="nav-link active" aria-current="page">Sign in</Link
-    >
+    <Link to="/Auth" class="nav-link active" aria-current="page">Sign in</Link>
   </Button>
 {/if}

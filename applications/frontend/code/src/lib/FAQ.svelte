@@ -1,10 +1,6 @@
 <script lang="ts">
   import { Link } from "svelte-routing";
-  import {
-    DropdownItem,
-    Accordion,
-    AccordionItem,
-  } from "sveltestrap";
+  import { DropdownItem, Accordion, AccordionItem } from "sveltestrap";
   import { user } from "../user-store.js";
 
   const fetchFAQPromise = fetch("http://localhost:8080/api/faq");
@@ -48,7 +44,11 @@
 
                     <DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
                     {#if $user.isLoggedIn && $user.isAdmin}
-                      <Link to="/faq/{faq.id}" class="text-dark" style="text-decoration: underline;">Edit</Link>
+                      <Link
+                        to="/faq/{faq.id}"
+                        class="text-dark"
+                        style="text-decoration: underline;">Edit</Link
+                      >
                     {/if}
                   </AccordionItem>
                 </Accordion>

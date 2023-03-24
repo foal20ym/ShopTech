@@ -1,11 +1,6 @@
 <script lang="ts">
-  import {
-    DropdownItem,
-    Accordion,
-    AccordionItem,
-    Input,
-  } from "sveltestrap";
-  import {  Link } from "svelte-routing";
+  import { DropdownItem, Accordion, AccordionItem, Input } from "sveltestrap";
+  import { Link } from "svelte-routing";
 
   const fetchAdvertsPromise = fetch("http://localhost:8080/api/adverts");
 

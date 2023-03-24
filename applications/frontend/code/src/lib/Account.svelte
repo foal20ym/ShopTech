@@ -60,7 +60,7 @@
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + $user.accessToken
+            Authorization: "Bearer " + $user.accessToken,
           },
         }
       );
@@ -223,7 +223,7 @@
       <Link to="/Auth" class="nav-link active" aria-current="page">Sign in</Link
       >
     </Button>
-</div>
+  </div>
 {/if}
 
 <Route path="updateAccount" component={UpdateAccount} />

@@ -83,7 +83,7 @@
   async function deleteAdvert() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/" + id,
+        "http://localhost:8080/api/adverts/" + id,
         {
           method: "DELETE",
           headers: {

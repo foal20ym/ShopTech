@@ -25,13 +25,16 @@
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/accounts/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(account),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/accounts/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(account),
+        }
+      );
 
       switch (response.status) {
         case 201:
@@ -55,7 +58,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer " + $user.accessToken,
+        Authorization: "Bearer " + $user.accessToken,
       },
       body: `grant_type=password&username=${encodeURIComponent(
         email
@@ -73,18 +76,18 @@
       case 200:
         if (body.admin == "admin") {
           $user = {
-          isLoggedIn: true,
-          accessToken,
-          userEmail: emailFromAuth,
-          isAdmin: true
-        };
+            isLoggedIn: true,
+            accessToken,
+            userEmail: emailFromAuth,
+            isAdmin: true,
+          };
         } else {
           $user = {
-          isLoggedIn: true,
-          accessToken,
-          userEmail: emailFromAuth,
-          isAdmin: false
-        };
+            isLoggedIn: true,
+            accessToken,
+            userEmail: emailFromAuth,
+            isAdmin: false,
+          };
         }
 
         navigate("/account", {

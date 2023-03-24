@@ -48,7 +48,7 @@
         isLoggedIn: true,
         accessToken: subFromInfo,
         userEmail: emailFromInfo,
-        isAdmin: false
+        isAdmin: false,
       };
 
       console.log("userEmail from loadAtLaunch()", $user.userEmail);
@@ -82,7 +82,7 @@
     console.log("User.email from register", $user.userEmail);
     console.log("User.isLoggedIn from register", $user.isLoggedIn);
     const emailFromUserStore = $user.userEmail;
-    console.log(emailFromUserStore)
+    console.log(emailFromUserStore);
     if (!isRegistered) {
       const account = {
         emailFromUserStore,
@@ -91,13 +91,16 @@
       };
 
       try {
-        const response = await fetch("http://localhost:8080/api/accounts/registerFromAuth", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(account),
-        });
+        const response = await fetch(
+          "http://localhost:8080/api/accounts/registerFromAuth",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(account),
+          }
+        );
 
         switch (response.status) {
           case 201:
@@ -139,7 +142,8 @@
             {#if !isRegistered}
               <button
                 class="btn btn-outline-dark mb-3"
-                on:click={() => registerAuthenticatedUser()}>
+                on:click={() => registerAuthenticatedUser()}
+              >
                 Click here to Finish Registration
               </button>
             {/if}

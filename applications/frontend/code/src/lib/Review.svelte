@@ -11,8 +11,8 @@
     const response = await fetch("http://localhost:8080/api/reviews/" + id, {
       method: "DELETE",
       headers: {
-        "Authorization": "Bearer "+$user.accessToken
-      }
+        Authorization: "Bearer " + $user.accessToken,
+      },
     });
     if (response.ok) {
       navigate("/reviews", {
@@ -53,7 +53,11 @@
         <div class="mt-3 text-center">
           <ul>
             <hr />
-            <h4>Username: {review.username}</h4>
+            {#if review.username === "" || review.username === null}
+              <h4>Username: {$user.userEmail}</h4>
+            {:else}
+              <h4>Username: {review.username}</h4>
+            {/if}
             <p class="text-wrap">
               <strong>Description: </strong>{review.description}
             </p>
