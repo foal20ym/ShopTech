@@ -62,6 +62,7 @@
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer " + $user.accessToken
           },
           body: JSON.stringify(advert),
         }
@@ -87,6 +88,7 @@
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer " + $user.accessToken
           },
         }
       );

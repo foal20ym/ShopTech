@@ -55,7 +55,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + $user.accessToken,
+        "Authorization": "Bearer " + $user.accessToken,
       },
       body: `grant_type=password&username=${encodeURIComponent(
         email

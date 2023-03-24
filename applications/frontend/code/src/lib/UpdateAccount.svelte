@@ -54,6 +54,7 @@
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer " + $user.accessToken
           },
           body: JSON.stringify(account),
         }
