@@ -10,6 +10,8 @@ const MIN_DESCRIPTION_LENGTH = 15
 const MAX_DESCRIPTION_LENGTH = 128
 const MIN_PRICE = 1
 const MAX_PRICE = Number.MAX_SAFE_INTEGER
+const DATABASE_ERROR_MESSAGE = "Internal server error";
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed"
 
 
 export async function getUserAdverts(request, response) {
@@ -29,7 +31,7 @@ export async function getUserAdverts(request, response) {
     response.status(200).json(adverts);
   } catch (error) {
     console.error(error);
-    response.status(500).send("Internal server error");
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
@@ -39,7 +41,7 @@ export async function getAdverts(request, response) {
     response.status(200).json(adverts);
   } catch (error) {
     console.error(error);
-    response.status(500).send("Error getting Adverts");
+    response.status(500).send("Error getting adverts");
   }
 }
 
@@ -138,31 +140,32 @@ export async function createAdvert(request, response) {
     const newAdvert = await db.query("INSERT INTO adverts (category, title, price, description, img_src, createdAt, accountID) VALUES (?,?,?,?,?,?,?)", values);
     response.status(201).send("Advert created successfully").json();
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    if (error instanceof jwt.JsonWebTokenError) {
+      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+    } else {
+      console.error(error.status);
+      response.status(500).json([DATABASE_ERROR_MESSAGE]);
+    }
   }
 }
 
 export async function insertImageIntoAdvertById(request, response) {
-
-  console.log("INSERTING IMAGE INTO ADVERT")
-  let accountID = ""
-
+  let accountID = "";
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
     accountID = user[0].accountID
   } catch (error) {
-    console.error(error);
+    console.error(error.status);
   }
   let advertID = ""
   try {
-    const id = accountID
+    const id = accountID;
     const adverts = await db.query(
       "SELECT MAX(advertID) AS maxAdvertID FROM adverts WHERE accountID = ?", id);
     advertID = adverts[0].maxAdvertID;
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 
   const image = request.file.buffer.toString('base64')
@@ -170,15 +173,14 @@ export async function insertImageIntoAdvertById(request, response) {
   try {
     const values = [image, updateID];
     const insertedImageIntoAdvert = await db.query("UPDATE adverts SET img_src = ? WHERE advertID = ?", values);
-    response.status(200).send("Advert updated successfully").json();
+    response.status(200).send("Image insterted into advert successfully").json();
   } catch (error) {
-    response.status(500).send("Error getting advert");
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function updateAdvertById(request, response) {
-  const advertData = request.body
-
+  const advertData = request.body;
   if (!request.body) {
     response.status(400).send("Missing request body");
     return;
@@ -222,7 +224,11 @@ export async function deleteAdvertById(request, response) {
     await db.query("DELETE FROM adverts WHERE advertID = ?", [request.params.id])
     response.status(204).send("Advert successfully deleted");
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    if (error instanceof jwt.JsonWebTokenError) {
+      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+    } else {
+      console.error(error.status);
+      response.status(500).json([DATABASE_ERROR_MESSAGE]);
+    }
   }
 }

@@ -13,36 +13,35 @@ const MAX_FIRSTNAME_LENGTH = 128
 const MIN_LASTNAME_LENGTH = 2
 const MAX_LASTNAME_LENGTH = 128
 export const ADMIN_EMAIL = "admin@shoptech.com"
-
+const DATABASE_ERROR_MESSAGE = "Internal server error";
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed"
 
 export async function getUserByEmail(request, response) {
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
     response.status(200).json(user[0]);
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function getUserByAdvertId(request, response) {
-  let accountID = ""
-
+  let accountID = "";
   try {
     const adverts = await db.query("SELECT * FROM adverts WHERE advertID = ?", [request.params.id]);
-    accountID = adverts[0].accountID
-    console.log("accountID", accountID)
+    accountID = adverts[0].accountID;
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 
   try {
     const user = await db.query("SELECT * FROM accounts WHERE accountID = ?", [accountID]);
-    console.log("owner email", user[0].email)
     response.status(200).json(user[0]);
   } catch (error) {
-    console.error(error);
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
@@ -66,7 +65,7 @@ export async function signIn(request, response) {
     existingPassword = user[0]?.password || "";
   } catch (error) {
     console.error(error);
-    response.status(500).send("Internal server error");
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
     return;
   }
 
@@ -146,13 +145,10 @@ function validateEmail(email) {
 }
 
 export async function signUp(request, response) {
-
-  console.log("Creating account")
-  const accountData = request.body
-  const errorMessages = []
+  const accountData = request.body;
+  const errorMessages = [];
   let emailTaken;
-  console.log(accountData)
-  const hashedPassword = await bcrypt.hash(accountData.password, SALT_ROUNDS)
+  const hashedPassword = await bcrypt.hash(accountData.password, SALT_ROUNDS);
 
   const date = new Date();
   const createdAt = date.toISOString().split("T")[0];
@@ -161,34 +157,34 @@ export async function signUp(request, response) {
   const regexCheckSpecialCharacter = /^(?=.*[!@#$%^&*])/;
 
   if (!validateEmail(accountData.email)) {
-    errorMessages.push("Invalid email")
+    errorMessages.push("Invalid email");
   }
   if (accountData.address.length == 0) {
-    errorMessages.push("Address can't be null, please enter a valid address.")
+    errorMessages.push("Address can't be null, please enter a valid address.");
   }
   if (accountData.phoneNumber.length == 0) {
-    errorMessages.push("Invalid phone number: Too short")
+    errorMessages.push("Invalid phone number: Too short");
   } else if (!(regexCheckNumber.test(accountData.phoneNumber))) {
-    errorMessages.push("Invalid phone number: Must be digits only")
+    errorMessages.push("Invalid phone number: Must be digits only");
   }
   if (regexCheckSpecialCharacter.test(accountData.password)) {
-    errorMessages.push("Password must contain at least one special character")
+    errorMessages.push("Password must contain at least one special character");
   } else if (accountData.password.length == 0) {
-    errorMessages.push("Password length can't be 0")
+    errorMessages.push("Password length can't be 0");
   } else if (accountData.password.length < MIN_PASSWORD_LENGTH) {
-    errorMessages.push("Password must be at least " + MIN_PASSWORD_LENGTH + " characters long")
+    errorMessages.push("Password must be at least " + MIN_PASSWORD_LENGTH + " characters long");
   } else if (MAX_PASSWORD_LENGTH < accountData.password.length) {
-    errorMessages.push("Password can't be more than " + MAX_PASSWORD_LENGTH + " characters long")
+    errorMessages.push("Password can't be more than " + MAX_PASSWORD_LENGTH + " characters long");
   }
 
   try {
     emailTaken = await db.query("SELECT * FROM accounts WHERE email = ?", [accountData.email]);
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
   console.log(emailTaken)
-  if(!(emailTaken === null || emailTaken == "")){
+  if (!(emailTaken === null || emailTaken == "")) {
     errorMessages.push("Email address already in use")
   }
   if (accountData.email.length == 0) {
@@ -214,7 +210,7 @@ export async function signUp(request, response) {
   } else if (MAX_LASTNAME_LENGTH < accountData.lastName.length) {
     errorMessages.push("Last name can't be more than " + MAX_LASTNAME_LENGTH + " characters long")
   }
-  
+
   if (0 < errorMessages.length) {
     response.status(400).json(errorMessages)
     console.log("Statuscode: 400, [errors]")
@@ -227,15 +223,14 @@ export async function signUp(request, response) {
     response.status(201).send("Account created successfully").json();
     console.log("Account created successfully")
   } catch (error) {
-    console.error(error);
-    console.log("error")
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function registerGoogleAuthUser(request, response) {
-  console.log("registerGoogleAuthUser")
-  const accountData = request.body
+  console.log("registerGoogleAuthUser");
+  const accountData = request.body;
   const date = new Date();
   const createdAt = date.toISOString().split("T")[0];
 
@@ -243,17 +238,15 @@ export async function registerGoogleAuthUser(request, response) {
     const values = [accountData.emailFromUserStore, accountData.firstName, accountData.lastName, createdAt];
     const newAccount = await db.query("INSERT INTO accounts (email, firstName, lastName, createdAt) VALUES (?,?,?,?)", values);
     response.status(201).send("Account created successfully").json();
-    console.log("Account created successfully")
+    console.log("Account created successfully");
   } catch (error) {
-    console.error(error);
-    console.log("error")
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function updateAccountByEmail(request, response) {
-  const accountData = request.body
-
+  const accountData = request.body;
   if (!request.body) {
     response.status(400).send("Missing request body");
     return;
@@ -275,13 +268,16 @@ export async function updateAccountByEmail(request, response) {
     const updatedAccount = await db.query("UPDATE accounts SET firstName = ?, lastName = ?, address = ?, phoneNumber = ? WHERE email = ?", values);
     response.status(200).send("Account updated successfully").json();
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    if (error instanceof jwt.JsonWebTokenError) {
+      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+    } else {
+      console.error(error.status);
+      response.status(500).json([DATABASE_ERROR_MESSAGE]);
+    }
   }
 }
 
 export async function deleteAccountByEmail(request, response) {
-  console.log("DELETE ACCOUNT")
   try {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
@@ -299,7 +295,11 @@ export async function deleteAccountByEmail(request, response) {
     await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id])
     response.status(204).send("Account successfully deleted");
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    if (error instanceof jwt.JsonWebTokenError) {
+      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+    } else {
+      console.error(error.status);
+      response.status(500).json([DATABASE_ERROR_MESSAGE]);
+    }
   }
 }
