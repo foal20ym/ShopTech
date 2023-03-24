@@ -7,7 +7,7 @@
   } from "sveltestrap";
   import {  Link } from "svelte-routing";
 
-  const fetchAdvertsPromise = fetch("http://localhost:8080");
+  const fetchAdvertsPromise = fetch("http://localhost:8080/api/adverts");
 
   let isOpen = false;
   const toggle = () => (isOpen = !isOpen);

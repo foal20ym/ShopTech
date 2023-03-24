@@ -58,7 +58,7 @@
       console.log("isUserRegistered email test:", $user.userEmail);
       try {
         const response = await fetch(
-          "http://localhost:8080/account/" + $user.userEmail
+          "http://localhost:8080/api/accounts/" + $user.userEmail
         );
         console.log("userEmail from isUserRegistered()", $user.userEmail);
 
@@ -91,7 +91,7 @@
       };
 
       try {
-        const response = await fetch("http://localhost:8080/registerFromAuth", {
+        const response = await fetch("http://localhost:8080/api/accounts/registerFromAuth", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

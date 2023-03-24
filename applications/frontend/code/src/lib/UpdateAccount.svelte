@@ -16,7 +16,7 @@
   async function loadUserData() {
     try {
       const response = await fetch(
-        "http://localhost:8080/account/" + $user.userEmail
+        "http://localhost:8080/api/accounts/" + $user.userEmail
       );
       console.log("user email from account: ", $user.userEmail);
 
@@ -49,7 +49,7 @@
 
     try {
       const response = await fetch(
-        "http://localhost:8080/account/update/" + $user.userEmail,
+        "http://localhost:8080/api/accounts/" + $user.userEmail,
         {
           method: "PATCH",
           headers: {
@@ -75,7 +75,7 @@
   async function loadUserAdverts() {
     try {
       const response = await fetch(
-        "http://localhost:8080/getUserAdverts/" + $user.userEmail
+        "http://localhost:8080/api/adverts/getUserAdverts/" + $user.userEmail
       );
 
       switch (response.status) {

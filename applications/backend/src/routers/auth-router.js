@@ -5,9 +5,9 @@ const router = express.Router();
 router.post("/tokens", authController.signIn);
 router.post("/signup", authController.signUp);
 router.post("/registerFromAuth", authController.registerGoogleAuthUser);
-router.get("/account/:id", authController.getUserByEmail);
+router.get("/:id", authController.getUserByEmail);
 router.get("/advertCreatorEmail/:id", authController.getUserByAdvertId);
-router.patch("/account/update/:id", authController.updateAccountByEmail);
-router.delete("/account/delete/:id", authController.deleteAccountByEmail);
+router.patch("/:id", authController.updateAccountByEmail);
+router.delete("/:id", authController.deleteAccountByEmail);
 
 export default router;

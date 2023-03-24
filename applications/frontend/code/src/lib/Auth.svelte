@@ -25,7 +25,7 @@
     };
 
     try {
-      const response = await fetch("http://localhost:8080/signup", {
+      const response = await fetch("http://localhost:8080/api/accounts/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@
   let showSignIn = true;
 
   async function signIn() {
-    const response = await fetch("http://localhost:8080/tokens", {
+    const response = await fetch("http://localhost:8080/api/accounts/tokens/", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

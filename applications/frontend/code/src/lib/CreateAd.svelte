@@ -25,7 +25,7 @@
   async function loadUserData() {
     try {
       const response = await fetch(
-        "http://localhost:8080/account/" + $user.userEmail
+        "http://localhost:8080/api/accounts/" + $user.userEmail
       );
       console.log("user email from account: ", $user.userEmail);
 
@@ -54,7 +54,7 @@
     data.append("image", file);
 
     try {
-      const response = await fetch("http://localhost:8080/upload/" + $user.userEmail, {
+      const response = await fetch("http://localhost:8080/api/adverts/upload/" + $user.userEmail, {
         method: "PATCH",
         body: data,
       });
@@ -78,7 +78,7 @@
     };
 
     try {
-      const response = await fetch("http://localhost:8080/createad", {
+      const response = await fetch("http://localhost:8080/api/adverts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
