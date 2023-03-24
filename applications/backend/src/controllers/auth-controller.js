@@ -150,6 +150,7 @@ export async function signUp(request, response) {
   console.log("Creating account")
   const accountData = request.body
   const errorMessages = []
+  let emailTaken;
   console.log(accountData)
   const hashedPassword = await bcrypt.hash(accountData.password, SALT_ROUNDS)
 
@@ -180,6 +181,16 @@ export async function signUp(request, response) {
     errorMessages.push("Password can't be more than " + MAX_PASSWORD_LENGTH + " characters long")
   }
 
+  try {
+    emailTaken = await db.query("SELECT * FROM accounts WHERE email = ?", [accountData.email]);
+  } catch (error) {
+    console.error(error);
+    response.status(500).send("Internal server error");
+  }
+  console.log(emailTaken)
+  if(!(emailTaken === null || emailTaken == "")){
+    errorMessages.push("Email address already in use")
+  }
   if (accountData.email.length == 0) {
     errorMessages.push("Email length can't be 0")
   } else if (accountData.email.length < MIN_EMAIL_LENGTH) {
@@ -203,7 +214,7 @@ export async function signUp(request, response) {
   } else if (MAX_LASTNAME_LENGTH < accountData.lastName.length) {
     errorMessages.push("Last name can't be more than " + MAX_LASTNAME_LENGTH + " characters long")
   }
-
+  
   if (0 < errorMessages.length) {
     response.status(400).json(errorMessages)
     console.log("Statuscode: 400, [errors]")
