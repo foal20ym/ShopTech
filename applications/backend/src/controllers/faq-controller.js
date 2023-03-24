@@ -6,7 +6,7 @@ const FAQ_QUESTION_MIN_LENGTH = 5;
 const FAQ_ANSWER_MAX_LENGTH = 420;
 const FAQ_ANSWER_MIN_LENGTH = 2;
 const DATABASE_ERROR_MESSAGE = "Internal server error";
-const UNAUTHORIZED_USER_ERROR ="Unauthorized action performed"
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed"
 
 function getErrorMessagesForFAQ(question, answer) {
   const errorMessages = [];
@@ -18,8 +18,8 @@ function getErrorMessagesForFAQ(question, answer) {
   } else if (question.length < FAQ_QUESTION_MIN_LENGTH) {
     errorMessages.push(
       "Question can't be less than " +
-        FAQ_QUESTION_MIN_LENGTH +
-        " characters long"
+      FAQ_QUESTION_MIN_LENGTH +
+      " characters long"
     );
   }
 

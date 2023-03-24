@@ -10,7 +10,7 @@ const db = createPool({
 	connectTimeout: 20000
 })
 
-db.on('error', function(error){
+db.on('error', function (error) {
 	console.log("Error from pool", error)
 })
 

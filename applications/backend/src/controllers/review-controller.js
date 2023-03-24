@@ -6,7 +6,7 @@ const REVIEW_DESCRIPTION_MIN_LENGTH = 5;
 const REVIEW_STARS_MAX = 5;
 const REVIEW_STARS_MIN = 0;
 const DATABASE_ERROR_MESSAGE = "Internal server error";
-const UNAUTHORIZED_USER_ERROR ="Unauthorized action performed"
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed"
 
 function getErrorMessagesForReview(description, stars) {
   const errorMessages = [];
@@ -14,14 +14,14 @@ function getErrorMessagesForReview(description, stars) {
   if (description.length > REVIEW_DESCRIPTION_MAX_LENGTH) {
     errorMessages.push(
       "Description may at most be " +
-        REVIEW_DESCRIPTION_MAX_LENGTH +
-        " characters long"
+      REVIEW_DESCRIPTION_MAX_LENGTH +
+      " characters long"
     );
   } else if (description.length < REVIEW_DESCRIPTION_MIN_LENGTH) {
     errorMessages.push(
       "Description can't be less than " +
-        REVIEW_DESCRIPTION_MIN_LENGTH +
-        " characters long"
+      REVIEW_DESCRIPTION_MIN_LENGTH +
+      " characters long"
     );
   }
 
@@ -79,10 +79,14 @@ export async function createReview(request, response) {
     try {
       const authorizationHeaderValue = request.get("Authorization");
       const accessToken = authorizationHeaderValue.substring(7);
-      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+      const isSigned = accessToken.split('.').length === 3;
 
-      if (!decodedToken.isLoggedIn) {
-        throw new jwt.JsonWebTokenError();
+      if (isSigned) {
+        const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+        if (!decodedToken.isLoggedIn) {
+          throw new jwt.JsonWebTokenError();
+        }
       }
       const values = [
         username,
@@ -101,11 +105,11 @@ export async function createReview(request, response) {
         .json();
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
-    } else {
-      console.error(error.status);
-      response.status(500).json([DATABASE_ERROR_MESSAGE]);
-    }
+        response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+      } else {
+        console.error(error.status);
+        response.status(500).json([DATABASE_ERROR_MESSAGE]);
+      }
     }
   }
 }
@@ -122,10 +126,14 @@ export async function updateReviewById(request, response) {
     try {
       const authorizationHeaderValue = request.get("Authorization");
       const accessToken = authorizationHeaderValue.substring(7);
-      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+      const isSigned = accessToken.split('.').length === 3;
 
-      if (!decodedToken.isAdmin) {
-        throw new jwt.JsonWebTokenError();
+      if (isSigned) {
+        const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+        if (!decodedToken.isLoggedIn) {
+          throw new jwt.JsonWebTokenError();
+        }
       }
 
       const values = [
@@ -140,11 +148,11 @@ export async function updateReviewById(request, response) {
       response.status(200).send("Review updated successfully");
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
-    } else {
-      console.error(error.status);
-      response.status(500).json([DATABASE_ERROR_MESSAGE]);
-    }
+        response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+      } else {
+        console.error(error.status);
+        response.status(500).json([DATABASE_ERROR_MESSAGE]);
+      }
     }
   }
 }

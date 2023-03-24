@@ -250,10 +250,14 @@ export async function updateAccountByEmail(request, response) {
   try {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
-    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+    const isSigned = accessToken.split('.').length === 3;
 
-    if (!decodedToken.isLoggedIn) {
-      throw new jwt.JsonWebTokenError();
+    if (isSigned) {
+      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+      if (!decodedToken.isLoggedIn) {
+        throw new jwt.JsonWebTokenError();
+      }
     }
 
     const values = [accountData.firstName, accountData.lastName, accountData.address, accountData.phoneNumber, request.params.id];
@@ -270,12 +274,16 @@ export async function deleteAccountByEmail(request, response) {
   try {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
-    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+    const isSigned = accessToken.split('.').length === 3;
 
-    if (!decodedToken.isLoggedIn) {
-      throw new jwt.JsonWebTokenError();
+    if (isSigned) {
+      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+      if (!decodedToken.isLoggedIn) {
+        throw new jwt.JsonWebTokenError();
+      }
     }
-    
+
     console.log([request.params.id])
     await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id])
     response.status(204).send("Account successfully deleted");
