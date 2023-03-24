@@ -1,5 +1,6 @@
 <script>
   import { Link } from "svelte-routing";
+  import { user } from "../user-store";
 
   const fetchReviewsPromise = fetch("http://localhost:8080/api/reviews");
 </script>
@@ -8,9 +9,11 @@
   <div class="row">
     <div class="col me-5">
       <h1>Reviews</h1>
-      <Link to="/reviews/create" class="text-dark text-center"
-        >Click here to leave a review on the website</Link
-      >
+      {#if $user.isLoggedIn}
+        <Link to="/reviews/create" class="text-dark text-center"
+          >Click here to leave a review on the website</Link
+        >
+      {/if}
       {#await fetchReviewsPromise}
         <p>Wait, im loading...</p>
       {:then response}

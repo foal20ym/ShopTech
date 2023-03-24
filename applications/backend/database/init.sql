@@ -33,10 +33,12 @@ CREATE TABLE reviews (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	username VARCHAR(50),
 	description VARCHAR(300),
-	stars VARCHAR(1)
+	stars VARCHAR(1),
+	accountID INT,
+	FOREIGN KEY (accountID) REFERENCES accounts(accountID)
 );
 
-
+INSERT INTO accounts (email, username, password, address, firstName, lastName, phoneNumber, createdAt) VALUES ('admin@shoptech.com', 'Admin', '$2a$10$9XopzbfcPjvyeKmgVZyUO.p/ovWp9p.dtPnIPb4yvOBE7watUjxqe', 'Shoptech Street 14', 'Forsanker', 'Thoresson', '073-3989898', CURRENT_TIMESTAMP);
 
 INSERT INTO reviews (username, description, stars) VALUES ('AntonThoresson', 'This is a intial review description', '5');
 
