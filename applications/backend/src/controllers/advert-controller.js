@@ -1,7 +1,8 @@
 import db from "../database-operations/db.js"
 import * as path from 'path'
 import multer from 'multer'
-
+import { ACCESS_TOKEN_SECRET } from "./auth-controller.js";
+import jwt from "jsonwebtoken";
 
 const MIN_TITLE_LENGTH = 6
 const MAX_TITLE_LENGTH = 25
@@ -13,6 +14,7 @@ const MAX_PRICE = Number.MAX_SAFE_INTEGER
 
 export async function getUserAdverts(request, response) {
   let accountID = ""
+  console.log("getUserAdverts, req params ", request.params.id)
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
     accountID = user[0].accountID
@@ -21,6 +23,7 @@ export async function getUserAdverts(request, response) {
     console.error(error);
   }
 
+  console.log("getUserAdverts", accountID)
   try {
     const adverts = await db.query("SELECT * FROM adverts WHERE accountID = ?", [accountID]);
     response.status(200).json(adverts);
@@ -41,9 +44,10 @@ export async function getAdverts(request, response) {
 }
 
 export async function getAdvertById(request, response) {
+  
   try {
     const advert = await db.query("SELECT * FROM adverts WHERE advertID = ?", [request.params.id]);
-    console.log(advert[0].advertID)
+    console.log("getAdvertById: advertID:", advert[0].advertID)
     response.status(200).json(advert[0]);
   } catch (error) {
     response.status(500).send("Error getting advert");
@@ -51,9 +55,6 @@ export async function getAdvertById(request, response) {
 }
 
 export async function createAdvert(request, response) {
-
-  console.log("Create advert!")
-
   const errorMessages = []
   const advertData = request.body
 
@@ -112,17 +113,23 @@ export async function createAdvert(request, response) {
 
   const userData = request.body.userData
   let accountID = ""
-  console.log("email:", userData.email)
 
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [userData.email]);
     accountID = user[0].accountID
-    console.log(accountID)
   } catch (error) {
     console.error(error);
   }
 
   try {
+    const authorizationHeaderValue = request.get("Authorization");
+    const accessToken = authorizationHeaderValue.substring(7);
+    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+    if (!decodedToken.isLoggedIn) {
+      throw new jwt.JsonWebTokenError();
+    }
+
     const values = [advertData.category, advertData.title, advertData.price, advertData.description, advertData.img_src, timeNow, accountID];
     const newAdvert = await db.query("INSERT INTO adverts (category, title, price, description, img_src, createdAt, accountID) VALUES (?,?,?,?,?,?,?)", values);
     response.status(201).send("Advert created successfully").json();
@@ -140,14 +147,12 @@ export async function insertImageIntoAdvertById(request, response) {
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
     accountID = user[0].accountID
-    console.log("accountID:", accountID)
   } catch (error) {
     console.error(error);
   }
   let advertID = ""
   try {
     const id = accountID
-    console.log("accountID:", id)
     const adverts = await db.query(
       "SELECT MAX(advertID) AS maxAdvertID FROM adverts WHERE accountID = ?", id);
     advertID = adverts[0].maxAdvertID;
@@ -157,9 +162,7 @@ export async function insertImageIntoAdvertById(request, response) {
   }
 
   const image = request.file.buffer.toString('base64')
-
   const updateID = advertID
-  console.log("updateID: ", updateID)
   try {
     const values = [image, updateID];
     const insertedImageIntoAdvert = await db.query("UPDATE adverts SET img_src = ? WHERE advertID = ?", values);
@@ -177,6 +180,14 @@ export async function updateAdvertById(request, response) {
     return;
   }
   try {
+    const authorizationHeaderValue = request.get("Authorization");
+    const accessToken = authorizationHeaderValue.substring(7);
+    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+    if (!decodedToken.isLoggedIn) {
+      throw new jwt.JsonWebTokenError();
+    }
+
     const values = [advertData.title, advertData.description, advertData.price, request.params.id];
     const updatedAccount = await db.query("UPDATE adverts SET title = ?, description = ?, price = ? WHERE advertID = ?", values);
     response.status(200).send("Advert updated successfully").json();
@@ -187,9 +198,15 @@ export async function updateAdvertById(request, response) {
 }
 
 export async function deleteAdvertById(request, response) {
-  console.log("DELETE ADVERT")
   try {
-    console.log([request.params.id])
+    const authorizationHeaderValue = request.get("Authorization");
+    const accessToken = authorizationHeaderValue.substring(7);
+    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+    if (!decodedToken.isLoggedIn) {
+      throw new jwt.JsonWebTokenError();
+    }
+
     await db.query("DELETE FROM adverts WHERE advertID = ?", [request.params.id])
     response.status(204).send("Advert successfully deleted");
   } catch (error) {

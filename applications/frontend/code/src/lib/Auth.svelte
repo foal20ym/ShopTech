@@ -40,7 +40,6 @@
 
         case 400:
           errorCodes = await response.json();
-          errorCodes.push("BIG ERROR");
           break;
       }
     } catch (error) {
@@ -95,7 +94,7 @@
         break;
 
       case 400:
-        errorCodes.push(body);
+        errorCodes.push(body.stringify());
         break;
 
       default:
@@ -211,14 +210,14 @@
               />
             </div>
             <div class="signUpPageButton">
-              <Button type="submit" value="signIn">signIn</Button>
+              <Button type="submit" value="signIn">sign in</Button>
             </div>
           </form>
           {#if errorCodes.length}
             <p>Errors:</p>
             <ul>
               {#each errorCodes as errorCode}
-                <li>{errorCode}</li>
+                <li>{errorCodes}</li>
               {/each}
             </ul>
           {/if}

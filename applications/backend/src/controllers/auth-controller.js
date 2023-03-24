@@ -248,6 +248,14 @@ export async function updateAccountByEmail(request, response) {
     return;
   }
   try {
+    const authorizationHeaderValue = request.get("Authorization");
+    const accessToken = authorizationHeaderValue.substring(7);
+    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+    if (!decodedToken.isLoggedIn) {
+      throw new jwt.JsonWebTokenError();
+    }
+
     const values = [accountData.firstName, accountData.lastName, accountData.address, accountData.phoneNumber, request.params.id];
     const updatedAccount = await db.query("UPDATE accounts SET firstName = ?, lastName = ?, address = ?, phoneNumber = ? WHERE email = ?", values);
     response.status(200).send("Account updated successfully").json();
@@ -260,6 +268,14 @@ export async function updateAccountByEmail(request, response) {
 export async function deleteAccountByEmail(request, response) {
   console.log("DELETE ACCOUNT")
   try {
+    const authorizationHeaderValue = request.get("Authorization");
+    const accessToken = authorizationHeaderValue.substring(7);
+    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+    if (!decodedToken.isLoggedIn) {
+      throw new jwt.JsonWebTokenError();
+    }
+    
     console.log([request.params.id])
     await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id])
     response.status(204).send("Account successfully deleted");
