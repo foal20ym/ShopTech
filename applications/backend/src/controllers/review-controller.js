@@ -1,12 +1,12 @@
-import db from "../database-operations/db.js";
-import jwt from "jsonwebtoken"
+import db from "../database-connection/db.js";
+import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET } from "./auth-controller.js";
 const REVIEW_DESCRIPTION_MAX_LENGTH = 300;
 const REVIEW_DESCRIPTION_MIN_LENGTH = 5;
 const REVIEW_STARS_MAX = 5;
 const REVIEW_STARS_MIN = 0;
 const DATABASE_ERROR_MESSAGE = "Internal server error";
-const UNAUTHORIZED_USER_ERROR ="Unauthorized action performed"
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed";
 
 function getErrorMessagesForReview(description, stars) {
   const errorMessages = [];
@@ -69,11 +69,14 @@ export async function createReview(request, response) {
     return;
   } else {
     try {
-      const user = await db.query("SELECT accountID, username FROM accounts WHERE email = ?", [request.body.userEmail])
-      username = user[0].username
-      accountID = user[0].accountID
+      const user = await db.query(
+        "SELECT accountID, username FROM accounts WHERE email = ?",
+        [request.body.userEmail]
+      );
+      username = user[0].username;
+      accountID = user[0].accountID;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
     try {
@@ -88,7 +91,7 @@ export async function createReview(request, response) {
         username,
         request.body.description,
         request.body.stars,
-        accountID
+        accountID,
       ];
       const newReview = await db.query(
         "INSERT INTO reviews (username, description, stars, accountID) VALUES (?, ?, ?, ?)",
@@ -101,11 +104,11 @@ export async function createReview(request, response) {
         .json();
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
-    } else {
-      console.error(error.status);
-      response.status(500).json([DATABASE_ERROR_MESSAGE]);
-    }
+        response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+      } else {
+        console.error(error.status);
+        response.status(500).json([DATABASE_ERROR_MESSAGE]);
+      }
     }
   }
 }
@@ -140,11 +143,11 @@ export async function updateReviewById(request, response) {
       response.status(200).send("Review updated successfully");
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
-    } else {
-      console.error(error.status);
-      response.status(500).json([DATABASE_ERROR_MESSAGE]);
-    }
+        response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+      } else {
+        console.error(error.status);
+        response.status(500).json([DATABASE_ERROR_MESSAGE]);
+      }
     }
   }
 }

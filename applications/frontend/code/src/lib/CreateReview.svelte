@@ -1,17 +1,17 @@
 <script>
-import { navigate } from "svelte-routing"
-import { user } from "../user-store.js"
+  import { navigate } from "svelte-routing";
+  import { user } from "../user-store.js";
   let description = "";
   let stars = "";
   let errorMessages = [];
 
   async function submitForm() {
-    let userEmail = $user.userEmail
+    let userEmail = $user.userEmail;
     const response = await fetch("http://localhost:8080/api/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer "+$user.accessToken
+        Authorization: "Bearer " + $user.accessToken,
       },
       body: JSON.stringify({ userEmail, description, stars }),
     });
@@ -23,8 +23,8 @@ import { user } from "../user-store.js"
       stars = "";
       if (locationHeader) {
         navigate(locationHeader, {
-          replace: false
-        })
+          replace: false,
+        });
       }
     }
   }

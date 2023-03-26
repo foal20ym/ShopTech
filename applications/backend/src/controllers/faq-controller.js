@@ -1,4 +1,4 @@
-import db from "../database-operations/db.js";
+import db from "../database-connection/db.js";
 import { ACCESS_TOKEN_SECRET } from "./auth-controller.js";
 import jwt from "jsonwebtoken";
 const FAQ_QUESTION_MAX_LENGTH = 100;
@@ -6,7 +6,7 @@ const FAQ_QUESTION_MIN_LENGTH = 5;
 const FAQ_ANSWER_MAX_LENGTH = 420;
 const FAQ_ANSWER_MIN_LENGTH = 2;
 const DATABASE_ERROR_MESSAGE = "Internal server error";
-const UNAUTHORIZED_USER_ERROR ="Unauthorized action performed"
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed";
 
 function getErrorMessagesForFAQ(question, answer) {
   const errorMessages = [];

@@ -11,8 +11,8 @@
     const response = await fetch("http://localhost:8080/api/reviews/" + id, {
       method: "DELETE",
       headers: {
-        "Authorization": "Bearer "+$user.accessToken
-      }
+        Authorization: "Bearer " + $user.accessToken,
+      },
     });
     if (response.ok) {
       navigate("/reviews", {

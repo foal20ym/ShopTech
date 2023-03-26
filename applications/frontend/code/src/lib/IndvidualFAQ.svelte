@@ -8,17 +8,17 @@
   let faq = null;
 
   async function deleteFAQ() {
-    const response = await fetch("http://localhost:8080/api/faq/"+id, {
+    const response = await fetch("http://localhost:8080/api/faq/" + id, {
       method: "DELETE",
       headers: {
-        "Authorization": "Bearer "+$user.accessToken
-      }
+        Authorization: "Bearer " + $user.accessToken,
+      },
     });
     if (response.ok) {
       console.log("FAQ deleted successfully");
       navigate("/faq", {
-        replace: false
-      })
+        replace: false,
+      });
     } else {
       console.log("Failed to delete FAQ");
       failedToDeleteFAQ = true;

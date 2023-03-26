@@ -1,10 +1,6 @@
 <script lang="ts">
   import { Link } from "svelte-routing";
-  import {
-    DropdownItem,
-    Accordion,
-    AccordionItem,
-  } from "sveltestrap";
+  import { DropdownItem, Accordion, AccordionItem } from "sveltestrap";
   import { user } from "../user-store.js";
 
   const fetchFAQPromise = fetch("http://localhost:8080/api/faq");
@@ -32,13 +28,11 @@
           >
         {/if}
       </div>
-
       {#await fetchFAQPromise}
         <p>Wait, im loading...</p>
       {:then response}
         {#await response.json() then faqs}
           <hr />
-
           {#each faqs as faq}
             <div class="accordion accordion-flush" id="accordionFlushExample">
               <div class="accordion-item">
@@ -48,25 +42,17 @@
 
                     <DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
                     {#if $user.isLoggedIn && $user.isAdmin}
-                      <Link to="/faq/{faq.id}" class="text-dark" style="text-decoration: underline;">Edit</Link>
+                      <Link
+                        to="/faq/{faq.id}"
+                        class="text-dark"
+                        style="text-decoration: underline;">Edit</Link
+                      >
                     {/if}
                   </AccordionItem>
                 </Accordion>
                 <hr />
               </div>
             </div>
-            <!--<div class="accordion accordion-flush" id="accordionFlushExample">
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingOne">
-						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-							{faq.question}
-						</button>
-					</h2>
-					<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-						<div class="accordion-body">{faq.answer}</div>
-					</div>
-				</div>
-			</div>-->
           {/each}
         {/await}
       {:catch error}

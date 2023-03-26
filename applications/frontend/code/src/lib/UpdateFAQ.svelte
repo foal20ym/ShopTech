@@ -1,6 +1,6 @@
 <script>
-import {navigate} from "svelte-routing"
-import { user } from "../user-store.js"
+  import { navigate } from "svelte-routing";
+  import { user } from "../user-store.js";
   export let id;
   let faq = null;
   let updatedQuestion = "";
@@ -30,19 +30,22 @@ import { user } from "../user-store.js"
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer "+$user.accessToken
+        Authorization: "Bearer " + $user.accessToken,
       },
       body: JSON.stringify({ updatedQuestion, updatedAnswer }),
     });
-    if (response.status == 400 || response.status == 401|| response.status == 500) {
+    if (
+      response.status == 400 ||
+      response.status == 401 ||
+      response.status == 500
+    ) {
       errorMessages = await response.json();
     } else if (response.ok) {
       updatedQuestion = "";
       updatedAnswer = "";
-      //window.location.href = "/faq/" + id;
-      navigate("/faq/"+id, {
-          replace: false
-        })
+      navigate("/faq/" + id, {
+        replace: false,
+      });
     }
   }
 </script>
