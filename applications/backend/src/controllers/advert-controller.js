@@ -1,8 +1,7 @@
 import db from "../database-operations/db.js"
 import * as path from 'path'
 import multer from 'multer'
-import { ACCESS_TOKEN_SECRET } from "./auth-controller.js";
-import jwt from "jsonwebtoken";
+
 
 const MIN_TITLE_LENGTH = 6
 const MAX_TITLE_LENGTH = 25
@@ -10,24 +9,27 @@ const MIN_DESCRIPTION_LENGTH = 15
 const MAX_DESCRIPTION_LENGTH = 128
 const MIN_PRICE = 1
 const MAX_PRICE = Number.MAX_SAFE_INTEGER
-const DATABASE_ERROR_MESSAGE = "Internal server error";
-const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed"
 
 
 export async function getUserAdverts(request, response) {
   let accountID = ""
   console.log("getUserAdverts, req params ", request.params.id)
   try {
-    const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
-    accountID = user[0].accountID
-    console.log(accountID)
+    const user = await db.query("SELECT * FROM accounts WHERE email = ?", [
+      request.params.id,
+    ]);
+    accountID = user[0].accountID;
+    console.log(accountID);
   } catch (error) {
     console.error(error);
   }
 
   console.log("getUserAdverts", accountID)
   try {
-    const adverts = await db.query("SELECT * FROM adverts WHERE accountID = ?", [accountID]);
+    const adverts = await db.query(
+      "SELECT * FROM adverts WHERE accountID = ?",
+      [accountID]
+    );
     response.status(200).json(adverts);
   } catch (error) {
     console.error(error);
@@ -80,37 +82,28 @@ export async function createAdvert(request, response) {
   } else if (MAX_DESCRIPTION_LENGTH < advertData.description.length) {
     errorMessages.push(
       "Description can't be more than " +
-      MAX_DESCRIPTION_LENGTH +
-      "characters long."
+        MAX_DESCRIPTION_LENGTH +
+        "characters long."
     );
-
   } else if (advertData.description.length < MIN_DESCRIPTION_LENGTH) {
     errorMessages.push(
       "Description can't be less than " +
-      MIN_DESCRIPTION_LENGTH +
-      " characters long."
+        MIN_DESCRIPTION_LENGTH +
+        " characters long."
     );
   }
 
   if (advertData.price == 0) {
     errorMessages.push("Price can't be 0");
   } else if (MAX_PRICE < advertData.price) {
-    errorMessages.push(
-      "Price can't be more than " +
-      MAX_PRICE +
-      "."
-    );
+    errorMessages.push("Price can't be more than " + MAX_PRICE + ".");
   } else if (advertData.price < MIN_PRICE) {
-    errorMessages.push(
-      "Price can't be less than " +
-      MIN_PRICE +
-      "."
-    );
+    errorMessages.push("Price can't be less than " + MIN_PRICE + ".");
   }
 
   if (0 < errorMessages.length) {
-    response.status(400).json(errorMessages)
-    return
+    response.status(400).json(errorMessages);
+    return;
   }
 
   const userData = request.body.userData
@@ -157,11 +150,13 @@ export async function insertImageIntoAdvertById(request, response) {
   } catch (error) {
     console.error(error.status);
   }
-  let advertID = ""
+  let advertID = "";
   try {
     const id = accountID;
     const adverts = await db.query(
-      "SELECT MAX(advertID) AS maxAdvertID FROM adverts WHERE accountID = ?", id);
+      "SELECT MAX(advertID) AS maxAdvertID FROM adverts WHERE accountID = ?",
+      id
+    );
     advertID = adverts[0].maxAdvertID;
   } catch (error) {
     console.error(error.status);

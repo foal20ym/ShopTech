@@ -1,6 +1,6 @@
-import db from "../database-operations/db.js"
-import jwt from "jsonwebtoken"
-import bcrypt from 'bcrypt'
+import db from "../database-connection/db.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7"
 const SALT_ROUNDS = 10
@@ -18,7 +18,9 @@ const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed"
 
 export async function getUserByEmail(request, response) {
   try {
-    const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
+    const user = await db.query("SELECT * FROM accounts WHERE email = ?", [
+      request.params.id,
+    ]);
     response.status(200).json(user[0]);
   } catch (error) {
     console.error(error.status);
@@ -126,15 +128,15 @@ export async function signIn(request, response) {
 }
 
 function validatePassword(password) {
-  const errorMessages = []
+  const errorMessages = [];
   var regexCheckNumber = /^(?=.*[0-9])/;
   var regexCheckSpecialCharacter = /^(?=.*[!@#$%^&*])/;
 
   if (regexCheckNumber.test(password)) {
-    errorMessages.push("Password must contain at least one digit")
+    errorMessages.push("Password must contain at least one digit");
   }
   if (regexCheckSpecialCharacter.test(password)) {
-    errorMessages.push("Password must contain at least one special character")
+    errorMessages.push("Password must contain at least one special character");
   }
   return errorMessages;
 }
@@ -188,40 +190,66 @@ export async function signUp(request, response) {
     errorMessages.push("Email address already in use")
   }
   if (accountData.email.length == 0) {
-    errorMessages.push("Email length can't be 0")
+    errorMessages.push("Email length can't be 0");
   } else if (accountData.email.length < MIN_EMAIL_LENGTH) {
-    errorMessages.push("Email can't be less than " + MIN_EMAIL_LENGTH + " characters long")
+    errorMessages.push(
+      "Email can't be less than " + MIN_EMAIL_LENGTH + " characters long"
+    );
   } else if (MAX_EMAIL_LENGTH < accountData.email.length) {
-    errorMessages.push("Email can't be more than " + MAX_EMAIL_LENGTH + " characters long")
+    errorMessages.push(
+      "Email can't be more than " + MAX_EMAIL_LENGTH + " characters long"
+    );
   }
 
   if (accountData.firstName.length == 0) {
-    errorMessages.push("First name length can't be 0")
+    errorMessages.push("First name length can't be 0");
   } else if (accountData.firstName.length < MIN_FIRSTNAME_LENGTH) {
-    errorMessages.push("First name must be at least " + MIN_FIRSTNAME_LENGTH + " characters long")
+    errorMessages.push(
+      "First name must be at least " + MIN_FIRSTNAME_LENGTH + " characters long"
+    );
   } else if (MAX_FIRSTNAME_LENGTH < accountData.firstName.length) {
-    errorMessages.push("First name can't be more than " + MAX_FIRSTNAME_LENGTH + " characters long")
+    errorMessages.push(
+      "First name can't be more than " +
+        MAX_FIRSTNAME_LENGTH +
+        " characters long"
+    );
   }
 
   if (accountData.lastName.length == 0) {
-    errorMessages.push("Last name length can't be 0")
+    errorMessages.push("Last name length can't be 0");
   } else if (accountData.lastName.length < MIN_LASTNAME_LENGTH) {
-    errorMessages.push("Last name must be at least " + MIN_LASTNAME_LENGTH + " characters long")
+    errorMessages.push(
+      "Last name must be at least " + MIN_LASTNAME_LENGTH + " characters long"
+    );
   } else if (MAX_LASTNAME_LENGTH < accountData.lastName.length) {
-    errorMessages.push("Last name can't be more than " + MAX_LASTNAME_LENGTH + " characters long")
+    errorMessages.push(
+      "Last name can't be more than " + MAX_LASTNAME_LENGTH + " characters long"
+    );
   }
 
   if (0 < errorMessages.length) {
-    response.status(400).json(errorMessages)
-    console.log("Statuscode: 400, [errors]")
-    return
+    response.status(400).json(errorMessages);
+    console.log("Statuscode: 400, [errors]");
+    return;
   }
 
   try {
-    const values = [accountData.email, accountData.username, hashedPassword, accountData.address, accountData.firstName, accountData.lastName, accountData.phoneNumber, createdAt];
-    const newAccount = await db.query("INSERT INTO accounts (email, username, password, address, firstName, lastName, phoneNumber, createdAt) VALUES (?,?,?,?,?,?,?,?)", values);
+    const values = [
+      accountData.email,
+      accountData.username,
+      hashedPassword,
+      accountData.address,
+      accountData.firstName,
+      accountData.lastName,
+      accountData.phoneNumber,
+      createdAt,
+    ];
+    const newAccount = await db.query(
+      "INSERT INTO accounts (email, username, password, address, firstName, lastName, phoneNumber, createdAt) VALUES (?,?,?,?,?,?,?,?)",
+      values
+    );
     response.status(201).send("Account created successfully").json();
-    console.log("Account created successfully")
+    console.log("Account created successfully");
   } catch (error) {
     console.error(error.status);
     response.status(500).send(DATABASE_ERROR_MESSAGE);
@@ -235,8 +263,16 @@ export async function registerGoogleAuthUser(request, response) {
   const createdAt = date.toISOString().split("T")[0];
 
   try {
-    const values = [accountData.emailFromUserStore, accountData.firstName, accountData.lastName, createdAt];
-    const newAccount = await db.query("INSERT INTO accounts (email, firstName, lastName, createdAt) VALUES (?,?,?,?)", values);
+    const values = [
+      accountData.emailFromUserStore,
+      accountData.firstName,
+      accountData.lastName,
+      createdAt,
+    ];
+    const newAccount = await db.query(
+      "INSERT INTO accounts (email, firstName, lastName, createdAt) VALUES (?,?,?,?)",
+      values
+    );
     response.status(201).send("Account created successfully").json();
     console.log("Account created successfully");
   } catch (error) {

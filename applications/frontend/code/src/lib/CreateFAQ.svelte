@@ -26,8 +26,6 @@
       console.log("FAQ created successfully");
       const locationHeader = response.headers.get("Location");
       console.log(locationHeader);
-      //const id = data.id
-      //console.log(id);
       question = "";
       answer = "";
       if (locationHeader) {

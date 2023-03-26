@@ -43,7 +43,6 @@
     } else if (response.ok) {
       updatedQuestion = "";
       updatedAnswer = "";
-      //window.location.href = "/faq/" + id;
       navigate("/faq/" + id, {
         replace: false,
       });
