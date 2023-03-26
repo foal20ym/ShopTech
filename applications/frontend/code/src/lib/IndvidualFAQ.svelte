@@ -56,7 +56,7 @@
         </div>
         <div>
           {#if $user.isLoggedIn && $user.isAdmin}
-            <Link to="/faq/update/{faq.id}"
+            <Link to="/faq/update/{faq.faqID}"
               ><button type="button" class="btn btn-outline-dark mr-2 mt-3 mb-3"
                 >Update</button
               ></Link

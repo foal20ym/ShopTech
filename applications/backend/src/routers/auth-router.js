@@ -7,7 +7,7 @@ router.post("/signup", authController.signUp);
 router.post("/registerFromAuth", authController.registerGoogleAuthUser);
 router.get("/:id", authController.getUserByEmail);
 router.get("/advertCreatorEmail/:id", authController.getUserByAdvertId);
-router.patch("/:id", authController.updateAccountByEmail);
+router.put("/:id", authController.updateAccountByEmail);
 router.delete("/:id", authController.deleteAccountByEmail);
 
 export default router;

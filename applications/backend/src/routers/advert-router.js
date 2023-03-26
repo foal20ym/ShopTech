@@ -11,8 +11,8 @@ router.get("/", advertController.getAdverts);
 router.get("/:id", advertController.getAdvertById);
 router.get("/getUserAdverts/:id", advertController.getUserAdverts);
 router.post("/", advertController.createAdvert);
-router.patch("/:id", advertController.updateAdvertById);
-router.patch("/upload/:id", upload.single("image"), advertController.insertImageIntoAdvertById);
+router.put("/:id", advertController.updateAdvertById);
+router.put("/upload/:id", upload.single("image"), advertController.insertImageIntoAdvertById);
 router.delete("/:id", advertController.deleteAdvertById);
 
 export default router;
