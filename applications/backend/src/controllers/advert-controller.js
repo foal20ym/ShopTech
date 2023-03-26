@@ -1,30 +1,29 @@
-import db from "../database-operations/db.js"
-import * as path from 'path'
-import multer from 'multer'
+import db from "../database-connection/db.js";
+import { ACCESS_TOKEN_SECRET } from "./auth-controller.js";
+import jwt from "jsonwebtoken";
 
-
-const MIN_TITLE_LENGTH = 6
-const MAX_TITLE_LENGTH = 25
-const MIN_DESCRIPTION_LENGTH = 15
-const MAX_DESCRIPTION_LENGTH = 128
-const MIN_PRICE = 1
-const MAX_PRICE = Number.MAX_SAFE_INTEGER
+const MIN_TITLE_LENGTH = 6;
+const MAX_TITLE_LENGTH = 25;
+const MIN_DESCRIPTION_LENGTH = 15;
+const MAX_DESCRIPTION_LENGTH = 128;
+const MIN_PRICE = 1;
+const MAX_PRICE = Number.MAX_SAFE_INTEGER;
+const DATABASE_ERROR_MESSAGE = "Internal server error";
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed";
 
 
 export async function getUserAdverts(request, response) {
-  let accountID = ""
-  console.log("getUserAdverts, req params ", request.params.id)
+  let accountID = "";
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [
       request.params.id,
     ]);
     accountID = user[0].accountID;
-    console.log(accountID);
   } catch (error) {
-    console.error(error);
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 
-  console.log("getUserAdverts", accountID)
   try {
     const adverts = await db.query(
       "SELECT * FROM adverts WHERE accountID = ?",
@@ -32,7 +31,7 @@ export async function getUserAdverts(request, response) {
     );
     response.status(200).json(adverts);
   } catch (error) {
-    console.error(error);
+    console.error(error.status);
     response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
@@ -42,25 +41,25 @@ export async function getAdverts(request, response) {
     const adverts = await db.query("SELECT * FROM adverts");
     response.status(200).json(adverts);
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Error getting adverts");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function getAdvertById(request, response) {
-
   try {
     const advert = await db.query("SELECT * FROM adverts WHERE advertID = ?", [request.params.id]);
     console.log("getAdvertById: advertID:", advert[0].advertID)
     response.status(200).json(advert[0]);
   } catch (error) {
-    response.status(500).send("Error getting advert");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function createAdvert(request, response) {
-  const errorMessages = []
-  const advertData = request.body
+  const errorMessages = [];
+  const advertData = request.body;
 
   const date = new Date();
   const timeNow = date.toISOString().split("T")[0];
@@ -106,14 +105,15 @@ export async function createAdvert(request, response) {
     return;
   }
 
-  const userData = request.body.userData
-  let accountID = ""
+  const userData = request.body.userData;
+  let accountID = "";
 
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [userData.email]);
-    accountID = user[0].accountID
+    accountID = user[0].accountID;
   } catch (error) {
-    console.error(error);
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 
   try {
@@ -146,7 +146,7 @@ export async function insertImageIntoAdvertById(request, response) {
   let accountID = "";
   try {
     const user = await db.query("SELECT * FROM accounts WHERE email = ?", [request.params.id]);
-    accountID = user[0].accountID
+    accountID = user[0].accountID;
   } catch (error) {
     console.error(error.status);
   }
@@ -164,12 +164,13 @@ export async function insertImageIntoAdvertById(request, response) {
   }
 
   const image = request.file.buffer.toString('base64')
-  const updateID = advertID
+  const updateID = advertID;
   try {
     const values = [image, updateID];
     const insertedImageIntoAdvert = await db.query("UPDATE adverts SET img_src = ? WHERE advertID = ?", values);
     response.status(200).send("Image insterted into advert successfully").json();
   } catch (error) {
+    console.error(error.status);
     response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }

@@ -2,19 +2,19 @@ import db from "../database-connection/db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-export const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7"
-const SALT_ROUNDS = 10
-const MIN_EMAIL_LENGTH = 6
-const MAX_EMAIL_LENGTH = 128
-const MIN_PASSWORD_LENGTH = 6
-const MAX_PASSWORD_LENGTH = 128
-const MIN_FIRSTNAME_LENGTH = 2
-const MAX_FIRSTNAME_LENGTH = 128
-const MIN_LASTNAME_LENGTH = 2
-const MAX_LASTNAME_LENGTH = 128
-export const ADMIN_EMAIL = "admin@shoptech.com"
+export const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7";
+const SALT_ROUNDS = 10;
+const MIN_EMAIL_LENGTH = 6;
+const MAX_EMAIL_LENGTH = 128;
+const MIN_PASSWORD_LENGTH = 6;
+const MAX_PASSWORD_LENGTH = 128;
+const MIN_FIRSTNAME_LENGTH = 2;
+const MAX_FIRSTNAME_LENGTH = 128;
+const MIN_LASTNAME_LENGTH = 2;
+const MAX_LASTNAME_LENGTH = 128;
+export const ADMIN_EMAIL = "admin@shoptech.com";
 const DATABASE_ERROR_MESSAGE = "Internal server error";
-const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed"
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed";
 
 export async function getUserByEmail(request, response) {
   try {
@@ -52,6 +52,7 @@ export async function signIn(request, response) {
   const email = request.body.email;
   const username = request.body.username;
   const password = request.body.password;
+  const errorMessage = []
   let existingPassword = "";
   console.log("granttype:", grantType);
   console.log("email:", email);
@@ -122,7 +123,7 @@ export async function signIn(request, response) {
       }
     });
   } else {
-    response.status(400).json({ error: "invalid_grant" });
+    response.status(400).json({ error: "invalid_grant", authError: "Sign in failed. Invalid credentials." });
     console.log("Login failed");
   }
 }

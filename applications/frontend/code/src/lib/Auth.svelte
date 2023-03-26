@@ -89,7 +89,6 @@
             isAdmin: false,
           };
         }
-
         navigate("/account", {
           replace: false,
         });
@@ -97,7 +96,8 @@
         break;
 
       case 400:
-        errorCodes.push(body.stringify());
+        errorCodes.push("Invalid credentials.")
+        errorCodes = errorCodes
         break;
 
       default:
@@ -114,6 +114,10 @@
     phoneNumber = "";
     accountWasCreated = false;
     showSignIn = true;
+  }
+
+  function onSignInSubmitted(){
+    errorCodes = []
   }
 
   function signInWithGoogle() {
@@ -190,6 +194,7 @@
             class="input-group"
             id="signIn-form"
             on:submit|preventDefault={signIn}
+            on:submit={onSignInSubmitted}
           >
             <div class="mb-3 mt-2">
               <input
