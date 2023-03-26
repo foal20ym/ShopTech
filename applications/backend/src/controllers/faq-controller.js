@@ -47,7 +47,7 @@ export async function getFAQ(request, response) {
 
 export async function getFAQById(request, response) {
   try {
-    const faq = await db.query("SELECT * FROM faqs WHERE id = ?", [
+    const faq = await db.query("SELECT * FROM faqs WHERE faqID = ?", [
       request.params.id,
     ]);
     response.status(200).json(faq[0]);
@@ -74,12 +74,15 @@ export async function createFAQ(request, response) {
       }
 
       console.log(request.body);
+      const date = new Date();
+      const timeNow = date.toISOString().split("T")[0];
       const values = [
         request.body.question.toString(),
         request.body.answer.toString(),
+        timeNow
       ];
       const newFAQ = await db.query(
-        "INSERT INTO faqs (question, answer) VALUES (?, ?)",
+        "INSERT INTO faqs (question, answer, createdAt) VALUES (?, ?, ?)",
         values
       );
       const id = newFAQ.insertId;
@@ -121,7 +124,7 @@ export async function updateFAQById(request, response) {
         request.params.id,
       ];
       const updatedFAQ = await db.query(
-        "UPDATE faqs SET question = ?, answer = ? WHERE id = ?",
+        "UPDATE faqs SET question = ?, answer = ? WHERE faqID = ?",
         values
       );
       response.status(200).send("FAQ updated successfully");
@@ -147,7 +150,7 @@ export async function deleteFAQById(request, response) {
       throw new jwt.JsonWebTokenError();
     }
 
-    await db.query("DELETE FROM faqs WHERE id = ?", [request.params.id]);
+    await db.query("DELETE FROM faqs WHERE faqID = ?", [request.params.id]);
     response.status(204).send("FAQ successfully deleted");
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {

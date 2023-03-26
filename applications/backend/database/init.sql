@@ -24,16 +24,18 @@ CREATE TABLE adverts (
 
 
 CREATE TABLE faqs (
-	id INT PRIMARY KEY AUTO_INCREMENT,
+	faqID INT PRIMARY KEY AUTO_INCREMENT,
 	question VARCHAR(200),
-	answer VARCHAR(200)
+	answer VARCHAR(200),
+	createdAt VARCHAR(50)
 );
 
 CREATE TABLE reviews (
-	id INT PRIMARY KEY AUTO_INCREMENT,
+	reviewID INT PRIMARY KEY AUTO_INCREMENT,
 	username VARCHAR(50),
 	description VARCHAR(300),
 	stars VARCHAR(1),
+	createdAt VARCHAR(50),
 	accountID INT,
 	FOREIGN KEY (accountID) REFERENCES accounts(accountID)
 );
@@ -43,9 +45,9 @@ INSERT INTO accounts (email, username, password, address, firstName, lastName, p
 INSERT INTO reviews (username, description, stars) VALUES ('AntonThoresson', 'This is a intial review description', '5');
 INSERT INTO reviews (username, description, stars) VALUES ('AlexanderForsanker', 'I had a dispute with a seller, Ola Conny, but the support team stepped in to help me very fast.', '4');
 
-INSERT INTO faqs (question, answer) VALUES ('I can not find my ad, where is it?', 'Your ad is under review. To prevent incorrect ads from ending up on the page, all ads go through a review check, which means that it may take a little longer before your ad is pushblished.');
-INSERT INTO faqs (question, answer) VALUES ('How do I remove my ad?', 'You can remove your published ad by signing in to your account and view your listings.');
-INSERT INTO faqs (question, answer) VALUES ('Why do I have to leave my contact details when signing up to sell an item?', 'In order to sell an item you have to leave your contact details so that a potential seller can contact you.');
+INSERT INTO faqs (question, answer, createdAt) VALUES ('I can not find my ad, where is it?', 'Your ad is under review. To prevent incorrect ads from ending up on the page, all ads go through a review check, which means that it may take a little longer before your ad is pushblished.', CURRENT_TIMESTAMP);
+INSERT INTO faqs (question, answer, createdAt) VALUES ('How do I remove my ad?', 'You can remove your published ad by signing in to your account and view your listings.', CURRENT_TIMESTAMP);
+INSERT INTO faqs (question, answer, createdAt) VALUES ('Why do I have to leave my contact details when signing up to sell an item?', 'In order to sell an item you have to leave your contact details so that a potential seller can contact you.', CURRENT_TIMESTAMP);
 
 INSERT INTO adverts (category, title, price, description, img_src, createdAt, accountID)
 VALUES('MacBook', 'MacBook Pro 16\" M1 2021','2227', 'Cool laptop','/MacBook_Pro_13-inch_M1_2020.png', CURRENT_TIMESTAMP, 1);
