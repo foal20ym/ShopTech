@@ -42,12 +42,11 @@ CREATE TABLE reviews (
 
 INSERT INTO accounts (email, username, password, address, firstName, lastName, phoneNumber, createdAt) VALUES ('admin@shoptech.com', 'Admin', '$2a$10$9XopzbfcPjvyeKmgVZyUO.p/ovWp9p.dtPnIPb4yvOBE7watUjxqe', 'Shoptech Street 14', 'Forsanker', 'Thoresson', '073-3989898', CURRENT_TIMESTAMP);
 
-INSERT INTO reviews (username, description, stars, createdAt) VALUES ('AntonThoresson', 'This is a intial review description', '5', CURRENT_TIMESTAMP);
-INSERT INTO reviews (username, description, stars, createdAt) VALUES ('AlexanderForsanker', 'I had a dispute with a seller, Ola Conny, but the support team stepped in to help me very fast.', '4', CURRENT_TIMESTAMP);
-
 INSERT INTO faqs (question, answer, createdAt) VALUES ('I can not find my ad, where is it?', 'Your ad is under review. To prevent incorrect ads from ending up on the page, all ads go through a review check, which means that it may take a little longer before your ad is pushblished.', CURRENT_TIMESTAMP);
 INSERT INTO faqs (question, answer, createdAt) VALUES ('How do I remove my ad?', 'You can remove your published ad by signing in to your account and view your listings.', CURRENT_TIMESTAMP);
 INSERT INTO faqs (question, answer, createdAt) VALUES ('Why do I have to leave my contact details when signing up to sell an item?', 'In order to sell an item you have to leave your contact details so that a potential seller can contact you.', CURRENT_TIMESTAMP);
+
+INSERT INTO reviews (username, description, stars, createdAt, accountID) VALUES ('Admin', 'I had a dispute with a seller, Ola Conny, but the support team stepped in to help me very fast.', '5', CURRENT_TIMESTAMP, 1);
 
 INSERT INTO adverts (category, title, price, description, img_src, createdAt, accountID)
 VALUES('MacBook', 'MacBook Pro 16\" M1 2021','2227', 'Cool laptop','/MacBook_Pro_13-inch_M1_2020.png', CURRENT_TIMESTAMP, 1);
