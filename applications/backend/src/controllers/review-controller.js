@@ -14,14 +14,14 @@ function getErrorMessagesForReview(description, stars) {
   if (description.length > REVIEW_DESCRIPTION_MAX_LENGTH) {
     errorMessages.push(
       "Description may at most be " +
-        REVIEW_DESCRIPTION_MAX_LENGTH +
-        " characters long"
+      REVIEW_DESCRIPTION_MAX_LENGTH +
+      " characters long"
     );
   } else if (description.length < REVIEW_DESCRIPTION_MIN_LENGTH) {
     errorMessages.push(
       "Description can't be less than " +
-        REVIEW_DESCRIPTION_MIN_LENGTH +
-        " characters long"
+      REVIEW_DESCRIPTION_MIN_LENGTH +
+      " characters long"
     );
   }
 
@@ -47,7 +47,7 @@ export async function getReviews(requset, response) {
 
 export async function getReviewById(request, response) {
   try {
-    const review = await db.query("SELECT * FROM reviews WHERE id = ?", [
+    const review = await db.query("SELECT * FROM reviews WHERE reviewID = ?", [
       request.params.id,
     ]);
     response.status(200).json(review[0]);
@@ -82,19 +82,31 @@ export async function createReview(request, response) {
     try {
       const authorizationHeaderValue = request.get("Authorization");
       const accessToken = authorizationHeaderValue.substring(7);
-      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+      const isSigned = accessToken.split('.').length === 3;
 
-      if (!decodedToken.isLoggedIn) {
-        throw new jwt.JsonWebTokenError();
+      if (isSigned) {
+        const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+        if (!decodedToken.isLoggedIn) {
+          throw new jwt.JsonWebTokenError();
+        }
       }
+
+      if(username === "" || username === null){
+        username = request.body.userEmail
+      }
+      const date = new Date();
+      const timeNow = date.toISOString().split("T")[0];
+
       const values = [
         username,
         request.body.description,
         request.body.stars,
+        timeNow,
         accountID,
       ];
       const newReview = await db.query(
-        "INSERT INTO reviews (username, description, stars, accountID) VALUES (?, ?, ?, ?)",
+        "INSERT INTO reviews (username, description, stars, createdAt, accountID) VALUES (?, ?, ?, ?, ?)",
         values
       );
       const id = newReview.insertId;
@@ -125,10 +137,14 @@ export async function updateReviewById(request, response) {
     try {
       const authorizationHeaderValue = request.get("Authorization");
       const accessToken = authorizationHeaderValue.substring(7);
-      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+      const isSigned = accessToken.split('.').length === 3;
 
-      if (!decodedToken.isAdmin) {
-        throw new jwt.JsonWebTokenError();
+      if (isSigned) {
+        const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+        if (!decodedToken.isLoggedIn) {
+          throw new jwt.JsonWebTokenError();
+        }
       }
 
       const values = [
@@ -137,7 +153,7 @@ export async function updateReviewById(request, response) {
         request.params.id,
       ];
       const updatedReview = await db.query(
-        "UPDATE reviews SET description = ?, stars = ? WHERE id = ?",
+        "UPDATE reviews SET description = ?, stars = ? WHERE reviewID = ?",
         values
       );
       response.status(200).send("Review updated successfully");
@@ -162,7 +178,7 @@ export async function deleteReviewById(request, response) {
       throw new jwt.JsonWebTokenError();
     }
 
-    await db.query("DELETE FROM reviews WHERE id = ?", [request.params.id]);
+    await db.query("DELETE FROM reviews WHERE reviewID = ?", [request.params.id]);
     response.status(204).send("Review deleted successfully");
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {

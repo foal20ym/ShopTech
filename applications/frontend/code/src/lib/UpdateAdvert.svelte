@@ -28,7 +28,7 @@
 
   async function loadAdvert() {
     try {
-      const response = await fetch("http://localhost:8080/advert/" + id);
+      const response = await fetch("http://localhost:8080/api/adverts/" + id);
 
       switch (response.status) {
         case 200:
@@ -57,11 +57,12 @@
 
     try {
       const response = await fetch(
-        "http://localhost:8080/advert/update/" + id,
+        "http://localhost:8080/api/adverts/" + id,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer " + $user.accessToken
           },
           body: JSON.stringify(advert),
         }
@@ -82,11 +83,12 @@
   async function deleteAdvert() {
     try {
       const response = await fetch(
-        "http://localhost:8080/advert/delete/" + id,
+        "http://localhost:8080/api/adverts/" + id,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer " + $user.accessToken
           },
         }
       );
@@ -106,7 +108,7 @@
   async function loadUserAdverts() {
     try {
       const response = await fetch(
-        "http://localhost:8080/getUserAdverts/" + $user.userEmail
+        "http://localhost:8080/api/adverts/getUserAdverts/" + $user.userEmail
       );
 
       switch (response.status) {

@@ -25,13 +25,16 @@
     };
 
     try {
-      const response = await fetch("http://localhost:8080/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(account),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/accounts/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(account),
+        }
+      );
 
       switch (response.status) {
         case 201:
@@ -40,7 +43,6 @@
 
         case 400:
           errorCodes = await response.json();
-          errorCodes.push("BIG ERROR");
           break;
       }
     } catch (error) {
@@ -52,7 +54,7 @@
   let showSignIn = true;
 
   async function signIn() {
-    const response = await fetch("http://localhost:8080/tokens", {
+    const response = await fetch("http://localhost:8080/api/accounts/tokens/", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -74,20 +76,19 @@
       case 200:
         if (body.admin == "admin") {
           $user = {
-          isLoggedIn: true,
-          accessToken,
-          userEmail: emailFromAuth,
-          isAdmin: true
-        };
+            isLoggedIn: true,
+            accessToken,
+            userEmail: emailFromAuth,
+            isAdmin: true,
+          };
         } else {
           $user = {
-          isLoggedIn: true,
-          accessToken,
-          userEmail: emailFromAuth,
-          isAdmin: false
-        };
+            isLoggedIn: true,
+            accessToken,
+            userEmail: emailFromAuth,
+            isAdmin: false,
+          };
         }
-
         navigate("/account", {
           replace: false,
         });
@@ -95,7 +96,8 @@
         break;
 
       case 400:
-        errorCodes.push(body);
+        errorCodes.push("Invalid credentials.")
+        errorCodes = errorCodes
         break;
 
       default:
@@ -112,6 +114,10 @@
     phoneNumber = "";
     accountWasCreated = false;
     showSignIn = true;
+  }
+
+  function onSignInSubmitted(){
+    errorCodes = []
   }
 
   function signInWithGoogle() {
@@ -188,6 +194,7 @@
             class="input-group"
             id="signIn-form"
             on:submit|preventDefault={signIn}
+            on:submit={onSignInSubmitted}
           >
             <div class="mb-3 mt-2">
               <input
@@ -211,14 +218,14 @@
               />
             </div>
             <div class="signUpPageButton">
-              <Button type="submit" value="signIn">signIn</Button>
+              <Button type="submit" value="signIn">sign in</Button>
             </div>
           </form>
           {#if errorCodes.length}
             <p>Errors:</p>
             <ul>
               {#each errorCodes as errorCode}
-                <li>{errorCode}</li>
+                <li>{errorCodes}</li>
               {/each}
             </ul>
           {/if}

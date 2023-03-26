@@ -22,7 +22,7 @@
             <ul>
               {#each reviews as review}
                 <hr />
-                <h4>{review.username}</h4>
+                <h4>Username: {review.username}</h4>
                 <p>Stars: {review.stars}/5</p>
                 <Link to="/review/{review.id}" class="text-dark"
                   >Click here to read the full review</Link

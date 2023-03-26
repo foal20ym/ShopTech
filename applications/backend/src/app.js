@@ -23,8 +23,8 @@ app.use(function(request, response, next){
 
 app.use("/api/faq", faqRouter);
 app.use("/api/reviews", reviewRouter)
-app.use("/", advertRouter);
-app.use("/", authRouter);
+app.use("/api/adverts", advertRouter);
+app.use("/api/accounts", authRouter);
 
 
 

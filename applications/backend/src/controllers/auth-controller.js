@@ -13,6 +13,8 @@ const MAX_FIRSTNAME_LENGTH = 128;
 const MIN_LASTNAME_LENGTH = 2;
 const MAX_LASTNAME_LENGTH = 128;
 export const ADMIN_EMAIL = "admin@shoptech.com";
+const DATABASE_ERROR_MESSAGE = "Internal server error";
+const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed";
 
 export async function getUserByEmail(request, response) {
   try {
@@ -21,33 +23,27 @@ export async function getUserByEmail(request, response) {
     ]);
     response.status(200).json(user[0]);
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function getUserByAdvertId(request, response) {
   let accountID = "";
-
   try {
-    const adverts = await db.query("SELECT * FROM adverts WHERE advertID = ?", [
-      request.params.id,
-    ]);
+    const adverts = await db.query("SELECT * FROM adverts WHERE advertID = ?", [request.params.id]);
     accountID = adverts[0].accountID;
-    console.log("accountID", accountID);
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 
   try {
-    const user = await db.query("SELECT * FROM accounts WHERE accountID = ?", [
-      accountID,
-    ]);
-    console.log("owner email", user[0].email);
+    const user = await db.query("SELECT * FROM accounts WHERE accountID = ?", [accountID]);
     response.status(200).json(user[0]);
   } catch (error) {
-    console.error(error);
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
@@ -56,6 +52,7 @@ export async function signIn(request, response) {
   const email = request.body.email;
   const username = request.body.username;
   const password = request.body.password;
+  const errorMessage = []
   let existingPassword = "";
   console.log("granttype:", grantType);
   console.log("email:", email);
@@ -71,7 +68,7 @@ export async function signIn(request, response) {
     existingPassword = user[0]?.password || "";
   } catch (error) {
     console.error(error);
-    response.status(500).send("Internal server error");
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
     return;
   }
 
@@ -126,7 +123,7 @@ export async function signIn(request, response) {
       }
     });
   } else {
-    response.status(400).json({ error: "invalid_grant" });
+    response.status(400).json({ error: "invalid_grant", authError: "Sign in failed. Invalid credentials." });
     console.log("Login failed");
   }
 }
@@ -151,10 +148,9 @@ function validateEmail(email) {
 }
 
 export async function signUp(request, response) {
-  console.log("Creating account");
   const accountData = request.body;
   const errorMessages = [];
-  console.log(accountData);
+  let emailTaken;
   const hashedPassword = await bcrypt.hash(accountData.password, SALT_ROUNDS);
 
   const date = new Date();
@@ -171,7 +167,7 @@ export async function signUp(request, response) {
   }
   if (accountData.phoneNumber.length == 0) {
     errorMessages.push("Invalid phone number: Too short");
-  } else if (!regexCheckNumber.test(accountData.phoneNumber)) {
+  } else if (!(regexCheckNumber.test(accountData.phoneNumber))) {
     errorMessages.push("Invalid phone number: Must be digits only");
   }
   if (regexCheckSpecialCharacter.test(accountData.password)) {
@@ -179,15 +175,21 @@ export async function signUp(request, response) {
   } else if (accountData.password.length == 0) {
     errorMessages.push("Password length can't be 0");
   } else if (accountData.password.length < MIN_PASSWORD_LENGTH) {
-    errorMessages.push(
-      "Password must be at least " + MIN_PASSWORD_LENGTH + " characters long"
-    );
+    errorMessages.push("Password must be at least " + MIN_PASSWORD_LENGTH + " characters long");
   } else if (MAX_PASSWORD_LENGTH < accountData.password.length) {
-    errorMessages.push(
-      "Password can't be more than " + MAX_PASSWORD_LENGTH + " characters long"
-    );
+    errorMessages.push("Password can't be more than " + MAX_PASSWORD_LENGTH + " characters long");
   }
 
+  try {
+    emailTaken = await db.query("SELECT * FROM accounts WHERE email = ?", [accountData.email]);
+  } catch (error) {
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
+  }
+  console.log(emailTaken)
+  if (!(emailTaken === null || emailTaken == "")) {
+    errorMessages.push("Email address already in use")
+  }
   if (accountData.email.length == 0) {
     errorMessages.push("Email length can't be 0");
   } else if (accountData.email.length < MIN_EMAIL_LENGTH) {
@@ -250,9 +252,8 @@ export async function signUp(request, response) {
     response.status(201).send("Account created successfully").json();
     console.log("Account created successfully");
   } catch (error) {
-    console.error(error);
-    console.log("error");
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
@@ -276,46 +277,66 @@ export async function registerGoogleAuthUser(request, response) {
     response.status(201).send("Account created successfully").json();
     console.log("Account created successfully");
   } catch (error) {
-    console.error(error);
-    console.log("error");
-    response.status(500).send("Internal server error");
+    console.error(error.status);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
   }
 }
 
 export async function updateAccountByEmail(request, response) {
   const accountData = request.body;
-
   if (!request.body) {
     response.status(400).send("Missing request body");
     return;
   }
   try {
-    const values = [
-      accountData.firstName,
-      accountData.lastName,
-      accountData.address,
-      accountData.phoneNumber,
-      request.params.id,
-    ];
-    const updatedAccount = await db.query(
-      "UPDATE accounts SET firstName = ?, lastName = ?, address = ?, phoneNumber = ? WHERE email = ?",
-      values
-    );
+    const authorizationHeaderValue = request.get("Authorization");
+    const accessToken = authorizationHeaderValue.substring(7);
+    const isSigned = accessToken.split('.').length === 3;
+
+    if (isSigned) {
+      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+      if (!decodedToken.isLoggedIn) {
+        throw new jwt.JsonWebTokenError();
+      }
+    }
+
+    const values = [accountData.firstName, accountData.lastName, accountData.address, accountData.phoneNumber, request.params.id];
+    const updatedAccount = await db.query("UPDATE accounts SET firstName = ?, lastName = ?, address = ?, phoneNumber = ? WHERE email = ?", values);
     response.status(200).send("Account updated successfully").json();
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    if (error instanceof jwt.JsonWebTokenError) {
+      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+    } else {
+      console.error(error.status);
+      response.status(500).json([DATABASE_ERROR_MESSAGE]);
+    }
   }
 }
 
 export async function deleteAccountByEmail(request, response) {
-  console.log("DELETE ACCOUNT");
   try {
-    console.log([request.params.id]);
-    await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id]);
+    const authorizationHeaderValue = request.get("Authorization");
+    const accessToken = authorizationHeaderValue.substring(7);
+    const isSigned = accessToken.split('.').length === 3;
+
+    if (isSigned) {
+      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+
+      if (!decodedToken.isLoggedIn) {
+        throw new jwt.JsonWebTokenError();
+      }
+    }
+
+    console.log([request.params.id])
+    await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id])
     response.status(204).send("Account successfully deleted");
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    if (error instanceof jwt.JsonWebTokenError) {
+      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+    } else {
+      console.error(error.status);
+      response.status(500).json([DATABASE_ERROR_MESSAGE]);
+    }
   }
 }

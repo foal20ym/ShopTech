@@ -8,15 +8,11 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.get("/", advertController.getAdverts);
-router.get("/advert/:id", advertController.getAdvertById);
+router.get("/:id", advertController.getAdvertById);
 router.get("/getUserAdverts/:id", advertController.getUserAdverts);
-router.post("/createad", advertController.createAdvert);
-router.patch("/advert/update/:id", advertController.updateAdvertById);
-router.patch(
-  "/upload/:id",
-  upload.single("image"),
-  advertController.insertImageIntoAdvertById
-);
-router.delete("/advert/delete/:id", advertController.deleteAdvertById);
+router.post("/", advertController.createAdvert);
+router.patch("/:id", advertController.updateAdvertById);
+router.patch("/upload/:id", upload.single("image"), advertController.insertImageIntoAdvertById);
+router.delete("/:id", advertController.deleteAdvertById);
 
 export default router;
