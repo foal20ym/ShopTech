@@ -97,7 +97,6 @@ export async function createReview(request, response) {
       }
       const date = new Date();
       const timeNow = date.toISOString().split("T")[0];
-
       const values = [
         username,
         request.body.description,

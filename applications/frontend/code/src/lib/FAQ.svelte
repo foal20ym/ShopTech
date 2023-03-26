@@ -43,7 +43,7 @@
                     <DropdownItem class="text-wrap">{faq.answer}</DropdownItem>
                     {#if $user.isLoggedIn && $user.isAdmin}
                       <Link
-                        to="/faq/{faq.id}"
+                        to="/faq/{faq.faqID}"
                         class="text-dark"
                         style="text-decoration: underline;">Edit</Link
                       >

@@ -24,7 +24,7 @@
                 <hr />
                 <h4>Username: {review.username}</h4>
                 <p>Stars: {review.stars}/5</p>
-                <Link to="/review/{review.id}" class="text-dark"
+                <Link to="/review/{review.reviewID}" class="text-dark"
                   >Click here to read the full review</Link
                 >
               {/each}

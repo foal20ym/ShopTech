@@ -59,7 +59,7 @@
             </p>
             <p><strong>Stars: </strong> {review.stars}/5</p>
             {#if $user.isLoggedIn && $user.isAdmin}
-              <Link to="/review/update/{review.id}"
+              <Link to="/review/update/{review.reviewID}"
                 ><button
                   type="button"
                   class="btn btn-outline-dark mr-2 mt-3 mb-3">Update</button
@@ -78,7 +78,7 @@
           </ul>
         </div>
       {:else}
-        <p>No review with the given id: {review.id}</p>
+        <p>No review with the given id: {review.reviewID}</p>
       {/if}
     </div>
   </div>
