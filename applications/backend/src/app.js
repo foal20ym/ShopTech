@@ -4,7 +4,6 @@ import advertRouter from "./routers/advert-router.js";
 import authRouter from "./routers/auth-router.js"
 import reviewRouter from "./routers/review-router.js"
 import bodyParser from 'body-parser'
-import multer from 'multer'
 
 const app = express();
 app.use(express.json());
