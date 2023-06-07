@@ -4,6 +4,7 @@
   import { Container, Col, Row, Button } from "sveltestrap";
   import { FormGroup, FormText, Input, Label } from "sveltestrap";
   import { user } from "../user-store.js";
+  import APIBaseURL from "../config";
 
   let selectedCategory = "";
   function handleSelect(event) {
@@ -25,7 +26,7 @@
   async function loadUserData() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/" + $user.userEmail
+        APIBaseURL + "accounts/" + $user.userEmail
       );
       console.log("user email from account: ", $user.userEmail);
 
@@ -54,7 +55,7 @@
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/upload/" + $user.userEmail,
+        APIBaseURL + "adverts/upload/" + $user.userEmail,
         {
           method: "PATCH",
           body: data,
@@ -79,7 +80,7 @@
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/adverts/", {
+      const response = await fetch(APIBaseURL + "adverts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -226,4 +227,5 @@
     </Button>
   </div>
 {/if}
+
 <Route path="/home" component={Home} />

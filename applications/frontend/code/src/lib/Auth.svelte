@@ -2,6 +2,7 @@
   import { navigate } from "svelte-routing";
   import { user } from "../user-store.js";
   import { Button } from "sveltestrap";
+  import APIBaseURL from "../config.js";
 
   let email = "";
   let username = "";
@@ -26,7 +27,7 @@
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/signup",
+        APIBaseURL + "accounts/signup",
         {
           method: "POST",
           headers: {
@@ -54,7 +55,7 @@
   let showSignIn = true;
 
   async function signIn() {
-    const response = await fetch("http://localhost:8080/api/accounts/tokens/", {
+    const response = await fetch(APIBaseURL + "accounts/tokens/", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

@@ -12,6 +12,7 @@
     Alert,
   } from "sveltestrap";
   import { user } from "../user-store";
+  import APIBaseURL from "../config";
 
   export let id;
   let isfetchingAdvert = true;
@@ -30,24 +31,17 @@
   async function loadUserData() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/" + $user.userEmail
+        APIBaseURL + "accounts/" + $user.userEmail
       );
       console.log("user email from account: ", $user.userEmail);
 
       switch (response.status) {
         case 200:
           userData = await response.json();
-          /*isFetchingUserData = false;
-          address = userData.address;
-          firstName = userData.firstName;
-          lastName = userData.lastName;
-          phoneNumber = userData.phoneNumber;*/
           break;
       }
     } catch (error) {
       console.log("error:", error);
-      /*isFetchingUserData = false;
-      failedToFetchUserData = true;*/
     }
   }
 
@@ -55,7 +49,7 @@
 
   async function loadAdvert() {
     try {
-      const response = await fetch("http://localhost:8080/api/adverts/" + id);
+      const response = await fetch(APIBaseURL + "adverts/" + id);
 
       switch (response.status) {
         case 200:
@@ -85,7 +79,7 @@
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/" + id,
+        APIBaseURL + "adverts/" + id,
         {
           method: "PATCH",
           headers: {
@@ -119,7 +113,7 @@
   async function deleteAdvert() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/" + id,
+        APIBaseURL + "adverts/" + id,
         {
           method: "DELETE",
           headers: {
@@ -152,7 +146,7 @@
   async function loadUserAdverts() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/getUserAdverts/" + $user.userEmail
+        APIBaseURL + "adverts/getUserAdverts/" + $user.userEmail
       );
 
       switch (response.status) {

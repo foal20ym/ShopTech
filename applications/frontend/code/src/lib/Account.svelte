@@ -1,9 +1,11 @@
 <script>
+// @ts-nocheck
   import { Link, navigate, Route } from "svelte-routing";
   import { Button, Alert } from "sveltestrap";
   import { user } from "../user-store.js";
   import UpdateAccount from "./UpdateAccount.svelte";
   import UpdateAdvert from "./UpdateAdvert.svelte";
+  import APIBaseURL from "../config.js";
 
   let isFetchingUserData = true;
   let failedToFetchUserData = false;
@@ -14,7 +16,7 @@
   async function loadUserData() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/" + $user.userEmail
+        APIBaseURL + "accounts/" + $user.userEmail
       );
       console.log("user email from account: ", $user.userEmail);
 
@@ -36,7 +38,7 @@
   async function loadUserAdverts() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/getUserAdverts/" + $user.userEmail
+        APIBaseURL + "adverts/getUserAdverts/" + $user.userEmail
       );
 
       switch (response.status) {
@@ -55,7 +57,7 @@
   async function deleteAccount() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/" + $user.userEmail,
+        APIBaseURL + "accounts/" + $user.userEmail,
         {
           method: "DELETE",
           headers: {

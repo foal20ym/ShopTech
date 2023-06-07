@@ -3,7 +3,6 @@
   import Auth from "./Auth.svelte";
   import CreateAd from "./CreateAd.svelte";
   import { user } from "../user-store.js";
-
   import { Container, Col, Row, Button } from "sveltestrap";
 </script>
 
