@@ -167,7 +167,7 @@ export async function insertImageIntoAdvertById(request, response) {
   const updateID = advertID;
   try {
     const values = [image, updateID];
-    const insertedImageIntoAdvert = await db.query("UPDATE adverts SET img_src = ? WHERE advertID = ?", values);
+    await db.query("UPDATE adverts SET img_src = ? WHERE advertID = ?", values);
     response.status(200).send("Image insterted into advert successfully").json();
   } catch (error) {
     console.error(error.status);
@@ -185,15 +185,7 @@ export async function updateAdvertById(request, response) {
   try {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
-    const isSigned = accessToken.split('.').length === 3;
-
-    if (!isSigned) {
-      response.status(401).send("Unauthorized");
-      return;
-    }
-
     const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
-    console.log(decodedToken)
 
     if (!decodedToken.isLoggedIn) {
       throw new jwt.JsonWebTokenError();
@@ -210,23 +202,24 @@ export async function updateAdvertById(request, response) {
     await db.query("UPDATE adverts SET title = ?, description = ?, price = ? WHERE advertID = ?", values);
     response.status(200).send("Advert updated successfully");
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal server error");
+    if (error instanceof jwt.JsonWebTokenError) {
+      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
+    } else {
+      console.error(error.status);
+      response.status(500).json([DATABASE_ERROR_MESSAGE]);
+    }
   }
 }
 
 export async function deleteAdvertById(request, response) {
+  console.log("deleteAdvertById")
   try {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
-    const isSigned = accessToken.split('.').length === 3;
+    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
 
-    if (isSigned) {
-      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
-
-      if (!decodedToken.isLoggedIn) {
-        throw new jwt.JsonWebTokenError();
-      }
+    if (!decodedToken.isLoggedIn) {
+      throw new jwt.JsonWebTokenError();
     }
 
     await db.query("DELETE FROM adverts WHERE advertID = ? AND accountID = ?", [request.params.id, decodedToken.userId])

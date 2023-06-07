@@ -135,6 +135,14 @@
             replace: false,
           });
           break;
+
+        case 401:
+          errorCodes.push("Unauthorized")
+          errorCodes = errorCodes
+          break;
+
+        default:
+          errorCodes.push("Unexpected response");
       }
     } catch (error) {
       console.log("error:", error);
@@ -273,6 +281,15 @@
         </Col>
       </Row>
     </form>
+    {#if 0 < errorCodes.length}
+      <p>the following errors occured:</p>
+
+      <ul>
+        {#each errorCodes as errorCode}
+          <li>{errorCode}</li>
+        {/each}
+      </ul>
+    {/if}
   {:else}
     <p>No advert with the given id {id}.</p>
   {/if}
