@@ -58,13 +58,14 @@ export async function signIn(request, response) {
   console.log("email:", email);
   console.log("username:", username);
   console.log("password:", password);
-
+  let user;
+  
   try {
-    const user = await db.query(
+    user = await db.query(
       "SELECT * FROM accounts WHERE email = ?",
       username
     );
-    console.log(user);
+    console.log("user test",user);
     existingPassword = user[0]?.password || "";
   } catch (error) {
     console.error(error);
@@ -77,6 +78,7 @@ export async function signIn(request, response) {
     return;
   }
 
+  console.log("user[0].accountID", user[0].accountID)
   console.log("password:", password);
   console.log("existing password", existingPassword);
   const isMatch = await bcrypt.compare(password, existingPassword);
@@ -93,11 +95,13 @@ export async function signIn(request, response) {
       payload = {
         isAdmin: true,
         isLoggedIn: true,
+        userId: user[0].accountID,
       };
     } else {
       payload = {
         isAdmin: false,
         isLoggedIn: true,
+        userId: user[0].accountID,
       };
     }
 

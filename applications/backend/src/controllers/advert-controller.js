@@ -81,14 +81,14 @@ export async function createAdvert(request, response) {
   } else if (MAX_DESCRIPTION_LENGTH < advertData.description.length) {
     errorMessages.push(
       "Description can't be more than " +
-        MAX_DESCRIPTION_LENGTH +
-        "characters long."
+      MAX_DESCRIPTION_LENGTH +
+      "characters long."
     );
   } else if (advertData.description.length < MIN_DESCRIPTION_LENGTH) {
     errorMessages.push(
       "Description can't be less than " +
-        MIN_DESCRIPTION_LENGTH +
-        " characters long."
+      MIN_DESCRIPTION_LENGTH +
+      " characters long."
     );
   }
 
@@ -181,22 +181,34 @@ export async function updateAdvertById(request, response) {
     response.status(400).send("Missing request body");
     return;
   }
+
   try {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
     const isSigned = accessToken.split('.').length === 3;
 
-    if (isSigned) {
-      const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+    if (!isSigned) {
+      response.status(401).send("Unauthorized");
+      return;
+    }
 
-      if (!decodedToken.isLoggedIn) {
-        throw new jwt.JsonWebTokenError();
-      }
+    const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+    console.log(decodedToken)
+
+    if (!decodedToken.isLoggedIn) {
+      throw new jwt.JsonWebTokenError();
+    }
+
+    console.log("decodedToken.userId", decodedToken.userId)
+    console.log("advertData.accountID", advertData.accountID)
+    if (decodedToken.userId !== advertData.accountID) {
+      response.status(403).send("Forbidden");
+      return;
     }
 
     const values = [advertData.title, advertData.description, advertData.price, request.params.id];
-    const updatedAccount = await db.query("UPDATE adverts SET title = ?, description = ?, price = ? WHERE advertID = ?", values);
-    response.status(200).send("Advert updated successfully").json();
+    await db.query("UPDATE adverts SET title = ?, description = ?, price = ? WHERE advertID = ?", values);
+    response.status(200).send("Advert updated successfully");
   } catch (error) {
     console.error(error);
     response.status(500).send("Internal server error");

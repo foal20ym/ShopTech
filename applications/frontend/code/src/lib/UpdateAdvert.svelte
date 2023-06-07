@@ -17,6 +17,7 @@
   let isfetchingAdvert = true;
   let failedTofetchAdvert = false;
   let advert = null;
+  let userData = null;
   let category = "";
   let title = "";
   let price = "";
@@ -25,6 +26,32 @@
   let adverts = [];
   let showUpdateConfirmation = false;
   let showDeleteConfirmation = false;
+
+  async function loadUserData() {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/accounts/" + $user.userEmail
+      );
+      console.log("user email from account: ", $user.userEmail);
+
+      switch (response.status) {
+        case 200:
+          userData = await response.json();
+          /*isFetchingUserData = false;
+          address = userData.address;
+          firstName = userData.firstName;
+          lastName = userData.lastName;
+          phoneNumber = userData.phoneNumber;*/
+          break;
+      }
+    } catch (error) {
+      console.log("error:", error);
+      /*isFetchingUserData = false;
+      failedToFetchUserData = true;*/
+    }
+  }
+
+  loadUserData();
 
   async function loadAdvert() {
     try {
@@ -53,6 +80,7 @@
       title,
       price,
       description,
+      accountID: userData.accountID
     };
 
     try {
