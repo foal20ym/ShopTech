@@ -202,7 +202,7 @@ export async function updateAdvertById(request, response) {
     console.log("decodedToken.userId", decodedToken.userId)
     console.log("advertData.accountID", advertData.accountID)
     if (decodedToken.userId !== advertData.accountID) {
-      response.status(403).send("Forbidden");
+      response.status(401).send("Unauthorized");
       return;
     }
 
@@ -229,7 +229,7 @@ export async function deleteAdvertById(request, response) {
       }
     }
 
-    await db.query("DELETE FROM adverts WHERE advertID = ?", [request.params.id])
+    await db.query("DELETE FROM adverts WHERE advertID = ? AND accountID = ?", [request.params.id, decodedToken.userId])
     response.status(204).send("Advert successfully deleted");
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {

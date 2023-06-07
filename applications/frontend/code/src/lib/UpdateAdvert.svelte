@@ -102,6 +102,14 @@
             replace: false,
           });
           break;
+
+        case 401:
+          errorCodes.push("Unauthorized")
+          errorCodes = errorCodes
+          break;
+
+        default:
+          errorCodes.push("Unexpected response");
       }
     } catch (error) {
       console.log("error:", error);
