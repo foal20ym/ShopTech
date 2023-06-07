@@ -1,7 +1,6 @@
 import express from "express";
 import * as advertController from "../controllers/advert-controller.js";
 const router = express.Router();
-import * as path from "path";
 import multer from "multer";
 
 const storage = multer.memoryStorage();
