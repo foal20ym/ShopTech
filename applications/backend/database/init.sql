@@ -1,7 +1,7 @@
 CREATE TABLE accounts (
     accountID INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(50),
-    username VARCHAR(50),
+    email VARCHAR(50) unique,
+    username VARCHAR(50) unique,
     password VARCHAR(255),
     address VARCHAR(50),
     firstName VARCHAR(50),
