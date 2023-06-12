@@ -12,11 +12,13 @@
     Alert,
   } from "sveltestrap";
   import { user } from "../user-store";
+  import APIBaseURL from "../config";
 
   export let id;
   let isfetchingAdvert = true;
   let failedTofetchAdvert = false;
   let advert = null;
+  let userData = null;
   let category = "";
   let title = "";
   let price = "";
@@ -26,9 +28,28 @@
   let showUpdateConfirmation = false;
   let showDeleteConfirmation = false;
 
+  async function loadUserData() {
+    try {
+      const response = await fetch(
+        APIBaseURL + "accounts/" + $user.userEmail
+      );
+      console.log("user email from account: ", $user.userEmail);
+
+      switch (response.status) {
+        case 200:
+          userData = await response.json();
+          break;
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  }
+
+  loadUserData();
+
   async function loadAdvert() {
     try {
-      const response = await fetch("http://localhost:8080/api/adverts/" + id);
+      const response = await fetch(APIBaseURL + "adverts/" + id);
 
       switch (response.status) {
         case 200:
@@ -53,11 +74,12 @@
       title,
       price,
       description,
+      accountID: userData.accountID
     };
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/" + id,
+        APIBaseURL + "adverts/" + id,
         {
           method: "PATCH",
           headers: {
@@ -74,6 +96,14 @@
             replace: false,
           });
           break;
+
+        case 401:
+          errorCodes.push("Unauthorized")
+          errorCodes = errorCodes
+          break;
+
+        default:
+          errorCodes.push("Unexpected response");
       }
     } catch (error) {
       console.log("error:", error);
@@ -83,7 +113,7 @@
   async function deleteAdvert() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/" + id,
+        APIBaseURL + "adverts/" + id,
         {
           method: "DELETE",
           headers: {
@@ -99,6 +129,14 @@
             replace: false,
           });
           break;
+
+        case 401:
+          errorCodes.push("Unauthorized")
+          errorCodes = errorCodes
+          break;
+
+        default:
+          errorCodes.push("Unexpected response");
       }
     } catch (error) {
       console.log("error:", error);
@@ -108,7 +146,7 @@
   async function loadUserAdverts() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/getUserAdverts/" + $user.userEmail
+        APIBaseURL + "adverts/getUserAdverts/" + $user.userEmail
       );
 
       switch (response.status) {
@@ -237,6 +275,15 @@
         </Col>
       </Row>
     </form>
+    {#if 0 < errorCodes.length}
+      <p>the following errors occured:</p>
+
+      <ul>
+        {#each errorCodes as errorCode}
+          <li>{errorCode}</li>
+        {/each}
+      </ul>
+    {/if}
   {:else}
     <p>No advert with the given id {id}.</p>
   {/if}

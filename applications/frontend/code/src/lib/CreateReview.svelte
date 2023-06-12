@@ -1,13 +1,14 @@
 <script>
   import { navigate } from "svelte-routing";
   import { user } from "../user-store.js";
+  import APIBaseURL from "../config.js";
   let description = "";
   let stars = "";
   let errorMessages = [];
 
   async function submitForm() {
     let userEmail = $user.userEmail;
-    const response = await fetch("http://localhost:8080/api/reviews", {
+    const response = await fetch(APIBaseURL + "reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

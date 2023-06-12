@@ -2,6 +2,7 @@
   import { Button } from "sveltestrap";
   import { Link, navigate } from "svelte-routing";
   import { user } from "../user-store";
+  import APIBaseURL from "../config";
 
   var params = {};
   var regex = /([^&=]+)=([^&]*)/g,
@@ -58,7 +59,7 @@
       console.log("isUserRegistered email test:", $user.userEmail);
       try {
         const response = await fetch(
-          "http://localhost:8080/api/accounts/" + $user.userEmail
+          APIBaseURL + "accounts/" + $user.userEmail
         );
         console.log("userEmail from isUserRegistered()", $user.userEmail);
 
@@ -92,7 +93,7 @@
 
       try {
         const response = await fetch(
-          "http://localhost:8080/api/accounts/registerFromAuth",
+          APIBaseURL + "accounts/registerFromAuth",
           {
             method: "POST",
             headers: {

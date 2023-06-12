@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Link, navigate } from "svelte-routing";
   import { user } from "../user-store";
+  import APIBaseURL from "../config";
   export let id;
   let isFetchingFAQ = true;
   let failedToFetchFAQ = false;
@@ -8,7 +9,7 @@
   let faq = null;
 
   async function deleteFAQ() {
-    const response = await fetch("http://localhost:8080/api/faq/" + id, {
+    const response = await fetch(APIBaseURL + "faq/" + id, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + $user.accessToken,
@@ -27,7 +28,7 @@
 
   async function loadFAQ() {
     try {
-      const response = await fetch("http://localhost:8080/api/faq/" + id);
+      const response = await fetch(APIBaseURL + "faq/" + id);
       switch (response.status) {
         case 200:
           faq = await response.json();

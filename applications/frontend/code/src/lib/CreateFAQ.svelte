@@ -5,9 +5,10 @@
   let question = "";
   let answer = "";
   let errorMessages = [];
+  import APIBaseURL from "../config";
 
   async function submitForm() {
-    const response = await fetch("http://localhost:8080/api/faq", {
+    const response = await fetch(APIBaseURL + "faq", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

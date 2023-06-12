@@ -1,8 +1,9 @@
 <script lang="ts">
   import { DropdownItem, Accordion, AccordionItem, Input } from "sveltestrap";
   import { Link } from "svelte-routing";
+  import APIBaseURL from "../config";
 
-  const fetchAdvertsPromise = fetch("http://localhost:8080/api/adverts");
+  const fetchAdvertsPromise = fetch(APIBaseURL + "adverts");
 
   let isOpen = false;
   const toggle = () => (isOpen = !isOpen);

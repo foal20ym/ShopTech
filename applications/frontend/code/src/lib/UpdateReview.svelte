@@ -1,6 +1,7 @@
 <script>
   import { navigate } from "svelte-routing";
   import { user } from "../user-store.js";
+    import APIBaseURL from "../config.js";
   export let id;
   let review = null;
   let updatedUsername = "";
@@ -11,7 +12,7 @@
 
   async function submitForm() {
     console.log(updatedStars);
-    const response = await fetch("http://localhost:8080/api/reviews/" + id, {
+    const response = await fetch(APIBaseURL + "reviews/" + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +42,7 @@
 
   async function loadReview() {
     try {
-      const response = await fetch("http://localhost:8080/api/reviews/" + id);
+      const response = await fetch(APIBaseURL + "reviews/" + id);
       switch (response.status) {
         case 200:
           review = await response.json();

@@ -9,6 +9,7 @@
     CardText,
     Button,
   } from "sveltestrap";
+  import APIBaseURL from "../config";
 
   export let id;
   let isfetchingAdvert = true;
@@ -19,7 +20,7 @@
 
   async function loadAdvert() {
     try {
-      const response = await fetch("http://localhost:8080/api/adverts/" + id);
+      const response = await fetch( APIBaseURL + "adverts/" + id);
 
       switch (response.status) {
         case 200:
@@ -40,7 +41,7 @@
   async function loadAdvertCreatorEmail() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/advertCreatorEmail/" + id
+        APIBaseURL + "accounts/advertCreatorEmail/" + id
       );
 
       switch (response.status) {

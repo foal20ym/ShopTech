@@ -1,6 +1,7 @@
 <script>
   import { Link, navigate } from "svelte-routing";
   import { user } from "../user-store.js";
+  import APIBaseURL from "../config.js";
   export let id;
   let isFetchingReview = true;
   let failedToFetchReview = false;
@@ -8,7 +9,7 @@
   let review = null;
 
   async function deleteReview() {
-    const response = await fetch("http://localhost:8080/api/reviews/" + id, {
+    const response = await fetch(APIBaseURL + "reviews/" + id, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + $user.accessToken,
@@ -26,7 +27,7 @@
 
   async function loadReview() {
     try {
-      const response = await fetch("http://localhost:8080/api/reviews/" + id);
+      const response = await fetch(APIBaseURL + "reviews/" + id);
       switch (response.status) {
         case 200:
           review = await response.json();

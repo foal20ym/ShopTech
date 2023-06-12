@@ -1,8 +1,9 @@
 <script>
   import { Link } from "svelte-routing";
   import { user } from "../user-store";
+  import APIBaseURL from "../config";
 
-  const fetchReviewsPromise = fetch("http://localhost:8080/api/reviews");
+  const fetchReviewsPromise = fetch(APIBaseURL + "reviews");
 </script>
 
 <div class="container text-center">

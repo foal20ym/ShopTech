@@ -2,6 +2,7 @@
   import { Link, navigate } from "svelte-routing";
   import { Button } from "sveltestrap";
   import { user } from "../user-store.js";
+  import APIBaseURL from "../config";
 
   let isFetchingUserData = true;
   let failedToFetchUserData;
@@ -16,7 +17,7 @@
   async function loadUserData() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/" + $user.userEmail
+        APIBaseURL + "accounts/" + $user.userEmail
       );
       console.log("user email from account: ", $user.userEmail);
 
@@ -49,7 +50,7 @@
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/accounts/" + $user.userEmail,
+        APIBaseURL + "accounts/" + $user.userEmail,
         {
           method: "PATCH",
           headers: {
@@ -75,7 +76,7 @@
   async function loadUserAdverts() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/adverts/getUserAdverts/" + $user.userEmail
+        APIBaseURL + "adverts/getUserAdverts/" + $user.userEmail
       );
 
       switch (response.status) {

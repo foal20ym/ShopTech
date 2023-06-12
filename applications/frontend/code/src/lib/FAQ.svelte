@@ -2,8 +2,9 @@
   import { Link } from "svelte-routing";
   import { DropdownItem, Accordion, AccordionItem } from "sveltestrap";
   import { user } from "../user-store.js";
+  import APIBaseURL from "../config.js";
 
-  const fetchFAQPromise = fetch("http://localhost:8080/api/faq");
+  const fetchFAQPromise = fetch(APIBaseURL + "faq");
 </script>
 
 <div class="container text-center">
