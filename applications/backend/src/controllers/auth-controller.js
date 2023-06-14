@@ -52,20 +52,17 @@ export async function signIn(request, response) {
   const email = request.body.email;
   const username = request.body.username;
   const password = request.body.password;
-  const errorMessage = []
+  const errorMessage = [];
   let existingPassword = "";
   console.log("granttype:", grantType);
   console.log("email:", email);
   console.log("username:", username);
   console.log("password:", password);
   let user;
-  
+
   try {
-    user = await db.query(
-      "SELECT * FROM accounts WHERE email = ?",
-      username
-    );
-    console.log("user test",user);
+    user = await db.query("SELECT * FROM accounts WHERE email = ?", username);
+    console.log("user test", user);
     existingPassword = user[0]?.password || "";
   } catch (error) {
     console.error(error);
@@ -73,17 +70,17 @@ export async function signIn(request, response) {
     return;
   }
 
-  if (grantType != "password") {
+  if (grantType !== "password") {
     response.status(400).json({ error: "unsupported_grant_type" });
     return;
   }
 
-  console.log("user[0].accountID", user[0].accountID)
+  console.log("user[0].accountID", user[0].accountID);
   console.log("password:", password);
   console.log("existing password", existingPassword);
   const isMatch = await bcrypt.compare(password, existingPassword);
 
-  if (grantType != "password") {
+  if (grantType !== "password") {
     response.status(400).json({ error: "unsupported_grant_type" });
     return;
   }
@@ -91,7 +88,7 @@ export async function signIn(request, response) {
   if (isMatch) {
     let payload = null;
 
-    if (username == ADMIN_EMAIL) {
+    if (username === ADMIN_EMAIL) {
       payload = {
         isAdmin: true,
         isLoggedIn: true,
@@ -114,36 +111,27 @@ export async function signIn(request, response) {
             access_token: accessToken,
             type: "bearer",
             username: username,
-            admin: "admin",
+            isAdmin: true,
           });
         } else {
           response.status(200).json({
             access_token: accessToken,
             type: "bearer",
             username: username,
-            admin: "",
+            isAdmin: false,
           });
         }
       }
     });
   } else {
-    response.status(400).json({ error: "invalid_grant", authError: "Sign in failed. Invalid credentials." });
+    response
+      .status(400)
+      .json({
+        error: "invalid_grant",
+        authError: "Sign in failed. Invalid credentials.",
+      });
     console.log("Login failed");
   }
-}
-
-function validatePassword(password) {
-  const errorMessages = [];
-  var regexCheckNumber = /^(?=.*[0-9])/;
-  var regexCheckSpecialCharacter = /^(?=.*[!@#$%^&*])/;
-
-  if (regexCheckNumber.test(password)) {
-    errorMessages.push("Password must contain at least one digit");
-  }
-  if (regexCheckSpecialCharacter.test(password)) {
-    errorMessages.push("Password must contain at least one special character");
-  }
-  return errorMessages;
 }
 
 function validateEmail(email) {
@@ -287,6 +275,8 @@ export async function registerGoogleAuthUser(request, response) {
 }
 
 export async function updateAccountByEmail(request, response) {
+  console.log("UPDATE ACCOUNT")
+
   const accountData = request.body;
   if (!request.body) {
     response.status(400).send("Missing request body");
@@ -297,25 +287,28 @@ export async function updateAccountByEmail(request, response) {
     const accessToken = authorizationHeaderValue.substring(7);
     const isSigned = accessToken.split('.').length === 3;
 
+    const user = await db.query("SELECT * FROM accounts WHERE email = ?", [
+      request.params.id,
+    ]);
+
     if (isSigned) {
       const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
 
-      if (!decodedToken.isLoggedIn) {
-        throw new jwt.JsonWebTokenError();
+      if (!decodedToken.isLoggedIn || decodedToken.userId !== user[0].accountID) {
+        response.status(401).send("Unauthorized");
+        return;
       }
+    } else {
+      response.status(401).send("Unauthorized");
+      return;
     }
 
     const values = [accountData.firstName, accountData.lastName, accountData.address, accountData.phoneNumber, request.params.id];
     const updatedAccount = await db.query("UPDATE accounts SET firstName = ?, lastName = ?, address = ?, phoneNumber = ? WHERE email = ?", values);
     response.status(200).send("Account updated successfully").json();
   } catch (error) {
-    if (error instanceof jwt.JsonWebTokenError) {
-      response.status(401).json([UNAUTHORIZED_USER_ERROR]);
-    } else {
-      console.error(error.status);
       response.status(500).json([DATABASE_ERROR_MESSAGE]);
     }
-  }
 }
 
 export async function deleteAccountByEmail(request, response) {
@@ -324,16 +317,23 @@ export async function deleteAccountByEmail(request, response) {
     const accessToken = authorizationHeaderValue.substring(7);
     const isSigned = accessToken.split('.').length === 3;
 
+    const user = await db.query("SELECT * FROM accounts WHERE email = ?", [
+      request.params.id,
+    ]);
+
     if (isSigned) {
       const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
 
-      if (!decodedToken.isLoggedIn) {
-        throw new jwt.JsonWebTokenError();
+      if (!decodedToken.isLoggedIn || decodedToken.userId !== user[0].accountID) {
+        response.status(401).send("Unauthorized");
+        return;
       }
+    } else {
+      response.status(401).send("Unauthorized");
+      return;
     }
 
-    console.log([request.params.id])
-    await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id])
+    await db.query("DELETE FROM accounts WHERE email = ?", [request.params.id]);
     response.status(204).send("Account successfully deleted");
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
@@ -344,3 +344,4 @@ export async function deleteAccountByEmail(request, response) {
     }
   }
 }
+
