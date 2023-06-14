@@ -1,6 +1,7 @@
 import db from "../database-connection/db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import crypto from 'crypto'
 
 export const ACCESS_TOKEN_SECRET = "83hrb4gruyeiw24kdwe7";
 const SALT_ROUNDS = 10;
@@ -15,6 +16,12 @@ const MAX_LASTNAME_LENGTH = 128;
 export const ADMIN_EMAIL = "admin@shoptech.com";
 const DATABASE_ERROR_MESSAGE = "Internal server error";
 const UNAUTHORIZED_USER_ERROR = "Unauthorized action performed";
+
+const generateRandomString = (length) => {
+  return crypto.randomBytes(length).toString('hex');
+};
+
+const ID_TOKEN_SECRET = generateRandomString(32);
 
 export async function getUserByEmail(request, response) {
   try {
@@ -47,12 +54,12 @@ export async function getUserByAdvertId(request, response) {
   }
 }
 
+/*
 export async function signIn(request, response) {
   const grantType = request.body.grant_type;
   const email = request.body.email;
   const username = request.body.username;
   const password = request.body.password;
-  const errorMessage = [];
   let existingPassword = "";
   console.log("granttype:", grantType);
   console.log("email:", email);
@@ -102,6 +109,10 @@ export async function signIn(request, response) {
       };
     }
 
+    const idToken = jwt.sign({ userId: user[0].accountID }, ID_TOKEN_SECRET, {
+      expiresIn: '1h',
+    });
+
     jwt.sign(payload, ACCESS_TOKEN_SECRET, function (error, accessToken) {
       if (error) {
         response.status(500).end();
@@ -109,14 +120,16 @@ export async function signIn(request, response) {
         if (payload.isAdmin) {
           response.status(200).json({
             access_token: accessToken,
-            type: "bearer",
+            id_token: idToken,
+            type: 'bearer',
             username: username,
             isAdmin: true,
           });
         } else {
           response.status(200).json({
             access_token: accessToken,
-            type: "bearer",
+            id_token: idToken,
+            type: 'bearer',
             username: username,
             isAdmin: false,
           });
@@ -132,7 +145,75 @@ export async function signIn(request, response) {
       });
     console.log("Login failed");
   }
+}*/
+export async function signIn(request, response) {
+  const grantType = request.body.grant_type;
+  const email = request.body.email;
+  const username = request.body.username;
+  const password = request.body.password;
+  let existingPassword = "";
+  console.log("granttype:", grantType);
+  console.log("email:", email);
+  console.log("username:", username);
+  console.log("password:", password);
+  let user;
+
+  try {
+    user = await db.query("SELECT * FROM accounts WHERE email = ?", username);
+    console.log("user test", user);
+    existingPassword = user[0]?.password || "";
+  } catch (error) {
+    console.error(error);
+    response.status(500).send(DATABASE_ERROR_MESSAGE);
+    return;
+  }
+
+  if (grantType !== "password") {
+    response.status(400).json({ error: "unsupported_grant_type" });
+    return;
+  }
+
+  console.log("user[0].accountID", user[0].accountID);
+  console.log("password:", password);
+  console.log("existing password", existingPassword);
+  const isMatch = await bcrypt.compare(password, existingPassword);
+
+  if (!isMatch) {
+    response
+      .status(400)
+      .json({ error: "invalid_grant", authError: "Sign in failed. Invalid credentials." });
+    console.log("Login failed");
+    return;
+  }
+
+  let payload = null;
+  const isAdmin = (username === ADMIN_EMAIL);
+
+  payload = {
+    isAdmin: isAdmin,
+    isLoggedIn: true,
+    userId: user[0].accountID,
+  };
+
+  const idToken = jwt.sign({ userId: user[0].accountID }, ID_TOKEN_SECRET, {
+    expiresIn: '1h',
+  });
+
+  jwt.sign(payload, ACCESS_TOKEN_SECRET, function (error, accessToken) {
+    if (error) {
+      response.status(500).end();
+    } else {
+      response.status(200).json({
+        access_token: accessToken,
+        id_token: idToken,
+        type: "bearer",
+        username: username,
+        isAdmin: isAdmin,
+      });
+    }
+  });
 }
+
 
 function validateEmail(email) {
   var re = /\S+@\S+\.\S+/;
@@ -203,8 +284,8 @@ export async function signUp(request, response) {
   } else if (MAX_FIRSTNAME_LENGTH < accountData.firstName.length) {
     errorMessages.push(
       "First name can't be more than " +
-        MAX_FIRSTNAME_LENGTH +
-        " characters long"
+      MAX_FIRSTNAME_LENGTH +
+      " characters long"
     );
   }
 
@@ -294,6 +375,7 @@ export async function updateAccountByEmail(request, response) {
     if (isSigned) {
       const decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
 
+      console.log("isSigned", isSigned)
       if (!decodedToken.isLoggedIn || decodedToken.userId !== user[0].accountID) {
         response.status(401).send("Unauthorized");
         return;
@@ -307,11 +389,12 @@ export async function updateAccountByEmail(request, response) {
     const updatedAccount = await db.query("UPDATE accounts SET firstName = ?, lastName = ?, address = ?, phoneNumber = ? WHERE email = ?", values);
     response.status(200).send("Account updated successfully").json();
   } catch (error) {
-      response.status(500).json([DATABASE_ERROR_MESSAGE]);
-    }
+    response.status(500).json([DATABASE_ERROR_MESSAGE]);
+  }
 }
 
 export async function deleteAccountByEmail(request, response) {
+  console.log("DELETE ACCOUNT")
   try {
     const authorizationHeaderValue = request.get("Authorization");
     const accessToken = authorizationHeaderValue.substring(7);
