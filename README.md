@@ -24,7 +24,7 @@
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/eejebring/database_conversion_api.git
+   git clone https://github.com/foal20ym/ShopTech.git
    ```
 2. Install NPM packages
    ```sh
