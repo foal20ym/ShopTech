@@ -27,16 +27,15 @@
    git clone https://github.com/foal20ym/ShopTech.git
    ```
 2. Install NPM packages
-   ```sh
-   npm install
-   ```
+   1. From the root folder, cd to applications -> backend -> npm install
+   2. From the root folder, cd to applications -> frontend -> npm install
 
  
  ## How to run the program
  
 1. Open a terminal in the Shoptech folder and type in "docker compose up --build --renew-anon-volumes" to run the application.
     ```sh
-   npm run start
+   docker compose up --build --renew-anon-volume
    ```
 
 
